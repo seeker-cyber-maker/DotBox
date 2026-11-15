@@ -3,6 +3,12 @@
 Read README.md and docs/PRODUCT.md before implementation. The repository starts
 as a design baseline; do not describe planned behavior as a working release.
 
+For cooperative play or a cloud worker extending the harness, read
+[the DotBox play skill](skills/dotbox-play/SKILL.md), then only the reference
+needed for the current task. It prioritizes a bounded opening buffer and the
+next playable interaction. Read the files directly; this contribution does not
+assume an installed skill-discovery command.
+
 ## Product boundaries
 
 - Target visible DOSBox-X play on Dot's own computer and its takeover flow.

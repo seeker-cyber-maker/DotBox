@@ -27,6 +27,8 @@ this bootstrap. Future publication needs to update both repositories explicitly.
 The release portal is the planned binary-package delivery venue; source mirroring
 and package publication are separate operations.
 
-No fDisBull or DOSBox-X source has been imported in this bootstrap. Establish
-license compatibility and preserve applicable notices when reusing code or
-packaging dependencies.
+The Python service reuses an explicitly prepared fDisBull core through its API;
+it does not vendor that core. The native ownership overlay contains modified
+DOSBox-X source under GPL-2.0-or-later, as recorded in `native/README.md`.
+Preserve the upstream notices and corresponding source when distributing an
+emulator binary. This source contribution includes no native binary or game data.

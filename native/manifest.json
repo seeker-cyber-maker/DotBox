@@ -1,0 +1,17 @@
+{
+  "format": "dotbox-native-overlay-1",
+  "upstream_commit": "029bd65c5dcc7cdc7f2e14e35278620d9707d969",
+  "fdisbull_commit": "ce91c303f2fccd1db9b1e3917ecc8c98473bfdb9",
+  "fdisbull_profile": "experimental/dosbox-x",
+  "fdisbull_patch_sha256": "bc0ca8c93deaf6cb96eea91e39176b2713ab333e29bfefcf730e1a1d3c75eb2f",
+  "base_files": {
+    "src/agent/server/agent_server.cpp": "70cd74a6c75b2efcffdb2589576807dc02c85cc37ec1cf34129bd62c6ac76e01",
+    "src/gui/sdlmain.cpp": "489d0bffd31e0c194e756a7411c6313babbe6c50d2f236a78f4f94dbc8d6263b"
+  },
+  "result_files": {
+    "src/agent/server/agent_server.cpp": "13237927a391e2f819e01a1e11c376234ec90a24d87127d49c46b721d2ee7b35",
+    "src/gui/sdlmain.cpp": "78b311925a9a3f2e39e42976847a24f3da3bc11297aef43da8eb04449d6b2235",
+    "include/agent/dotbox_input_control.h": "732b0b77848b51a0bf0e5273166ab559ae1550790a2252d8e5469bdf08d7b398"
+  },
+  "overlay_sha256": "4bb0c1f6e908f0e52be291ddc97c4456e3d9ddd6bbf0bf5ba5a1a8fb454dd58d"
+}

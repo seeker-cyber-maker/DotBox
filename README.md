@@ -2,7 +2,7 @@
 
 Play DOS games with Dot. Keep what she learns, and share it.
 
-DotBox is a planned fDisBull spin-off focused on cooperative play in DOSBox-X
+DotBox is a development fDisBull spin-off focused on cooperative play in DOSBox-X
 on Dot's own computer. The original graphical game is the main experience.
 An optional Z-scene view exposes the same learned controls and observations
 as readable objects, actions and a progress HUD.
@@ -12,8 +12,15 @@ of starting scenes. Later sessions reuse that work. A shared compatible
 harness should let another user start playing without rediscovering the controls.
 Dot keeps extending the harness in useful slices as the game progresses.
 
-This repository currently contains the product brief and development plan.
-There is no runnable DotBox release yet.
+The prototype provides a persistent play service and immutable learned controls,
+including absolute mouse clicks in original game-frame coordinates. A compatible
+fDisBull core and ownership-enabled DOSBox-X are prepared separately. There is
+no packaged DotBox release yet; actual Dot-cloud takeover remains unqualified.
+
+Start with the [play skill](skills/dotbox-play/SKILL.md),
+[local play instructions](docs/PLAYABLE_SLICE.md) and
+[persistent controls](docs/PERSISTENT_CONTROLS.md). The skill sets a recorded
+startup budget and grows actions along the player's current route.
 
 ## Intended experience
 

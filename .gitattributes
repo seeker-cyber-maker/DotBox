@@ -1,0 +1,2 @@
+# Unified-diff context includes significant leading-space lines; preserve bytes.
+native/input-control.patch -whitespace
