@@ -33,7 +33,8 @@ The ordinary loop is:
 3. Use an applicable known control through the supported current input owner.
 4. Observe the result, including failure or uncertainty.
 5. Save the useful control and observation without replaying the input.
-6. Continue; prepare only the immediate next need when that work is useful.
+6. Continue; prepare the selected destination and likely accessible next scenes
+   through a bounded predictive frontier when cloud workers are available.
 
 An unknown scene name alone does not invalidate visibly applicable ordinary
 movement or menu controls. A scene-specific coordinate recipe does need its
@@ -58,19 +59,26 @@ Examples of useful questions:
 no immediate consumer and do not belong on the play path. A finding is useful
 when it changes the next bounded action or how its outcome is observed.
 
-## Two separate budgets
+## Foreground bounds and background deadlines
 
 | Work | Initial evaluation policy | On exhaustion |
 | --- | --- | --- |
 | First preparation without reusable controls | Existing 180-second end-to-end ceiling; stop earlier when a useful action is available | Retain the working subset and use it; report a real block if no action is possible |
 | A missing current control | 15 seconds and at most two probe admissions | Stop admitting probes; use an applicable fallback or report one game-facing block |
 | Optional improvement with a working route | No intentional gameplay wait | Continue playing; adopt the improvement between completed actions |
+| Predictive cloud-worker preparation | Separate useful-by point and hard work/resource bound, including startup and dispatch | Return useful partials; stop or reprioritize within actual platform support; continue through a working live route |
 
 These are trial settings, not measured latency promises. Include model
 reasoning, tool dispatch, unsuccessful probes and publication time in the
 player-visible interval. The 180-second ceiling is neither a minimum wait nor
 a new allowance for each room. Repeating the same learning focus must not reset
 its deadline or probe count.
+
+The 15-second/two-probe setting is the lead's foreground missing-control
+allowance, not a cap on all background scene construction. Background work may
+use natural traversal, necessary animation and player decision time without
+adding a stall. It cannot reset or pause a learning focus already started by
+the lead. Reaching a destination does not grant a new automatic waiting period.
 
 The `dotbox learn` helper persists the current focus and refuses further probe
 admissions when its time/probe allowance is exhausted. It does not preempt model
@@ -129,13 +137,30 @@ On uncertain partial effects, observe again before a recovery decision. Do not
 repeat a submission, click or movement automatically. After human takeover,
 refresh the actual game state and retire the old intention before resuming.
 
-## Work with one agent
+## Dot leads; cloud workers prepare ahead
 
-The complete method must work with the play lead alone. Interleave brief
-authoring with play. Optional workers receive one frozen packet, one question,
-one consumer and one bound; their availability is never a prerequisite for
-ordinary movement, menu use or progression. A task list is not a scheduler, and
-no worker is assumed to continue after its tool/task lifetime ends.
+Dot can spawn supported full cloud agents when usage permits. While Dot
+narrates, retrieves the immediate information and operates the live game,
+workers can recover and edit candidate scenes for the selected destination or
+likely accessible adjoining locations. A worker may use frozen evidence or its
+own isolated execution environment, including separate mutable files and saves.
+Give each job one near-term consumer, evidence/branch identity, useful-by point,
+hard work bound and an early partial deliverable. Only Dot adopts a candidate
+after checking current applicability between completed actions.
+
+Movement is a priority and a natural preparation window. If an appropriate
+approach to the selected target already works, begin it while the interaction
+slice is prepared. Keep a qualified stop/waypoint and refresh on arrival before
+using scene-dependent input. Do not finish the whole room first, add detours or
+extend narration to conceal late work. Instant text actions may provide no
+comparable window. Reprioritize when the player changes direction.
+
+Read `dotbox guide --topic lookahead` for the worker and timing contract.
+Single-agent operation remains the fallback when workers are unavailable:
+interleave brief authoring with play through the same live owner. Worker
+availability is never a prerequisite for ordinary movement, menu use or
+progression. A task list is not a scheduler, and no worker is assumed to continue
+after its tool/task lifetime ends.
 
 Only the live owner may mutate the game. Keep expensive reasoning on frozen
 observations. Do not keep the emulator paused while an agent reads code, writes
@@ -160,12 +185,16 @@ kit is one tested part of that distribution; see [the package boundary](LEARNING
 
 Use authored fixtures for deterministic policy/tool tests, then separately
 qualify the real player flow on Dot's original computer. Record cold preparation,
-warm reuse, time to first useful input, delay after a transition, failed actions
-and agent-caused interruptions. Separate these from user decision waits and
-game animations. Python tool duration is not the whole player-visible delay.
+warm reuse, intent-to-first-input, actual traversal/animation, worker
+dispatch-to-usable-result, lead adoption and foreground blocked intervals.
+Keep player decision time separate. A late worker with an applicable fallback
+can cause no stall; do not equate worker duration with player-visible delay or
+double-count overlapping intervals. Python tool duration is not the whole delay.
 
 Required scenarios include known controls without a named scene, a new scene
 with usable ordinary controls, expired discovery with a fallback, expired
 discovery without one, a stale candidate after a player choice, uncertain effects,
 metadata saving without replay, and reconnect without rediscovering controls.
+Add preparation during movement, an unexpectedly early arrival, a different
+exit, unavailable worker usage and an immediate text transition.
 No source test count establishes seamless visible play by itself.

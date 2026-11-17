@@ -12,6 +12,11 @@ choices, then carry out the player's intent. Autonomous play selects from the
 same scene/action model within a delegated goal. Use a known applicable control
 immediately for that intent and learn only what blocks the next interaction.
 Persist useful controls and evidence without replaying input.
+When usage permits, Dot can spawn full cloud agents to prepare likely upcoming
+scenes while Dot narrates and controls the live game. Prioritize selected
+movement as progress and natural preparation time; keep one foreground blocker
+and a bounded predictive frontier. Single-agent play is the fallback when
+workers are unavailable.
 See [the method](INCREMENTAL_PLAY.md) and [package boundary](LEARNING_KIT.md).
 The [conversation contract](CONVERSATIONAL_PLAY.md) and
 [guide-assisted reconstruction](GUIDE_RECONSTRUCTION.md) define the current scene slice.
@@ -65,6 +70,15 @@ After preparation, add only what helps the next part of play. Unknown scenes
 remain usable through established manual controls while better actions are
 developed. Repeated pre-release trials should refine the preparation process;
 full game recovery is not an admission requirement.
+
+Use the player's normal traversal, necessary animations and decision time for
+bounded predictive preparation. Workers can inspect frozen evidence and test
+candidate scenes in their own isolated environments. A worker's useful-by point
+is estimated arrival or the next consumer; its hard work bound is separate from
+the lead's foreground learning allowance. Do not extend movement or narration
+to cover missed preparation. Recheck the actual destination, state and revision
+before adopting a result between actions. Existing usable movement and controls
+take precedence over finishing a scene catalogue.
 
 ## Taking control and following progress
 
@@ -130,6 +144,9 @@ Keep original game files, personal saves and private runtime evidence separate.
 Target Dot's own computer, including its visible desktop and built-in handoff.
 Do not require the player to connect a separate personal computer or set up a
 container or external cloud environment for this experience.
+Dot-managed cloud worker tasks are allowed when the platform supplies them and
+usage permits; their provisioning belongs to Dot. A worker's isolated guest
+does not replace or gain control of the player's live session.
 
 Tailor fDisBull's offline-package approach to a DOSBox-X-only payload. The planned
 download venue is https://release.brewsterjennings.ca, independently of GitHub

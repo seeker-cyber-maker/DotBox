@@ -42,7 +42,8 @@ intention; the high-level goal can be retained for fresh interpretation later.
 ## The conversation loop
 
 1. Observe the current game and preserve the current observation identity.
-2. Describe the relevant known facts and offer a small useful choice set.
+2. Describe the relevant known facts and offer a small useful choice set when
+   a decision is needed; continue an already selected route without a new menu.
 3. Resolve the player's words, or the autonomous planner's choice, to an intent.
 4. Check the current state and supported input owner, then perform one bounded
    action through the existing control path.
@@ -66,6 +67,37 @@ The game may continue while the player speaks or considers a choice. This
 document does not introduce an automatic pause. Before acting on an earlier
 menu, refresh any state made stale by time, animation, a transition or takeover.
 Real-time gameplay and voice timing require separate measurement.
+
+## Graphical movement and predictive preparation
+
+The conversation loop describes the order of decisions and effects; it does not
+require every phase of narration, movement and research to run serially. Dot
+can narrate and orchestrate retrieval while full cloud agents prepare candidate
+scenes, using supported platform tasks when usage permits. On entering a new
+room, prepare the selected destination first and likely accessible adjoining
+locations next, with a bounded alternative when useful. Preserve one live game
+owner and independent worker candidates.
+
+In a graphical game, an intent often means approach, arrive and interact. Treat
+that movement as useful progress and preparation time. For "use the radio", Dot
+can start an already qualified approach while a worker finishes the radio's
+interaction slice. At arrival, observe current state before the final action.
+Stop at an appropriate waypoint if the interaction is still unsupported; use
+an ordinary applicable route when available. Movement must remain within the
+player's intent and responsive to steering through the supported control path.
+
+Dot can describe known surroundings during traversal and offer the next useful
+choice at a real decision point. It need not stop at each room boundary to read
+out every option. New choices do not silently replace an action already in
+flight. Do not slow movement or pad conversation to obtain more research time.
+Headless adventures and Zork can transition immediately, so their choices may
+provide almost no comparable buffer.
+
+Worker deadlines, cancellation, promotion and the distinction between background
+duration and blocked play are specified in the installed
+`dotbox guide --topic lookahead`. A worker's prospective scene is not a current
+observation or a player-visible discovery. This operating requirement does not
+claim an implemented cloud scheduler, live voice frontend or movement monitor.
 
 ## Ground the meaning; let Dot phrase it
 

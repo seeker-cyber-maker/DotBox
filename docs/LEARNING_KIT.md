@@ -14,6 +14,7 @@ dotbox guide --topic learning
 dotbox guide --topic inspection
 dotbox guide --topic conversation
 dotbox guide --topic guides
+dotbox guide --topic lookahead
 dotbox inspect --help
 dotbox learn --help
 dotbox scene --help
@@ -31,6 +32,10 @@ The default guide starts from the next useful game action. Full play guidance,
 runtime-control distinctions, inspection recipes, learning policy and native
 source/build instructions are included as package resources. Load the topic
 needed now instead of loading every reference into the agent context.
+The `lookahead` topic aliases the continuous-play reference: full cloud workers,
+predictive scene candidates, movement as natural preparation time and separate
+foreground/background bounds. It documents the operating contract; it does not
+launch workers or supply a cloud scheduler.
 The exported set contains these operational topics and native preparation
 inputs. Historical evidence and development-handoff links in shared documents
 refer to the full source repository, not additional installed tool requirements.
@@ -94,12 +99,15 @@ needs another bounded investigation, and `learn record` to retain candidate,
 observed or failed findings with evidence references. A journal admission never
 grants desktop input.
 
-The default 15-second/two-probe allowance is an evaluation setting. It includes
+The default foreground 15-second/two-probe allowance is an evaluation setting. It includes
 elapsed time between CLI calls. Repeating the same context does not reset it.
 Changing context requires explicit retirement of old work. The store binds a
 source hash and clock identity, preserves evidence records, and must remain in
 the private game workspace. Its labels are agent-reported evidence, not certified
 game progress or automatic control promotion.
+Workers use separate task bounds and return evidence to the lead. They do not
+share this live single-focus store, combine clocks across hosts or renew an
+expired focus by returning a late candidate.
 
 ## Native source resources
 

@@ -10,6 +10,11 @@ original-Dot ownership/input qualification remains a separate gate. DotBox must
 own its required analysis dependencies without an fDisBull installation.
 Preserve prior experiments; keep game-specific expansion and audio scoped to
 their later milestones rather than making full-game recovery a prerequisite.
+When available usage permits, Dot may spawn full cloud agents to prepare
+candidate upcoming scenes. Prioritize selected graphical movement and use its
+natural duration for predictive preparation. Read the play skill's continuous
+play reference (`dotbox guide --topic lookahead`) for separate worker deadlines,
+one foreground learning focus, isolated candidates and adoption on arrival.
 Codex/WebRTC Take over / Return control belongs to the outer harness; do not
 recreate its UI or label a native-only handoff as platform synchronization.
 
@@ -42,6 +47,9 @@ Use supported runtime/control APIs. Verify takeover-state access before relying
 on it. One controller owns live guest mutation; background work consumes frozen
 observations and proposes updates. Preserve existing harness revisions and
 private evidence. Verify current state before reusing prior benchmark claims.
+Cloud workers may test their own isolated guests, with separate mutable files;
+they cannot change the player's live state or active revision. Never slow
+ordinary movement or pad narration to conceal unfinished preparation.
 
 Keep original commercial game files, assets, saves, emulator states, private
 analysis databases, raw memory dumps and credentials outside Git. Public harness

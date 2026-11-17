@@ -9,6 +9,12 @@ and carry it out. Autonomous play uses the same scene/action model. A small
 [guide-informed opening pass](docs/GUIDE_RECONSTRUCTION.md) supplies the game's
 goal and a checklist of expected objects and exits, which Dot reconciles with
 the actual game. Description length, who chooses, and hints remain separate preferences.
+When usage permits, Dot can spawn full cloud agents to prepare likely upcoming
+scenes while Dot narrates and operates the live game. Graphical movement is
+useful progress and natural preparation time. `dotbox guide --topic lookahead`
+documents bounded prediction, independent worker candidates and adoption at a
+fresh action boundary. These are operating requirements; this cut does not add
+a cloud scheduler or qualify live movement/voice concurrency.
 
 This development cut extracts the working transport, input validation, screenshot
 handling and immutable learned controls from fDisBull. It does not import or
