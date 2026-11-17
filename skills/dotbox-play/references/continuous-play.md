@@ -1,9 +1,12 @@
-# Continuous play with optional workers
+# Continuous play and predictive scene preparation
 
 Use this reference for the play lead and a worker preparing one harness slice.
-Keep the game's immediate continuation ahead of speculative research.
-The default path uses one play lead. Add a worker only when an available worker
-can answer a specific question without delaying current play.
+Keep the game's immediate continuation ahead of speculative research. Dot leads
+the live game and conversation. When platform support and usage allow, Dot can
+spawn full cloud agents to retrieve information, recover behavior and edit
+candidate scenes ahead of the player. These can be independent investigation
+environments, not just short local helper calls. Single-agent play remains the
+fallback when cloud workers are unavailable or exhausted.
 Player-led conversation waits for the player's scene decision when it is not
 already known. Autonomous play chooses within the delegated goal. Both use the
 same observation and action contracts; working controls do not decide agency.
@@ -32,9 +35,14 @@ manual owner selection is integrated with the built-in desktop control channel.
 
 ## Keep the buffer useful
 
-Store only a short frontier: current scene/action, immediate next likely need,
-usable fallback, worker question and its bound. At startup this may cover a menu,
-opening room and first exit. During play it follows the user's actual branch.
+Keep one foreground question and a bounded predictive frontier: current
+scene/action, selected destination or next likely need, a cheap accessible
+alternative when useful, fallback, worker objective and its bound. At startup
+this may cover a menu, opening room and first exit. During play it follows the
+user's actual branch. A newly entered room is a useful trigger to prepare likely
+adjoining locations before the player selects an exit. Predicting a route does
+not select that route for the player or establish that a guide-listed exit is
+currently accessible.
 Do not create the frontier merely to name a control already usable now. Act,
 observe its effect and save the recipe afterward without replay.
 
@@ -68,6 +76,15 @@ On exhaustion, use the applicable fallback or explain the game-facing block.
 The helper cannot stop an already running tool or grant input permission.
 Optional improvements with a working route add no intentional wait.
 
+That `dotbox learn` allowance governs the lead's foreground missing-control
+focus. It is not a blanket 15-second deadline on every background cloud job.
+Each worker has a separate useful-by point and hard work bound, described below.
+Do not let workers share the live learning store or combine monotonic clocks
+from different machines. Returning evidence does not renew an expired focus.
+If the lead deliberately uses a learning focus for a task, its existing elapsed
+clock and probe admissions still apply during movement; background execution
+does not pause or reset that journal.
+
 For persisted mouse controls, use [runtime controls](runtime-controls.md).
 Coordinates are absolute original-frame pixels. In explicit native diagnostic
 mode, the server handles the bounded pause/fresh-frame/click/continue transaction.
@@ -79,39 +96,108 @@ command rather than the exact instant of guest resumption. Compare only the
 same interval definitions across trials; candidate-marker time is not the
 worker's full reasoning time, and a configured replay is not a cold run.
 
-## Brief a worker with one near-term consumer
+## Use movement as useful preparation time
+
+In a graphical game, reaching an object or exit is part of fulfilling the
+player's intent. Prioritize a usable movement route, stopping behavior and
+ordinary interaction. If the player says "use the radio" and the approach is
+known and appropriate, begin the bounded approach while a worker finishes the
+radio's interaction slice. Do not require the destination's whole scene to be
+finished before starting applicable movement. Verify that approach is within
+the selected goal, and preserve the option to stop at a safe waypoint before an
+unqualified final interaction or transition.
+
+Actual traversal, necessary animation and the player's natural decision time
+can give workers preparation time without blocking progress. Dot continues
+the relevant narration, monitors the live movement through supported controls
+and observations, and handles steering. A running tool must not be assumed
+interruptible; qualify the available cancellation or use suitably bounded
+movement steps. A prepared candidate cannot change an in-flight action's
+implementation or make Dot ignore a new player instruction.
+
+Use natural progress as the buffer. Do not slow walking, add detours, stretch
+speech or repeatedly ask unnecessary questions to conceal unfinished work.
+Pause only for an actual game/ownership need under the established policy.
+Narration and movement can overlap, so their durations are not additive spare
+time. Instant text transitions may provide almost no preparation window.
+
+For each near-term job distinguish:
+
+| Bound | Meaning |
+| --- | --- |
+| Useful-by point | Estimated arrival or next interaction that will consume this result; refresh the estimate after actual route/progress changes |
+| Hard work bound | Explicit worker/tool/resource ceiling, including startup and dispatch; do not silently extend it because conversation or travel lasts longer |
+| Foreground allowance | Existing non-renewing bound for a missing current control; it is not an automatic wait granted at arrival |
+
+Preparation begins as soon as evidence supports a useful prediction. Rank the
+selected destination first, then likely accessible neighboring scenes and a
+small alternative if its expected benefit justifies the cost. Prefer finishing
+one usable entry/action/outcome slice over broadly polishing every room.
+Arrival is a fresh observation point: check which scene was actually reached
+and whether the candidate's assumptions still hold before use.
+
+If arrival beats the worker, use an applicable ordinary route immediately.
+Unfinished preparation is not itself a reason to stall. When a genuine missing
+capability remains, narrow work to that blocker under the existing foreground
+policy. Do not restart an existing focus, wait a fresh 15 seconds by default or
+reopen the 180-second startup allowance. A worker can continue independently
+within its original bound, but its pending result grants no live capability.
+
+## Brief a full cloud worker with one near-term consumer
 
 Supply only what the worker needs:
 
 ```text
-Role/question: prepare the exit control for the next room.
-Consumer/priority: play lead, after the current opening interaction.
+Role/objective: prepare the likely adjoining room's first useful action slice.
+Consumer/priority: Dot on arrival; selected destination before speculative exits.
 Inputs: allowed frozen observation and revision, target/resource identity,
-        relevant working controls, user clues and the observed input recipe.
+        relevant working controls, guide checklist, branch assumptions and
+        copied-state provenance when an isolated experiment is needed.
 Ownership/policy: no shared-guest mutation; selected assistance and information
                   policy; only the supplied evidence is player-visible.
 Output: separate declarative candidate, entry/readiness, expected result,
-        decisive evidence, tested scope, fallback and remaining unknowns.
-Bound: one transition and a short explicit probe/time limit; return useful
-       partials early and stop when superseded or the bound expires.
+        decisive evidence, tested scope, fallback, base revision and remaining
+        unknowns; distinguish source recovery, clone tests and live observations.
+Bound: useful-by point plus hard time/probe/resource limits; return an early
+       usable partial, and stop when superseded or the hard bound expires.
 ```
 
-A worker normally analyzes frozen observations or prepares authored definitions.
-An isolated guest is optional and requires actual support, authorized use and
-separate mutable project, game/save directory and session. A copied emulator
-checkpoint does not isolate host-mounted files. Without isolation, return one
+A full worker may search permitted guides, inspect frozen files, recover
+conditions and geometry, edit candidate scene/harness definitions and test them
+in its own supported isolated guest. Isolation includes the mutable project,
+game/save directory and session: copying an emulator checkpoint alone does not
+isolate host-mounted files. Without an isolated execution path, return a
 bounded probe for the lead at a safe play boundary instead of taking over input.
+Success in a worker's clone establishes evidence for that branch/state, not an
+action or progression in the player's game.
 
-Use the platform's available parallel workers; a task list alone does not create
-a scheduler. Do not rely on a worker continuing after its cloud task ends.
-Without parallelism, keep the same priorities and interleave brief authoring
-steps with play. Do not create a new external environment just to parallelize.
+Use the platform's actual cloud-agent launch, result and cancellation tools when
+available. Dot may provision the supported worker task; the player need not set
+up a separate computer or cloud environment. Bound active jobs to available
+usage and one near-term consumer each, and keep edits in separate candidates.
+A task list alone does not create a scheduler, and a completed cloud task does
+not imply its process keeps running. When usage or availability drops, retain
+useful returned work, stop admitting new jobs and continue through known
+controls. Without parallelism, interleave short authoring steps with play while
+keeping live control responsive.
+
+On an unexpected exit, turn-back, new user intent, takeover or invalidated
+resource binding, reprioritize the frontier and cancel superseded work through
+supported tooling. Preserve reusable partials as inactive candidates. Do not
+wait for cancellation to finish before using a working live route. If a tool
+cannot be interrupted, its late result remains unselected until applicability
+is checked again. Never treat silent workers or missing usage information as
+evidence that preparation completed.
 
 ## Promote a complete, compatible revision
 
 Only the play lead publishes the active revision. Keep worker candidates separate
 and preserve the last working revision. Check source/resource identity, current
-applicability, assistance policy, parameter contracts and declared dependencies.
+applicability, assistance policy, parameter contracts, declared dependencies,
+base revision and the actual destination/branch. A worker result is a proposal
+even when its isolated checks passed. Use the existing provider's scene,
+workflow and public Z contracts when available; keep DotBox's conversation
+packet a presentation/evidence boundary instead of another game-state language.
 Retain a separately callable input fallback if an optimized implementation would
 otherwise hide it. Select an immutable revision explicitly when the runtime
 supports that contract; never assume an automatic latest selection.
@@ -128,6 +214,34 @@ separate trust decision, side-effect-free loading and a compatible runtime; do
 not import unknown code into the live owner to discover what it does. Publish
 between completed actions, preserving contracts used by existing routes. Defer
 an inapplicable or breaking candidate and keep using the working revision.
+
+## Measure blocked play separately from preparation
+
+Record intent arrival, first useful input, natural travel/animation, actual
+next-use boundary, worker dispatch/result, lead validation/adoption and real
+foreground blocks. Use the lead's clock for cross-worker scheduling events;
+worker-local elapsed durations carry their own clock identity. An estimated
+travel window is a scheduling hint, not a measured result.
+
+Foreground blocked time is the union of intervals where a selected intent,
+ready game and input owner could otherwise progress, but missing capability or
+required preparation/adoption prevents it. Include lead integration and tool
+dispatch when they cause that delay. Ordinary traversal and player deliberation
+are separate intervals. Overlapping workers do not multiply a single stall.
+Late preparation with a working fallback can still mean zero blocked time.
+
+Track whether candidates are usable by the actual next-use boundary, fallback
+use, useful/wasted speculative work and preparation costs when exposed by the
+platform. Do not infer token quotas or billing from task count. Report unknown
+measurements explicitly. The current package supplies instructions and the
+single-focus journal; it does not implement a cloud scheduler, predictive scene
+recognizer, interruptible narrator or movement monitor.
+
+Exercise at least these cases through the eventual live adapter: preparation
+finishes during a normal walk; arrival precedes the result; the player chooses
+another exit; takeover makes a candidate stale; usage disappears mid-route; and
+an instant text transition consumes the buffer immediately. Working movement
+and fallbacks must remain available under their actual ownership conditions.
 
 ## Yield and resume without undoing progress
 

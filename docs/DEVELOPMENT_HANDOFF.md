@@ -16,11 +16,16 @@ proof of live desktop input through the ownership fence.
   `999dc0ed788e6b20593166a4e9e40b2c2525004e` (draft PR #3). The independent
   mirror's matching parent is `69c5289786b2752bffd669bdf605745432a7929c`;
   those parents have identical trees but different account commit metadata.
-- Current conversational-scene continuation: `codex/conversational-scenes-20261117`,
+- Conversational-scene continuation: `codex/conversational-scenes-20261117`,
   based on primary learning-kit commit `605f41240f271f2311a997495b3eb0292c574f35`
   (draft PR #4). Its independent mirror parent is
   `c131661fece58a3d096938df5632d2986cf0ed90`; their shared tree is
   `55265b1641e9d97a8f52e1e427fa2d3039c6ff0d`.
+- Current predictive-preparation continuation:
+  `codex/predictive-scene-preparation-20261117`, based on primary conversation
+  commit `676ed6fdc16cafccbd4d676a016a5d5d4deeb463` (draft PR #5).
+  Its independent mirror parent is `e3e2548c5cefda60406ee4a8402edbbea1d9684a`;
+  their shared tree is `e25e44aa791ecc4159985a9c093d56e9c7e8737b`.
 - At inspection, `main` was the design baseline at
   `10fa86d8a91bb75e0ccf3da346bc9f72eab91d03`; it did not contain the implementation.
 
@@ -51,7 +56,53 @@ files or shell. A status response never grants input. The receipt reports that
 the publisher was stopped and connection processes were left running; their
 current live state was not rechecked here.
 
-## Current continuation: conversational scenes
+## Current continuation: predictive preparation during movement
+
+The user clarified that Dot can spawn full cloud agents when usage permits.
+Dot narrates, orchestrates retrieval and controls the live game while workers
+prepare candidate scenes for selected or likely accessible upcoming locations.
+Graphical movement is useful progress and a natural preparation window; instant
+text choices may provide little such time. This continuation makes that method
+explicit in the installed guides and removes the previous instruction against
+creating a cloud environment merely to parallelize.
+
+Keep one foreground blocker and a bounded predictive queue. Each worker has a
+near-term consumer, frozen evidence/branch identity, useful-by point, hard work
+bound and early partial output. Workers can edit and test their own candidates
+in isolated environments, including separate mutable files. Dot retains the
+single live owner, checks actual destination/state and adopts compatible
+revisions between completed actions. A clone result is evidence for that clone,
+not progression in the player's game.
+
+Start appropriate known movement promptly. Do not slow walking, add detours or
+pad narration to buy preparation time. On early arrival, use a working ordinary
+route immediately; a late worker does not imply a stall. The lead's existing
+15-second/two-probe journal is unchanged and is not a distributed worker queue
+or a blanket background deadline. Arrival, new screenshots and late results
+cannot reset an existing focus. Capture foreground blocked intervals separately
+from traversal, user decisions, worker duration and adoption costs.
+
+`dotbox guide --topic lookahead` aliases the packaged continuous-play reference.
+This is a documentation/resource continuation of `0.1.0.dev3`, with 37 resources;
+it changes no Python runtime module, learning-store API or ownership behavior.
+It does not implement a cloud scheduler, predictive recognizer, movement monitor
+or concurrent voice frontend. Qualification of the real flow remains pending.
+Fresh verification: the existing package suite passed **21 source checks** and
+**21 checks copied outside the checkout** against a fresh offline installation.
+All **26 runtime modules and 37 resources** match source, wheel and installed
+bytes; `lookahead` and `continuous` return identical guide content. An independent
+reader of the installed guides found no blocking contradiction across six
+movement, route-change, late-worker, usage-loss, takeover and instant-text cases.
+That review is a policy walkthrough, not an executed concurrency test.
+The installed-package and independent scenario evidence is recorded in
+`docs/evidence/predictive-scene-preparation-2026-11-17.json`.
+
+Use existing provider scene/workflow/Z contracts when integrating the result of
+the separate fDisBull 0.34.1 study. The DotBox scene packet remains a bounded
+presentation/evidence boundary; selected reusable modules must eventually ship
+inside DotBox rather than require a separate end-user fDisBull installation.
+
+## Prior continuation: conversational scenes
 
 The user clarified that autonomous play is supported, while the primary
 experience is Dot acting as the game's conversational interface. Z-scenes
@@ -223,6 +274,13 @@ edition and a small cited goal/guide brief. Test the same scene under bounded
 autonomous delegation. A complete world graph or scene checklist is not required.
 Speech can consume the same view and intent contract after the text loop works;
 actual voice availability and pacing remain integration measurements.
+
+Then qualify one selected movement leg with a real cloud worker preparing the
+destination: verify timely partial delivery, fresh arrival checks and adoption
+between actions. Exercise a different exit, late result with a working fallback,
+usage loss, takeover and an instantaneous text transition. Measure first-input
+latency, confirmed effect, natural travel and actual foreground blocks on the
+same lead timeline; do not infer latency improvements from this guide change.
 
 When that route needs native evidence, expose a short owned capture transaction
 that validates an entire bounded plan, captures only the required memory/register

@@ -1,6 +1,6 @@
 ---
 name: dotbox-play
-description: Make Dot the conversational interface to an original DOS game, or play autonomously within a delegated goal. Present grounded scene choices, use known controls for the selected intent, and learn only the next missing interaction.
+description: Make Dot the conversational interface to an original DOS game, or play autonomously within a delegated goal. Use known movement and controls promptly while available cloud agents prepare upcoming scenes; keep choices grounded and learn only the next needed interactions.
 ---
 
 # Play and build the harness with DotBox
@@ -27,7 +27,8 @@ ordinary controls. Check actual starting conditions for scene-specific recipes.
 
 Keep the player's conversation about the game and meaningful choices. Dot owns
 the inspection and harness details. The complete workflow must work with one
-agent; workers are optional.
+agent when workers are unavailable. When usage permits, Dot can spawn supported
+full cloud agents to prepare candidate scenes while Dot leads live play.
 
 ## Make Dot the interface
 
@@ -36,6 +37,11 @@ wait for the player's intent unless it is already clear. In autonomous mode,
 choose within the delegated goal using the same facts and action references.
 Decision maker, descriptive detail and hint/assistance level are independent.
 Do not add a confirmation menu to an already unambiguous playable request.
+Graphical intent can include approach, arrival and interaction. Begin an
+appropriate known movement route promptly and use its natural travel time for
+preparation. Narrate during movement when useful; offer choices at real decision
+points. Do not slow walking, add detours or stretch speech to conceal late work.
+Instant text choices may provide no comparable preparation window.
 
 Read `dotbox guide --topic conversation` for the scene contract. Dot may
 improvise wording from permitted facts; longer prose cannot invent objects,
@@ -54,13 +60,16 @@ not blind after the lead reads solutions, even with spoiler-light narration.
 
 ## Choose your role and reuse existing work
 
-The play lead owns live guest mutation and selects harness revisions. A worker
-answers one bounded question from frozen observations and returns a separate
-candidate. Read [runtime controls](references/runtime-controls.md) before the
+The play lead owns live guest mutation and selects harness revisions. A full
+cloud worker can retrieve information, recover behavior and edit candidate
+scenes for a near-term consumer, using frozen observations or its own isolated
+guest. Its mutable project and game/save files must be separate. Read
+[runtime controls](references/runtime-controls.md) before the
 first DotBox recipe; use its persisted absolute mouse actions instead of writing
 a private click wrapper. Read [continuous play](references/continuous-play.md) for cloud
 lifecycle, worker briefs, promotion and control handoff. With no workers, alternate
 short authoring steps with play through the same live owner.
+The same reference is available as `dotbox guide --topic lookahead`.
 
 Reuse the live game, selected edition, project, working controls and private
 evidence. On a later session, check the relevant compatibility assumptions and
@@ -123,6 +132,14 @@ Choose work in this order:
 3. A repeated control or observation that removes effort along that path.
 4. Later levels or deeper analysis only when they gain a near-term consumer.
 
+On room entry, use available cloud workers to prepare likely accessible adjoining
+scenes while Dot handles the current player interaction. Rank the selected
+destination first; a small predictive queue may include a cheap alternative.
+Keep one question on the foreground critical path without limiting all
+background jobs to that one focus. Each job has a useful-by point, a hard work
+bound, source/branch identity and an early partial result. Actual movement and
+player decision time can supply preparation time without additional delay.
+
 Reprioritize after player choices, transitions and user takeover/return. Stop
 speculative work that no longer helps this route. While an improved action is
 unfinished, use the known input-backed action. If there is no working fallback,
@@ -142,6 +159,9 @@ An investigative probe is a bounded analysis or trial selected to answer the
 focus question. Routine supported passive observation of ordinary play is not
 an extra probe; a targeted comparison or test remains one even if called an
 observation. Never use a fresh screenshot alone to renew unchanged research.
+This journal is not a distributed worker scheduler or a universal background
+time cap. Workers have their own explicit bounds and return evidence to the
+lead; they do not share its live store or reset its foreground allowance.
 
 For each control, retain its name, inputs, applicable scene/state, bounded
 execution, observed outcome and next usable state. Saving a recipe records
@@ -162,6 +182,12 @@ One owner serializes input, guest execution, pause/resume, restores and live
 probes. Workers consume frozen evidence or an explicitly isolated environment;
 they do not edit the active harness, live project, ownership state or mounted
 player saves. Publish complete reviewed revisions between live actions.
+Do not replace an in-flight movement implementation with a newly returned
+candidate. Reobserve at arrival and check the actual destination, conditions and
+base revision. If the player changes route or usage becomes unavailable, stop
+admitting unnecessary jobs, cancel superseded work when supported and retain
+useful partials. Late results remain inactive until checked; working play need
+not wait for cancellation or for the candidate.
 
 Before a planned user handoff, settle movement and release owned holds while
 still owning input. While the user owns input, continue offline preparation;

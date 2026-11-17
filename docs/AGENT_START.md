@@ -64,7 +64,15 @@ metadata work, never a reason to replay input. After uncertain partial effects,
 observe before deciding whether to retry. After human play, refresh the actual
 state and retire stale intentions; do not restore an old state to fit a recipe.
 
-One lead is sufficient. Workers are optional and consume bounded frozen evidence.
+When usage permits, Dot can spawn full cloud agents to prepare the selected
+destination and likely accessible next scenes. Workers consume frozen evidence
+or their own isolated guest and edit separate candidates. Start appropriate
+known movement promptly; actual travel gives workers useful preparation time.
+Do not slow movement or stretch narration to hide missing work. Refresh on
+arrival and adopt compatible candidates between actions. The 15-second journal
+is the foreground missing-control allowance, not the background worker deadline;
+neither arrival nor a late result resets an existing focus. One lead remains a
+usable fallback when cloud workers are unavailable.
 Keep player communication about the current game and consequential choices.
 Keep original games, captures, stores and saves private.
 
@@ -77,6 +85,7 @@ Keep original games, captures, stores and saves private.
 - `dotbox guide --topic play`: full play skill.
 - `dotbox guide --topic controls`: storing and using controls in the actual mode.
 - `dotbox guide --topic continuous`: continued play, workers and handoff.
+- `dotbox guide --topic lookahead`: predictive cloud work, movement and deadlines.
 - `dotbox guide --topic runtime`: standalone installation and ownership boundary.
 - `dotbox guide --topic native`: preparing native source during packaging.
 

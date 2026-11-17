@@ -9,6 +9,7 @@
     "play": "skills/dotbox-play/SKILL.md",
     "controls": "skills/dotbox-play/references/runtime-controls.md",
     "continuous": "skills/dotbox-play/references/continuous-play.md",
+    "lookahead": "skills/dotbox-play/references/continuous-play.md",
     "runtime": "docs/STANDALONE.md",
     "native": "docs/STANDALONE_NATIVE.md"
   },

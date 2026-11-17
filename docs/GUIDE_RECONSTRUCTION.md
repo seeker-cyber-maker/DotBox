@@ -93,6 +93,16 @@ to the adjoining scene and prepare its next useful interaction. Preserve known
 backtracking routes where applicable. Do not reconstruct every reachable room
 before letting the player choose the first exit.
 
+When cloud-agent usage permits, Dot can delegate reconstruction of likely
+accessible adjoining scenes as soon as a new room is entered. Supply the
+relevant source/edition checklist and frozen evidence, and prioritize the
+selected destination over other predictions. Workers can build candidates while
+Dot handles conversation and ordinary movement; traversal supplies natural
+preparation time. Their results remain prospective until the live destination
+and conditions are observed. Use the bounded worker method in
+`dotbox guide --topic lookahead`; guide coverage never requires an artificial
+walking delay or an exhaustive reachable-room queue.
+
 If a missing object/control truly blocks the chosen action, use the existing
 learning focus and its initial 15-second/two-probe allowance. New guide wording,
 a second source, a narration preference or a screenshot does not reset it.
