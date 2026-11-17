@@ -4,6 +4,9 @@ Use this reference for the play lead and a worker preparing one harness slice.
 Keep the game's immediate continuation ahead of speculative research.
 The default path uses one play lead. Add a worker only when an available worker
 can answer a specific question without delaying current play.
+Player-led conversation waits for the player's scene decision when it is not
+already known. Autonomous play chooses within the delegated goal. Both use the
+same observation and action contracts; working controls do not decide agency.
 
 ## Retain the live owner
 
@@ -142,6 +145,12 @@ need current applicability checks. Never restore the user's old state just to
 make a candidate fit. Separate harness coverage from observed game progression.
 
 ## Preserve blind information boundaries
+
+The requested guide-informed path may read compatible guides for the overall
+goal and nearby reconstruction checks. Keep those expectations separate from
+current narration, and record guide exposure. The rules below apply to a strict
+blind policy chosen for a session or evaluation; hiding read solutions from
+spoken prose alone does not restore that policy.
 
 For blind play, do not send the lead hidden units, future objectives, random
 outcomes or spoiler labels through worker notes, scene names, readiness metadata

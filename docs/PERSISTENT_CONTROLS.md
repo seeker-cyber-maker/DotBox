@@ -42,7 +42,8 @@ python -m dotbox harness-info '<revision-id>' --session /private/work/dotbox-ses
 Default desktop mode uses the supported outer keyboard/mouse tools and refuses
 native input RPCs, including `act`. Saved definitions record knowledge; they do
 not by themselves implement an outer-tool executor or host-coordinate mapping.
-Use a visibly applicable ordinary control immediately, observe its effect, then
+For the selected intent, use a visibly applicable ordinary control immediately,
+observe its effect, then
 save it. Do not replay an action merely to give it a name.
 
 ## Explicit native diagnostic execution

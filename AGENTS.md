@@ -2,7 +2,8 @@
 
 Read README.md and docs/PRODUCT.md before implementation. The repository remains a development project; do not describe planned behavior
 as a working release. The current source priority is packaged, incremental
-control learning for players who need no reverse-engineering knowledge. Read
+control learning and Dot as the game's conversational interface. Read
+docs/CONVERSATIONAL_PLAY.md, docs/GUIDE_RECONSTRUCTION.md,
 docs/INCREMENTAL_PLAY.md and docs/LEARNING_KIT.md. Build and test the offline
 inspection kit, saved short frontier and installed play instructions while the
 original-Dot ownership/input qualification remains a separate gate. DotBox must
@@ -23,8 +24,12 @@ assume an installed skill-discovery command.
 - Target visible DOSBox-X play on Dot's own computer and its takeover flow.
 - Permit one-time bounded preparation, persist learned controls, and reuse
   compatible harnesses without repeating discovery.
-- Keep the original graphical game authoritative. Z is the shared action and
-  observation interface; its representation is optional for the user.
+- Keep the original graphical game authoritative. Z scenes supply the facts and
+  choices for player-led conversation and autonomous play through one action model.
+- A known control is used immediately only for a selected player intent or a
+  delegated autonomous goal. Guide expectations support reconstruction; current
+  narration requires current permitted observations. Keep detail, agency and
+  assistance preferences independent.
 - Build operational harness slices during play. Full game recovery, QEMU and
   the UDL/UIL/UDC conversion pipeline are outside the first release.
 - Prefer interpreter state for supported engines; keep the named Dune case

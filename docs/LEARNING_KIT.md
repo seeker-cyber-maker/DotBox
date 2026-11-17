@@ -1,7 +1,8 @@
 # Installed learning kit
 
 The development package includes the agent instructions, offline inspection
-tools and a persisted short learning frontier. A normal installation must not
+tools, a persisted short learning frontier and an authored scene/choice compiler.
+A normal installation must not
 depend on the source checkout for these features.
 
 ## Agent entry points
@@ -11,12 +12,16 @@ dotbox doctor
 dotbox guide
 dotbox guide --topic learning
 dotbox guide --topic inspection
+dotbox guide --topic conversation
+dotbox guide --topic guides
 dotbox inspect --help
 dotbox learn --help
+dotbox scene --help
 ```
 
 `doctor` checks the installed resource hashes and executes a small authored x86
-decoder self-check and checks for a stable learning-journal clock identity. The
+decoder self-check, checks for a stable learning-journal clock identity, and
+projects/selects the packaged authored mailbox fixture without executing it. The
 current clock binding supports Linux and macOS; other hosts need a qualified
 clock adapter before the journal is ready. It reports offline-kit readiness separately from native
 game readiness. It performs no native launch, input, ownership probe or network
@@ -50,6 +55,27 @@ The included `iced-x86==1.22.0` dependency supplies decoding. No separate fDisBu
 analysis database, Capstone, LLVM or symbolic solver is required for this kit.
 Dependency wheels and their notices belong in the final offline distribution;
 an ordinary pip install alone is not an offline installer.
+
+## Conversational scenes
+
+The package includes authored mailbox, station and barrel records. Export the
+kit below to obtain them, or supply a private scene packet from a supported
+observer. These records illustrate the interface; they are not commercial-game
+maps or verified input bindings.
+
+```sh
+dotbox scene present /private/dotbox/source-resources/examples/scene_station.json --detail normal
+dotbox scene checklist /private/dotbox/source-resources/examples/scene_station.json
+dotbox scene validate /private/dotbox/source-resources/examples/scene_mailbox.json
+```
+
+`present` returns only current player-facing facts and eligible choices, plus
+a deterministic rendering that Dot may paraphrase. `checklist` is internal and
+retains guide expectations, editions, conflicts and unchecked conditions.
+`choose` requires a choice ID, the returned scene digest and observation ID;
+it returns an intent without executing input or claiming a game outcome.
+Use `dotbox scene choose --help` for its exact arguments. See
+[the conversation contract](CONVERSATIONAL_PLAY.md) for limits and preferences.
 
 ## Retain one question
 

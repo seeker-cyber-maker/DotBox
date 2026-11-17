@@ -1,6 +1,6 @@
 ---
 name: dotbox-play
-description: Play original DOS games cooperatively with Dot, using known controls immediately and learning only the next missing interaction. Use for the play lead or an optional worker extending a small reusable harness.
+description: Make Dot the conversational interface to an original DOS game, or play autonomously within a delegated goal. Present grounded scene choices, use known controls for the selected intent, and learn only the next missing interaction.
 ---
 
 # Play and build the harness with DotBox
@@ -18,7 +18,8 @@ Load a further guide topic only for a current need. A successful offline-kit
 check does not qualify live input. Use the existing supported desktop input path
 and current owner; default DotBox mode refuses native `act`, key and click RPCs.
 
-If a fresh observation and known applicable control suffice, act now. Observe
+If a fresh observation and known applicable control suffice for the player's
+selected intent or delegated autonomous goal, act now. Observe
 the effect, then retain useful metadata without replaying the action. A scene
 name, wrapper, learning journal or complete starting buffer is not a prerequisite
 for an otherwise available action. Unknown rooms can still have visibly usable
@@ -27,6 +28,29 @@ ordinary controls. Check actual starting conditions for scene-specific recipes.
 Keep the player's conversation about the game and meaningful choices. Dot owns
 the inspection and harness details. The complete workflow must work with one
 agent; workers are optional.
+
+## Make Dot the interface
+
+In player-led mode, describe the useful current facts and offer a few choices;
+wait for the player's intent unless it is already clear. In autonomous mode,
+choose within the delegated goal using the same facts and action references.
+Decision maker, descriptive detail and hint/assistance level are independent.
+Do not add a confirmation menu to an already unambiguous playable request.
+
+Read `dotbox guide --topic conversation` for the scene contract. Dot may
+improvise wording from permitted facts; longer prose cannot invent objects,
+exits, contents or outcomes. A request for more description may only need known
+facts, while an in-game "look inside" can require a new action and observation.
+Free-form requests can go beyond the suggested choices; resolve ambiguity in
+game terms and investigate a genuinely new intent within the existing bounds.
+
+Include a bounded guide/manual pass in first preparation. Establish the overall
+goal and controls, then collate two or three compatible sources when useful.
+Use expected objects, exits and conditions as a partial reconstruction checklist.
+Read `dotbox guide --topic guides` for source and edition handling. Guide-only
+facts stay out of current narration; a missing source or incomplete checklist
+does not gate working play. This requested method is guide-informed. A run is
+not blind after the lead reads solutions, even with spoiler-light narration.
 
 ## Choose your role and reuse existing work
 
