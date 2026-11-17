@@ -9,6 +9,7 @@ import argparse
 import hashlib
 import json
 import re
+import sqlite3
 import sys
 
 
@@ -73,7 +74,7 @@ def _scalar(value):
 def validate_scene(packet):
     """Validate a closed, bounded document and return an independent JSON copy."""
     _fields(packet, "format source_sha256 edition scene_id observation_id title facts choices guide_sources guide_claims",
-            "selection_sha256")
+            "selection_sha256 state_context outcome")
     encoded = _encode(packet)
     if len(encoded.encode()) > MAX_DOCUMENT_BYTES:
         raise ValueError("Scene exceeds the 48 KiB canonical JSON budget")
@@ -86,31 +87,61 @@ def validate_scene(packet):
     _text(packet["edition"], "edition", 256)
     _text(packet["title"], "title", 512)
     _text(packet["observation_id"], "observation_id")
+    if "state_context" in packet:
+        context = packet["state_context"]
+        _fields(context, "provider_id session_id branch_id revision context_token")
+        for name in ("provider_id", "session_id", "branch_id"):
+            _text(context[name], name, 256)
+        _text(context["context_token"], "context_token")
+        if type(context["revision"]) is not int or not 0 <= context["revision"] <= 2**63 - 1:
+            raise ValueError("State revision must be an integer in 0..2^63-1")
+    if "outcome" in packet:
+        outcome = packet["outcome"]
+        _fields(outcome, "id action_sent complete effects phase evidence_ref")
+        for name in ("id", "evidence_ref"):
+            _text(outcome[name], "outcome " + name)
+        if any(type(outcome[name]) is not bool for name in ("action_sent", "complete")):
+            raise ValueError("Outcome action_sent and complete must be boolean")
+        if outcome["effects"] not in ("applied-confirmed", "partial", "none-confirmed", "unknown"):
+            raise ValueError("Unsupported provider effect status")
+        if outcome["phase"] not in ("state", "interface", "persistence", "unspecified"):
+            raise ValueError("Unsupported provider outcome phase")
     slots = {}
     facts = _records(packet["facts"], "facts", 32)
     for fact in facts:
-        _fields(fact, "id subject predicate value text audience observation_id evidence_ref", "detail")
+        _fields(fact, "id subject predicate value text audience observation_id evidence_ref", "detail entity_id")
         for name in ("subject", "predicate"):
             _text(fact[name], name, 256)
         for name in ("text", "observation_id", "evidence_ref"):
             _text(fact[name], name)
         if "detail" in fact:
             _text(fact["detail"], "detail", empty=True)
+        if "entity_id" in fact:
+            _text(fact["entity_id"], "entity_id", 256)
         if fact["audience"] not in ("player", "internal"):
             raise ValueError("Fact audience must be player or internal")
         _scalar(fact["value"])
         if fact["observation_id"] == packet["observation_id"]:
-            slot, value = (fact["subject"], fact["predicate"]), _encode(fact["value"])
-            if slot in slots and slots[slot] != value:
-                raise ValueError("Contradictory current facts for the same subject/predicate")
-            slots[slot] = value
+            keys = [("subject", fact["subject"], fact["predicate"])]
+            if "entity_id" in fact:
+                keys.append(("entity", fact["entity_id"], fact["predicate"]))
+            value = _encode(fact["value"])
+            for slot in keys:
+                if slot in slots and slots[slot] != value:
+                    raise ValueError("Contradictory current facts for the same subject/predicate or entity/predicate")
+                slots[slot] = value
     fact_ids = {fact["id"] for fact in facts}
     for choice in _records(packet["choices"], "choices", 32):
-        _fields(choice, "id label requires observation_id available route")
+        _fields(choice, "id label requires observation_id available route", "enabled ready suggestion")
         _text(choice["label"], "label", 256)
         _text(choice["observation_id"], "observation_id")
         if type(choice["available"]) is not bool:
             raise ValueError("Choice availability must be boolean")
+        for name in ("enabled", "ready"):
+            if name in choice and type(choice[name]) not in (bool, type(None)):
+                raise ValueError("Choice enabled and ready must be boolean or null (unknown)")
+        if choice.get("suggestion", "normal") not in ("prefer", "normal", "on_request"):
+            raise ValueError("Choice suggestion must be prefer, normal or on_request")
         required = choice["requires"]
         if not isinstance(required, list) or len(required) > 32:
             raise ValueError("Choice requires must be a list of at most 32 fact identifiers")
@@ -164,6 +195,7 @@ def _current(packet):
 def _offered(packet):
     visible = {fact["id"] for fact in _current(packet) if fact["audience"] == "player"}
     return [choice for choice in packet["choices"] if choice["available"]
+            and choice.get("enabled", True) is True and choice.get("ready", True) is True
             and choice["observation_id"] == packet["observation_id"] and set(choice["requires"]) <= visible]
 
 
@@ -176,21 +208,41 @@ def project_scene(packet, detail="normal", choice_limit=3):
         raise ValueError("choice_limit must be an integer in 1..32")
     facts = [{key: fact[key] for key in ("id", "subject", "predicate", "value", "text", "detail") if key in fact}
              for fact in _current(packet) if fact["audience"] == "player"]
-    choices = [{key: choice[key] for key in ("id", "label")} for choice in _offered(packet)]
-    suggested, omitted = choices[:choice_limit], max(0, len(choices) - choice_limit)
+    offered = _offered(packet)
+    choices = [{key: choice[key] for key in ("id", "label")} for choice in offered]
+    candidates = [choice for choice in offered if choice.get("suggestion") != "on_request"]
+    candidates.sort(key=lambda choice: choice.get("suggestion") != "prefer")
+    suggested = candidates[:choice_limit]
+    omitted = len(choices) - len(suggested)
     prompt = "You can choose: " + "; ".join(choice["label"] for choice in suggested) + "." if suggested else ""
-    if omitted:
+    if omitted and suggested:
         prompt += f" {omitted} more {'option is' if omitted == 1 else 'options are'} available."
+    elif omitted:
+        prompt = "Other actions are available on request."
     parts = [packet["title"]]
     for fact in facts[:1] if detail == "brief" else facts:
         parts.append(fact["text"])
         if detail == "detailed" and fact.get("detail"):
             parts.append(fact["detail"])
-    return {"format": "dotbox-scene-view-1", "scene_sha256": _digest(packet),
+    result = {"format": "dotbox-scene-view-1", "scene_sha256": _digest(packet),
             "scene_id": packet["scene_id"], "observation_id": packet["observation_id"],
             "title": packet["title"], "detail": detail, "facts": facts, "choices": choices,
             "suggested_choice_ids": [choice["id"] for choice in suggested], "choice_prompt": prompt,
             "omitted_choices": omitted, "narration": "\n".join(parts), "claim": CLAIM}
+    if "state_context" in packet:
+        result["state_revision"] = packet["state_context"]["revision"]
+    return result
+
+
+def look_scene(packet, detail="normal"):
+    """Describe permitted current facts without selecting or sending a game action."""
+    view = project_scene(packet, detail=detail)
+    result = {key: view[key] for key in ("scene_sha256", "scene_id", "observation_id", "title",
+                                        "detail", "facts", "narration", "claim")}
+    result.update(format="dotbox-scene-description-1", execution="not_performed")
+    if "state_revision" in view:
+        result["state_revision"] = view["state_revision"]
+    return result
 
 
 def _edition_status(first, second):
@@ -255,6 +307,8 @@ def select_choice(packet, choice_id, expected_scene_sha256, expected_observation
               "execution": "not_performed", "live_applicability": "unverified", "claim": CLAIM}
     if "selection_sha256" in packet:
         result["selection_sha256"] = packet["selection_sha256"]
+    if "state_context" in packet:
+        result["state_context"] = packet["state_context"]
     return result
 
 
@@ -272,14 +326,31 @@ def _unique_object(pairs):
     return result
 
 
+def _read_packet(path):
+    from .inspection import _read_file
+    raw, _ = _read_file(path, max_bytes=MAX_FILE_BYTES)
+    return json.loads(raw.decode("utf-8"), object_pairs_hook=_unique_object)
+
+
 def main(argv=None):
     parser = _Parser(prog="dotbox scene", description=__doc__)
     commands = parser.add_subparsers(dest="operation", required=True, parser_class=_Parser)
-    for name in ("present", "checklist", "choose", "validate"):
+    for name in ("present", "look", "checklist", "choose", "validate", "record", "memory"):
         command = commands.add_parser(name)
-        command.add_argument("file")
-        if name == "present":
+        if name == "memory":
+            command.add_argument("--store", required=True)
+            command.add_argument("--subject")
+            command.add_argument("--limit", type=int, default=128)
+        elif name in ("present", "look", "choose"):
+            command.add_argument("file", nargs="?")
+            command.add_argument("--store")
+        else:
+            command.add_argument("file")
+        if name == "record":
+            command.add_argument("--store", required=True)
+        if name in ("present", "look"):
             command.add_argument("--detail", choices=("brief", "normal", "detailed"), default="normal")
+        if name == "present":
             command.add_argument("--choice-limit", type=int, default=3)
         elif name == "choose":
             command.add_argument("--choice", required=True)
@@ -287,21 +358,38 @@ def main(argv=None):
             command.add_argument("--observation-id", required=True)
     try:
         args = parser.parse_args(argv)
-        from .inspection import _read_file
-        raw, _ = _read_file(args.file, max_bytes=MAX_FILE_BYTES)
-        packet = json.loads(raw.decode("utf-8"), object_pairs_hook=_unique_object)
-        if args.operation == "present":
+        if getattr(args, "store", None) is not None:
+            _text(args.store, "store path", 4096)
+        if args.operation in ("present", "look", "choose") and bool(args.file) == bool(args.store):
+            raise ValueError("Provide exactly one scene file or --store")
+        if getattr(args, "store", None):
+            from .scene_state import SceneStore
+            with SceneStore(args.store, create=args.operation == "record") as state:
+                if args.operation == "record":
+                    result = state.record(_read_packet(args.file))
+                elif args.operation == "memory":
+                    result = state.memory(subject=args.subject, limit=args.limit)
+                elif args.operation == "present":
+                    result = state.present(args.detail, args.choice_limit)
+                elif args.operation == "look":
+                    result = state.look(args.detail)
+                else:
+                    result = state.choose(args.choice, args.scene_sha256, args.observation_id)
+        elif args.operation == "present":
+            packet = _read_packet(args.file)
             result = project_scene(packet, args.detail, args.choice_limit)
+        elif args.operation == "look":
+            result = look_scene(_read_packet(args.file), args.detail)
         elif args.operation == "checklist":
-            result = reconstruction_checklist(packet)
+            result = reconstruction_checklist(_read_packet(args.file))
         elif args.operation == "choose":
-            result = select_choice(packet, args.choice, args.scene_sha256, args.observation_id)
+            result = select_choice(_read_packet(args.file), args.choice, args.scene_sha256, args.observation_id)
         else:
-            packet = validate_scene(packet)
+            packet = validate_scene(_read_packet(args.file))
             result = {"valid": True, "scene_sha256": _digest(packet), "observation_id": packet["observation_id"], "claim": CLAIM}
         print(json.dumps({"ok": True, "result": result}, allow_nan=False))
         return 0
-    except (ValueError, OSError, TypeError, RecursionError) as error:
+    except (ValueError, OSError, TypeError, RecursionError, sqlite3.Error) as error:
         print(json.dumps({"ok": False, "error": str(error)}), file=sys.stderr)
         return 1
 

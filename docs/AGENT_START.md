@@ -64,6 +64,15 @@ metadata work, never a reason to replay input. After uncertain partial effects,
 observe before deciding whether to retry. After human play, refresh the actual
 state and retire stale intentions; do not restore an old state to fit a recipe.
 
+Retain provider-reported flags and inventory with their observation revision,
+including confirmed offscreen effects. Keep historical values separate from
+current reports, and use stable entity identities for objects shared across
+rooms. Closed/open and locked/unlocked are independent; missing lock evidence
+stays unknown. Recheck enabled actions and input readiness after changes, omit
+completed actions from suggestions, and leave incidental commands available on
+request. A response message does not itself prove a committed flag or readiness.
+Conversational `look` describes known current facts without sending game input.
+
 When usage permits, Dot can spawn full cloud agents to prepare the selected
 destination and likely accessible next scenes. Workers consume frozen evidence
 or their own isolated guest and edit separate candidates. Start appropriate
@@ -80,6 +89,7 @@ Keep original games, captures, stores and saves private.
 
 - `dotbox guide --topic learning`: incremental method, budgets and measurements.
 - `dotbox guide --topic conversation`: scene descriptions, choices and player intent.
+- `dotbox guide --topic state`: game flags, async consequences, readiness and useful suggestions.
 - `dotbox guide --topic guides`: guide-assisted goals and reconstruction checklists.
 - `dotbox guide --topic inspection`: inspection/journal commands and package scope.
 - `dotbox guide --topic play`: full play skill.

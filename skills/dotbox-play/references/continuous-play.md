@@ -202,6 +202,22 @@ Retain a separately callable input fallback if an optimized implementation would
 otherwise hide it. Select an immutable revision explicitly when the runtime
 supports that contract; never assume an automatic latest selection.
 
+Include the observed game-state context when a candidate depends on flags,
+inventory, a lock or a one-time interaction. The lead can record confirmed
+offscreen changes while conversation and preparation continue, but only the
+live provider can establish player progression. Read `dotbox guide --topic state`
+for the separate observation store, stable entity IDs, revision ordering and
+choice gates. A worker's return order cannot assign a newer game revision.
+Refreshing a menu after an offscreen change does not mean rebuilding every
+scene or restarting the existing learning allowance.
+
+Keep accepted input, response text, committed effects and input readiness
+separate. A pending handler may allow narration and isolated research while
+withholding the next independent game input. Use only supported continuations
+and read-only reconciliation; do not repeat the original action on uncertainty.
+Once the game is ready, recheck the provider token and ownership before the
+next action. A persisted snapshot or a confirmed flag is not that live check.
+
 Use the runtime's actual validation and promotion interface. Declaration checks
 alone do not verify an effect. Validate the smallest applicable operation during
 ordinary play or a safe bounded coordination point, then observe the result.
@@ -234,8 +250,9 @@ Track whether candidates are usable by the actual next-use boundary, fallback
 use, useful/wasted speculative work and preparation costs when exposed by the
 platform. Do not infer token quotas or billing from task count. Report unknown
 measurements explicitly. The current package supplies instructions and the
-single-focus journal; it does not implement a cloud scheduler, predictive scene
-recognizer, interruptible narrator or movement monitor.
+single-focus journal and a provider-observation store; it does not implement a
+cloud scheduler, predictive scene recognizer, interruptible narrator or movement
+monitor.
 
 Exercise at least these cases through the eventual live adapter: preparation
 finishes during a normal walk; arrival precedes the result; the player chooses

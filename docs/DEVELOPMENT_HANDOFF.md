@@ -21,11 +21,16 @@ proof of live desktop input through the ownership fence.
   (draft PR #4). Its independent mirror parent is
   `c131661fece58a3d096938df5632d2986cf0ed90`; their shared tree is
   `55265b1641e9d97a8f52e1e427fa2d3039c6ff0d`.
-- Current predictive-preparation continuation:
+- Predictive-preparation continuation:
   `codex/predictive-scene-preparation-20261117`, based on primary conversation
   commit `676ed6fdc16cafccbd4d676a016a5d5d4deeb463` (draft PR #5).
   Its independent mirror parent is `e3e2548c5cefda60406ee4a8402edbbea1d9684a`;
   their shared tree is `e25e44aa791ecc4159985a9c093d56e9c7e8737b`.
+- Current stateful-scene continuation: `codex/state-aware-scenes-20261117`,
+  based on primary predictive-preparation commit
+  `2322cfbf16441343ea998d76479b7b4fbfd59340` (draft PR #6).
+  Its independent mirror parent is `c88464e656912e41a74b986f416d0380e804623f`;
+  their shared tree is `93e2baa150ea6e6234e23bad9ebb24c43217ac36`.
 - At inspection, `main` was the design baseline at
   `10fa86d8a91bb75e0ccf3da346bc9f72eab91d03`; it did not contain the implementation.
 
@@ -56,7 +61,60 @@ files or shell. A status response never grants input. The receipt reports that
 the publisher was stopped and connection processes were left running; their
 current live state was not rechecked here.
 
-## Current continuation: predictive preparation during movement
+## Current continuation: game state and useful choices
+
+The user requires persistent game flags, offscreen consequences, independent
+opening/lock state, useful option filtering and passive scene description.
+Version `0.1.0.dev4` adds `scene_state.py` and extends the bounded scene packet.
+The engine/provider remains authoritative; no second puzzle-rule interpreter
+or expected-effect application was added.
+
+`SceneStore` records the latest provider snapshot and last reported facts in a
+private SQLite store bound to source, edition, optional selected resources,
+provider, session and timeline. Increasing observation revisions prevent late
+results from replacing newer state; an identical current repeat is idempotent.
+Selection through the store checks its latest packet atomically, including
+offscreen changes. The returned intent preserves the provider context token
+and still requires a live admission/ownership check before any input.
+
+An optional stable entity ID joins the same object or global flag across rooms.
+Facts without it remain scene-local, preventing two doors with the same label
+from replacing each other's memory. Sparse missing facts remain historical;
+they are not reaffirmed or changed to false. Private provider outcome receipts
+retain effect status and phase without creating flags. Current public facts,
+provider enabled/readiness assertions and suggestion policy remain separate.
+An incidental verb may be available on request without appearing in the default
+menu; preference cannot override admission. Passive `look` returns the supplied
+current scene description without input or a new choice prompt.
+
+The new `state` guide and authored closed/open-window examples ship in the
+ordinary package. `record`, `present --store`, `choose --store`, `look` and
+internal `memory` are offline commands; no fDisBull installation is required.
+Existing packets preserve their previous behavior when optional fields are
+absent. Providers must supply current action gates; the supported Z verb list
+alone is insufficient. Live flag extraction, observation delivery, provider
+token rechecks and voice/input integration remain qualification work.
+
+The source suite passed **616 tests with 7 native skips** in 34.98 seconds.
+The focused scene/policy/state/CLI/package suite passed **131 tests** in 0.60
+seconds. Independent review found a cross-scene identity collision in the first
+store draft; the stable-entity/scene-local key fix and regression cases are
+included. A fresh offline installation passed **295 tests, 0 skipped** across
+11 suites copied outside the source tree, in 15.57 seconds. All **27 runtime
+modules and 40 resources** match source, direct wheel, sdist-rebuilt wheel and
+installation; the package has 12 guide topics. The installed authored window
+sequence persisted the observed change, refused its old selection, preserved
+explicit incidental input and returned passive descriptions. The environment
+contains neither fDisBull nor optional MCP, and no source import was used.
+An independent reader used only the installed guides/examples/APIs and passed
+eight authored window, readiness, offscreen, delivery-order, door-identity and
+restore/reopen scenarios. It found no blocking issue in the documented offline
+contract. This was an executed offline scenario review, not native async timing
+or live gameplay qualification.
+The checks and their limits are recorded in
+`docs/evidence/stateful-scenes-2026-11-17.json`.
+
+## Prior continuation: predictive preparation during movement
 
 The user clarified that Dot can spawn full cloud agents when usage permits.
 Dot narrates, orchestrates retrieval and controls the live game while workers

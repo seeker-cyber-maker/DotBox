@@ -50,6 +50,19 @@ facts, while an in-game "look inside" can require a new action and observation.
 Free-form requests can go beyond the suggested choices; resolve ambiguity in
 game terms and investigate a genuinely new intent within the existing bounds.
 
+Read `dotbox guide --topic state` when connecting observations to scene choices.
+Remember provider-reported flags and inventory, including internal offscreen
+effects, without applying predicted puzzle outcomes. Keep opening state, lock
+state and unknown values distinct. Reevaluate provider enabled/readiness gates
+after changes; an accepted input, visible response and committed flag are
+different milestones. Bind selections to the current session/branch/revision
+and provider token, then recheck live admission and ownership before input.
+An old observation store is memory, not a new live observation. Remove completed
+or disabled suggestions and leave incidental verbs available on request.
+Conversational `look` is passive description; explicit in-game inspection keeps
+its real input route. Workers prepare candidates and cannot publish their clone
+state as player progression.
+
 Include a bounded guide/manual pass in first preparation. Establish the overall
 goal and controls, then collate two or three compatible sources when useful.
 Use expected objects, exits and conditions as a partial reconstruction checklist.

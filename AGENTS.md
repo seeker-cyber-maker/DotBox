@@ -4,7 +4,8 @@ Read README.md and docs/PRODUCT.md before implementation. The repository remains
 as a working release. The current source priority is packaged, incremental
 control learning and Dot as the game's conversational interface. Read
 docs/CONVERSATIONAL_PLAY.md, docs/GUIDE_RECONSTRUCTION.md,
-docs/INCREMENTAL_PLAY.md and docs/LEARNING_KIT.md. Build and test the offline
+docs/INCREMENTAL_PLAY.md, docs/LEARNING_KIT.md and docs/STATEFUL_SCENES.md.
+Build and test the offline
 inspection kit, saved short frontier and installed play instructions while the
 original-Dot ownership/input qualification remains a separate gate. DotBox must
 own its required analysis dependencies without an fDisBull installation.
