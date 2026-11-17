@@ -157,11 +157,51 @@ fenced action. Only an unstarted native coroutine is closed. Other awaitables
 stay caller-owned and are not cancelled or resumed. A callback can have effects
 before returning an awaitable, so rejection still requires inspection.
 
-Model-level CUA tools are asynchronous and cannot be invoked by passing a
-coroutine to this synchronous helper. They need an awaited fence in their own
-supported executor, with access to the ownership receiver. Separate model-level
-before/tool/after calls only establish a bounded check if the same unchanged
-lease is still valid afterward; they are not an atomic tool lock.
+For a supported Python executor that already has both the coordinator client
+and an authorized asynchronous action, use the separate awaited helper:
+
+```python
+result = await client.run_turn_step_async(lease, authorized_action_and_observation)
+```
+
+The zero-argument callback must return a fresh, unstarted native coroutine,
+normally from an `async def` function. Put input and its effect observation
+inside that coroutine when checking both. The helper copies the original flat
+receipt before its first await, checks it, awaits the action once to completion,
+then checks the same captured receipt. It never renews or substitutes a lease,
+even if the caller changes its original dictionary or newer evidence arrives.
+Read-only socket checks run in worker threads so the event loop can continue
+receiving observations. An event-loop caller can also use
+`await asyncio.to_thread(client.wait_for_turn, controller_id, timeout=10)` to
+avoid blocking while claiming its initial lease.
+
+Tasks, Futures, started coroutines, other custom awaitables and synchronous
+results are refused by this asynchronous API. Rejection does not cancel, close
+or resume caller-owned work. A coroutine that returns another awaitable is also
+refused; only a fresh native coroutine returned this way is closed. The helper
+does not recursively await work or describe a deferred result as completed.
+
+`TurnInterrupted.result` preserves a completed outcome if the postcheck fails.
+`asyncio.CancelledError` propagates with an inspection note and a `result`
+attribute containing the completed outcome when cancellation occurs during
+the postcheck, otherwise `None`. Cancellation does not replay input, renew or
+release a turn, or undo effects. A socket check already running in its worker
+thread can finish within the client's existing timeout. The callback must
+cooperate with cancellation and must not launch detached effects.
+Await steps sequentially. A controller lease identifies the cooperating caller;
+it does not serialize overlapping callbacks that share the same receipt.
+
+This Python helper does not make model-level CUA tools callable from Python or
+add turn operations to the status-only MCP connector. Actual CUA input still
+needs a supported path on its original executor, with coordinator access and
+an observed effect. Separate model-level before/tool/after calls only establish
+a bounded check if the same unchanged lease is still valid afterward; they are
+not an atomic tool lock.
+
+The [17 November continuation receipt](evidence/async-turn-fence-2026-11-17.json)
+records real-coordinator async regressions, cancellation checks and isolated
+wheel verification. Its callbacks are harmless data operations; they do not
+qualify desktop-tool input.
 
 `wait_for_turn` waits locally while the service continues accepting source
 updates; fresh Dot evidence after human return can admit the next turn.
@@ -180,10 +220,10 @@ saved claim receipts private. These turn leases are separate from the existing
 native generation leases. Arbitrary desktop tools that bypass this wrapper are
 not fenced by it.
 
-## Verification boundary — 16 November 2026
+## Historical verification boundary — 16 November 2026
 
-The current source suite passes 369 checks with no skips. A fresh ordinary Mac
-wheel installation passes 107 selected checks, including existing real native
+At this checkpoint the source suite passed 369 checks with no skips. An ordinary Mac
+wheel installation passed 107 selected checks, including existing real native
 checks. One source-tree-only static audit is excluded from that external test
 directory and covered by the full source suite. All 21 runtime modules match
 source, wheel and installation; fDisBull is unavailable there. The observer

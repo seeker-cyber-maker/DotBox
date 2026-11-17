@@ -1,5 +1,6 @@
 """Short-lived authenticated clients; never retry a game effect automatically."""
 
+import asyncio
 import inspect
 import json
 import os
@@ -115,3 +116,72 @@ class Client:
         if not after["ok"]:
             raise TurnInterrupted("Ownership changed during the action; inspect before continuing", result=result)
         return result
+
+    async def run_turn_step_async(self, lease, action):
+        """Await one cooperating action between checks of the same turn receipt.
+
+        The zero-argument callback must return a fresh, unstarted native
+        coroutine. Run input and its observation in that coroutine on their
+        supported executor. Tasks and arbitrary awaitables cannot establish
+        when their effects started and are not accepted or cancelled here.
+        Await steps sequentially; sharing a controller lease is not an action
+        mutex for concurrent callers.
+
+        Only read-only coordination requests run in worker threads, bounded by
+        this client's socket timeout. Cancellation does not stop such a thread;
+        it propagates with an inspection note and a ``result`` attribute holding
+        the completed outcome, if any. No action is retried, no receipt renewed,
+        and the outer harness still owns capture and input already in flight.
+        """
+        # Valid receipts have only scalar fields. Capture before the first await
+        # so a caller cannot replace the postcheck receipt during the action.
+        receipt = dict(lease)
+        phase = "before action"
+        result = None
+        try:
+            try:
+                before = await asyncio.to_thread(self.request, "turn-check", {"lease": receipt})
+            except (OSError, ValueError) as error:
+                raise TurnInterrupted("No action was started; coordination check failed") from error
+            if not before["ok"]:
+                raise TurnInterrupted(before["error"]["message"])
+
+            phase = "during action"
+            try:
+                pending = action()
+            except Exception as error:
+                raise TurnInterrupted("Desktop action failed; effects are unknown, inspect before continuing") from error
+            if not (inspect.iscoroutine(pending)
+                    and inspect.getcoroutinestate(pending) == inspect.CORO_CREATED):
+                raise TurnInterrupted(
+                    "Desktop callback must return a fresh unstarted native coroutine; "
+                    "effects may have occurred, inspect before continuing")
+            try:
+                result = await pending
+            except Exception as error:
+                raise TurnInterrupted("Desktop action failed; effects are unknown, inspect before continuing") from error
+            if inspect.isawaitable(result):
+                message = ("Desktop action returned another awaitable; a completed result is required. "
+                           "Effects may have occurred; inspect before continuing")
+                if inspect.iscoroutine(result) and inspect.getcoroutinestate(result) == inspect.CORO_CREATED:
+                    try:
+                        result.close()
+                    except Exception as error:
+                        raise TurnInterrupted(message) from error
+                raise TurnInterrupted(message)
+
+            phase = "after action"
+            try:
+                after = await asyncio.to_thread(self.request, "turn-check", {"lease": receipt})
+            except (OSError, ValueError) as error:
+                raise TurnInterrupted("Action outcome requires inspection; coordination check failed", result=result) from error
+            if not after["ok"]:
+                raise TurnInterrupted("Ownership changed during the action; inspect before continuing", result=result)
+            return result
+        except asyncio.CancelledError as error:
+            error.result = result if phase == "after action" else None
+            error.add_note(
+                f"DotBox turn cancelled {phase}; inspect current state before continuing. "
+                "Effects are not replayed or rolled back. A pending read-only coordination "
+                "request may finish within the client's socket timeout.")
+            raise

@@ -12,6 +12,8 @@ Start with [standalone installation](docs/STANDALONE.md), the
 [native source/build recipe](docs/STANDALONE_NATIVE.md), and
 [persistent controls](docs/PERSISTENT_CONTROLS.md).
 
+For development continuation, read the [current handoff](docs/DEVELOPMENT_HANDOFF.md).
+
 The first milestone is the engine and its ownership boundary: one guest survives
 client calls, frames can be observed, and stale agent input is refused after
 explicit human handoff in diagnostic mode. Normal input stays on the desktop
@@ -35,7 +37,9 @@ unknown; no unattended sampler or input grant is implied. See the
 [live verification](docs/evidence/ownership-connector-live-2026-11-16.json).
 The [earlier preflight](docs/evidence/desktop-ownership-preflight-2026-11-16.json)
 also records the fix preventing asynchronous callbacks from being reported as
-completed synchronous actions.
+completed synchronous actions. The separate `Client.run_turn_step_async` now
+awaits a cooperative Python callback between checks of one unchanged lease.
+It does not expose CUA tools to Python or qualify live Dot input.
 
 Additional AGI readers, walking, game-specific routes and HUD experiments remain
 preserved in the original development checkout. They are deferred from this
