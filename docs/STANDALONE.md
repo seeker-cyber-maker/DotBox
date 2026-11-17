@@ -32,8 +32,10 @@ boundary. The service reports `owner: harness`; platform owner stays `unknown`
 unless the optional [ownership bridge](OWNERSHIP_BRIDGE.md) is explicitly bound
 and receives fresh viewer evidence. Existing-viewer keyboard/mouse operation is
 verified separately from native DotBox cloud installation. The bridge's actual
-viewer-to-local-receiver path is verified; delivery to Dot's headless environment
-remains unqualified. The preserved [transport investigation](SCREEN_TRANSPORT.md)
+viewer-to-local-receiver path is verified. Later [connector verification](
+evidence/ownership-connector-live-2026-11-16.json) establishes read-only status
+delivery to the original Dot context; executing desktop input through the same
+turn receipt remains unqualified. The preserved [transport investigation](SCREEN_TRANSPORT.md)
 records earlier internal signals without claiming a supported Dot-facing API.
 
 ## Explicit native handoff diagnostics
