@@ -1,0 +1,83 @@
+# Standalone engine cut
+
+The [verification report](evidence/standalone-engine-2026-11-16.json) records the
+clean installation and bounded native checks.
+
+DotBox owns its Python runtime and SQLite control store. No fDisBull package or
+source checkout is required. Python 3.12+ and Pillow are the declared Python
+requirements; a compatible native DOSBox-X executable and its platform libraries
+are required to run a guest. See [native preparation](STANDALONE_NATIVE.md).
+
+## Install
+
+```sh
+python3 -m venv /private/dotbox/venv
+/private/dotbox/venv/bin/python -m pip install /path/to/dotbox.whl
+/private/dotbox/venv/bin/dotbox --help
+```
+
+A clean installation must use an ordinary wheel, with no source-tree PYTHONPATH,
+editable install or fDisBull environment. Verification records distinguish Python
+installation, native execution and actual Codex cloud integration.
+
+## Use the Codex desktop harness
+
+By default, the service starts the original game with native host input enabled.
+Both Dot and the user use the outer harness's ordinary keyboard/mouse path;
+Codex's existing Take over / Return control flow decides who can send that input.
+DotBox neither replaces those buttons nor needs to guess their owner from pixels.
+Frame observation and control authoring remain available. Direct agent RPC input,
+play and pause are refused in this mode, so they cannot bypass the outer capture
+boundary. The service reports `owner: harness`; platform owner stays `unknown`
+unless the optional [ownership bridge](OWNERSHIP_BRIDGE.md) is explicitly bound
+and receives fresh viewer evidence. Existing-viewer keyboard/mouse operation is
+verified separately from native DotBox cloud installation. The bridge's actual
+viewer-to-local-receiver path is verified; delivery to Dot's headless environment
+remains unqualified. The preserved [transport investigation](SCREEN_TRANSPORT.md)
+records earlier internal signals without claiming a supported Dot-facing API.
+
+## Explicit native handoff diagnostics
+
+For the explicit native RPC diagnostic path, start one service with your own
+game directory and native executable:
+
+```sh
+dotbox serve --directory /private/dotbox/session \
+  --project /private/dotbox/controls.db --program /private/game/PLAY.COM \
+  --game-dir /private/game --executable /path/to/dosbox-x --manual-control
+```
+
+The `--manual-control` flag explicitly selects the local handoff test path. The
+Codex/WebRTC harness owns its own Take over / Return control UI; this flag does
+not subscribe to those events or change WebRTC input capture.
+
+Read a lease, transfer to the human, then return it to the agent:
+
+```sh
+dotbox status --session /private/dotbox/session/session.json > /private/dotbox/status.json
+dotbox control human --session /private/dotbox/session/session.json --lease /private/dotbox/status.json
+dotbox status --session /private/dotbox/session/session.json > /private/dotbox/human.json
+dotbox control agent --session /private/dotbox/session/session.json --lease /private/dotbox/human.json --resume
+```
+
+Native transfer releases tracked inputs and advances ownership generation.
+Older agent leases are rejected; agent keyboard/mouse input is refused while
+the human owns the guest. Unknown platform ownership remains unknown. Automatic
+platform synchronization remains an external acceptance gate until a supported
+provider is available and tested. Do not infer it from focus, pixels or silence.
+
+## Storage and scope
+
+New projects use a DotBox-only SQLite schema, executable SHA-256 binding and
+immutable control revisions. Existing fDisBull FDBs are refused before mutation;
+retain them as originals and author/import reviewed control definitions into a
+new DotBox store. This cut does not silently migrate analysis databases or
+claim the old mapped-version identity for a new independent store.
+
+The proven keyboard/mouse formats and absolute guest-frame `(x,y)` convention
+remain. An accepted input is not a verified game transition. Original saves,
+frames, project stores and session credentials stay private.
+
+Audio, AGI expansion, pathfinding extensions and game qualification are deferred.
+The previous local Dune reports describe the dependent prototype and are not
+standalone qualification evidence.

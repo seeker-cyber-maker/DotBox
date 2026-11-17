@@ -1,3 +1,21 @@
+# Standalone engine milestone
+
+The current order supersedes the earlier proposed gameplay sequence below:
+
+1. Extract the working DOSBox runtime and minimal storage/validation components;
+   no fDisBull runtime installation or source-tree dependency.
+2. Verify the existing Codex/WebRTC ownership integration surface. Preserve the
+   native input guards, but do not substitute native handoff for the harness UI.
+3. Verify a clean wheel install, actual native input/frame operation, ownership
+   isolation, persisted controls and owned-process cleanup.
+4. Resume harness ergonomics and game-specific work only after the independent
+   framework is working. Audio remains deferred.
+
+Prior AGI/walking/HUD development is preserved in the original checkout and a
+private source snapshot. It is not required for this cut.
+
+---
+
 # Initial work plan
 
 This is a proposed sequence, not completed implementation. Keep each slice

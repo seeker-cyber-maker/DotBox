@@ -1,7 +1,17 @@
 # DotBox contributor guidance
 
-Read README.md and docs/PRODUCT.md before implementation. The repository starts
-as a design baseline; do not describe planned behavior as a working release.
+Read README.md and docs/PRODUCT.md before implementation. The repository remains a development project; do not describe planned behavior
+as a working release. The current milestone is the standalone DOSBox engine
+and ownership boundary. Defer new gameplay, pathfinding extensions, AGI coverage
+and audio until a clean install runs without fDisBull. Preserve prior experiments.
+Codex/WebRTC Take over / Return control belongs to the outer harness; do not
+recreate its UI or label a native-only handoff as platform synchronization.
+
+For cooperative play or a cloud worker extending the harness, read
+[the DotBox play skill](skills/dotbox-play/SKILL.md), then only the reference
+needed for the current task. It prioritizes a bounded opening buffer and the
+next playable interaction. Read the files directly; this contribution does not
+assume an installed skill-discovery command.
 
 ## Product boundaries
 

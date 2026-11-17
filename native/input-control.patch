@@ -1,0 +1,325 @@
+--- a/src/agent/server/agent_server.cpp
++++ b/src/agent/server/agent_server.cpp
+@@ -7,6 +7,7 @@
+ #include "agent/trace_store.h"
+ #include "agent/video_adapter.h"
+ #include "agent/input_adapter.h"
++#include "agent/dotbox_input_control.h"
+ #include "dosbox.h"
+ #include "pic.h"
+ #include "debug.h"
+@@ -466,6 +467,7 @@
+            method == "execution.timing" || method == "state.save" || method == "state.load" || method == "state.set_register" ||
+            method == "state.get_registers" ||
+            method == "video.screenshot" || method == "video.probe" ||
++           method == "input.control" ||
+            method == "input.keyboard.press" || method == "input.keyboard.type" || method == "input.keyboard.state" || method == "input.keyboard.down" || method == "input.keyboard.up" || method == "input.keyboard.frame_edges" ||
+            method == "input.mouse.move" || method == "input.mouse.click" ||
+            method == "input.mouse.button" || method == "input.mouse.state" ||
+@@ -547,6 +549,7 @@
+         FrameSnapshot frame;
+         AgentMouseState mouse;
+         AgentKeyboardState keyboard;
++        AgentInputControlState input_control;
+         bool stale_frame = false;
+         std::uint64_t guest_ticks = 0;
+         bool fast_forward = false;
+@@ -1459,6 +1462,7 @@
+     JsonValue input = Object();
+     Add(&input, "keyboard", String("ibm_pc_controller_us_ascii_v1"));
+     Add(&input, "keyboard_held_leases", JsonValue::Bool(true));
++    Add(&input, "cooperative_control", String("dotbox-input-control-1"));
+     Add(&input, "absolute_mouse", JsonValue::Bool(true));
+     Add(&input, "driver", String("builtin_dos_int33_only"));
+     Add(&input, "coordinate_space", String("guest_frame_pixels"));
+@@ -2033,6 +2037,58 @@
+                 }
+             }
+         }
++    } else if (parsed.method == "input.control") {
++        const bool transfer = parsed.params.Find("owner") != NULL;
++        std::string owner;
++        bool has_expected = false;
++        std::uint64_t expected = 0;
++        bool valid = OptionalFrameNumber(parsed.params, "expected_generation", &has_expected, &expected);
++        if (transfer) valid = valid && GetString(parsed.params, "owner", &owner) &&
++                              (owner == "agent" || owner == "host") && has_expected;
++        else valid = valid && !has_expected;
++        for (const auto& item : parsed.params.object)
++            if (item.first != "session_id" && item.first != "owner" && item.first != "expected_generation") valid = false;
++        if (!valid) response = InvalidParams(parsed.id, "input.control needs owner agent|host and expected_generation, or an empty query");
++        else if (session->state != Impl::SessionState::Running && session->state != Impl::SessionState::Stopped)
++            response = SessionError(parsed.id, kErrorCapabilityUnavailable, "Target is not active", "TARGET_EXITED", session);
++        else {
++            const std::shared_ptr<Impl::AdapterOperation> operation(new Impl::AdapterOperation());
++            const std::string session_id = session->id;
++            if (SubmitEmulationCommandLocked(impl, [operation, transfer, owner, expected](const std::uint64_t) {
++                    std::string error;
++                    const bool ok = !transfer || AGENT_ChangeInputControl(owner == "host", expected, &error);
++                    std::lock_guard<std::mutex> guard(operation->mutex);
++                    operation->input_control = AGENT_GetInputControlState();
++                    operation->success = ok; operation->error = error; operation->done = true;
++                    operation->completed.notify_all();
++                }) == 0) response = Error(parsed.id, kErrorCapabilityUnavailable, "Input control bridge unavailable", "COMMAND_QUEUE_UNAVAILABLE");
++            else {
++                const JsonValue response_id = parsed.id;
++                Impl::DeferredRequest pending; pending.request = parsed; pending.fingerprint = parsed.fingerprint;
++                pending.wait = [operation](const std::uint32_t timeout_ms) {
++                    std::unique_lock<std::mutex> guard(operation->mutex);
++                    return operation->completed.wait_for(guard, std::chrono::milliseconds(timeout_ms), [operation]() { return operation->done; });
++                };
++                pending.finish = [impl, session_id, response_id, operation, transfer]() {
++                    if (!operation->success) return Error(response_id, kErrorCommandRejected, operation->error, "CONTROL_REJECTED");
++                    if (!impl->session || impl->session->id != session_id) return Error(response_id, kErrorSessionNotFound, "Session was not found", "SESSION_NOT_FOUND");
++                    if (transfer) ++impl->session->state_revision;
++                    JsonValue result = SessionResult(*impl->session);
++                    Add(&result, "owner", String(operation->input_control.host ? "host" : "agent"));
++                    Add(&result, "generation", Number(operation->input_control.generation));
++                    if (transfer) Add(&result, "input_reset", JsonValue::Bool(true));
++                    return AGENT_MakeJsonRpcResult(response_id, result);
++                };
++                if (parsed.has_id && parsed.id.type != JsonType::Null) session->deferred_requests[parsed.id_key] = pending;
++                lock.unlock(); const bool completed = pending.wait(impl->config.request_timeout_ms); lock.lock();
++                if (!RebindSessionAfterWait(impl, session_id, &session, &response, parsed.id)) return response;
++                if (!completed) { cache_response = false; response = Error(parsed.id, kErrorOperationTimeout, "Timed out transferring input ownership", "OPERATION_TIMEOUT"); }
++                else if (parsed.has_id && parsed.id.type != JsonType::Null) {
++                    auto deferred = session->deferred_requests.find(parsed.id_key);
++                    response = deferred->second.finish(); session->deferred_requests.erase(deferred);
++                } else response = pending.finish();
++            }
++        }
+     } else if (parsed.method.compare(0,15,"input.keyboard.")==0) {
+         const bool frame_edges=parsed.method=="input.keyboard.frame_edges";
+         std::vector<std::pair<std::string,bool>> edges;
+@@ -2043,6 +2099,7 @@
+         const bool press=parsed.method=="input.keyboard.press";
+         std::string key,text,modifiers,lease;
+         std::uint32_t hold_ms=40,gap_ms=40;
++        bool has_control_generation = false; std::uint64_t control_generation = 0;
+         bool valid=frame_edges || ((query || up || GetString(parsed.params,typing?"text":"key",typing?&text:&key)) && (query || up || down || press || typing));
+         if(frame_edges) {
+             const JsonValue* list=parsed.params.Find("edges");
+@@ -2053,11 +2110,12 @@
+                 edges.emplace_back(edge_key,pressed->boolean);
+             }
+         }
++        valid = valid && OptionalFrameNumber(parsed.params, "control_generation", &has_control_generation, &control_generation);
+         if(down || up) {
+             valid=valid && GetString(parsed.params,"lease",&lease) && lease.size()==32;
+             for(const auto c:lease) if(!((c>='0' && c<='9') || (c>='a' && c<='f'))) valid=false;
+             for(const auto& item:parsed.params.object)
+-                if(item.first!="session_id" && item.first!="lease" && !(down && item.first=="key")) valid=false;
++                if(item.first!="session_id" && item.first!="lease" && item.first!="control_generation" && !(down && item.first=="key")) valid=false;
+         }
+         if(parsed.params.Find("modifiers")) valid=valid && GetString(parsed.params,"modifiers",&modifiers);
+         if(parsed.params.Find("hold_ms")) valid=valid && GetUnsignedInteger(*parsed.params.Find("hold_ms"),&hold_ms);
+@@ -2071,13 +2129,15 @@
+         } else {
+             const std::shared_ptr<Impl::AdapterOperation> operation(new Impl::AdapterOperation());
+             const std::string session_id=session->id;
+-            if(SubmitEmulationCommandLocked(impl,[operation,typing,query,down,up,key,text,modifiers,hold_ms,gap_ms,lease,session_id,frame_edges,edges](const std::uint64_t) {
++            if(SubmitEmulationCommandLocked(impl,[operation,typing,query,down,up,key,text,modifiers,hold_ms,gap_ms,lease,session_id,frame_edges,edges,has_control_generation,control_generation](const std::uint64_t) {
+                 std::string error; AgentKeyboardState keyboard;
+-                bool ok=true;
+-                if(frame_edges) ok=AGENT_KeyboardFrameEdges(edges,&keyboard,&error);
+-                else if(query) AGENT_KeyboardGetState(&keyboard);
+-                else if(down || up) ok=AGENT_KeyboardLease(key,session_id+":"+lease,down,&keyboard,&error);
+-                else ok=AGENT_KeyboardQueue(key,text,modifiers,typing,hold_ms,gap_ms,&keyboard,&error);
++                bool ok = query || AGENT_CanInjectInput(has_control_generation, control_generation, &error);
++                if (ok) {
++                    if(frame_edges) ok=AGENT_KeyboardFrameEdges(edges,&keyboard,&error);
++                    else if(query) AGENT_KeyboardGetState(&keyboard);
++                    else if(down || up) ok=AGENT_KeyboardLease(key,session_id+":"+lease,down,&keyboard,&error);
++                    else ok=AGENT_KeyboardQueue(key,text,modifiers,typing,hold_ms,gap_ms,&keyboard,&error);
++                }
+                 std::lock_guard<std::mutex> guard(operation->mutex);
+                 operation->success=ok;operation->error=error;operation->keyboard=keyboard;operation->done=true;
+                 operation->completed.notify_all();
+@@ -2127,9 +2187,11 @@
+         std::uint32_t x = 0, y = 0, hold_ms = 50, button = 0;
+         std::uint64_t frame_id = 0, mode_id = 0;
+         bool pressed = false, has_frame = false, has_mode = false;
++        bool has_control_generation = false; std::uint64_t control_generation = 0;
+         std::string button_name = "left";
+         bool valid = OptionalFrameNumber(parsed.params, "frame_id", &has_frame, &frame_id) &&
+-                     OptionalFrameNumber(parsed.params, "mode_id", &has_mode, &mode_id);
++                     OptionalFrameNumber(parsed.params, "mode_id", &has_mode, &mode_id) &&
++                     OptionalFrameNumber(parsed.params, "control_generation", &has_control_generation, &control_generation);
+         if (screenshot) {
+             if (parsed.params.Find("encoding")) valid = valid && GetString(parsed.params, "encoding", &encoding);
+             if (parsed.params.Find("measure")) valid = valid && GetBool(parsed.params, "measure", &measure);
+@@ -2176,13 +2238,14 @@
+             const std::shared_ptr<Impl::AdapterOperation> operation(new Impl::AdapterOperation());
+             const std::string session_id = session->id;
+             if (SubmitEmulationCommandLocked(impl, [operation, screenshot, probe, points, move, click, button_op, encoding, measure,
+-                    x, y, button, hold_ms, pressed, has_frame, frame_id, has_mode, mode_id](const std::uint64_t) {
++                    x, y, button, hold_ms, pressed, has_frame, frame_id, has_mode, mode_id, has_control_generation, control_generation](const std::uint64_t) {
+                     std::string error;
+                     FrameSnapshot frame;
+                     AgentMouseState mouse;
+                     std::vector<std::uint8_t> png;
+-                    bool success = true, stale = false;
+-                    if (screenshot || probe || move || click) success = AGENT_GetFrameSnapshot(&frame, &error);
++                    bool success = !(move || click || button_op) || AGENT_CanInjectInput(has_control_generation, control_generation, &error);
++                    bool stale = false;
++                    if (success && (screenshot || probe || move || click)) success = AGENT_GetFrameSnapshot(&frame, &error);
+                     if (success && probe) {
+                         for (const auto& point : points) if (point.first>=frame.width || point.second>=frame.height) {
+                             success=false; error="Probe point outside completed guest frame"; break;
+@@ -3661,6 +3724,7 @@
+                                                const std::string& workdir)
+ {
+     AgentRuntime& adapter = *impl->runtime;
++    AGENT_ResetInputControl();
+     AGENT_MouseResetInput(); dosbox_agent::AGENT_KeyboardResetInput();
+     if (!adapter.IsReadyForTargetStart()) {
+         {
+--- a/src/gui/sdlmain.cpp
++++ b/src/gui/sdlmain.cpp
+@@ -134,6 +134,8 @@
+ #include "agent/agent_bridge.h"
+ #include "agent/agent_server.h"
+ #include "agent/video_adapter.h"
++#include "agent/input_adapter.h"
++#include "agent/dotbox_input_control.h"
+ #endif
+ #include "menudef.h"
+ #include "pic.h"
+@@ -152,6 +154,7 @@
+ #if defined(C_DOSBOX_AGENT)
+ namespace dosbox_agent {
+ static bool agent_visible_window = false;
++static DotBoxInputControl agent_input_control;
+ 
+ bool AGENT_IsSession()
+ {
+@@ -5687,6 +5690,44 @@
+     DoExtendedKeyboardHook(false);
+ }
+ 
++#if defined(C_DOSBOX_AGENT)
++namespace dosbox_agent {
++AgentInputControlState AGENT_GetInputControlState() { return agent_input_control.State(); }
++void AGENT_ResetInputControl() { agent_input_control.Reset(); }
++bool AGENT_CanInjectInput(bool has_generation, std::uint64_t generation, std::string* error)
++{
++    return agent_input_control.CanInject(has_generation, generation, error);
++}
++
++bool AGENT_ChangeInputControl(bool host, std::uint64_t expected_generation, std::string* error)
++{
++    return agent_input_control.Transfer(host, expected_generation, AGENT_IsSession() && !AGENT_IsHeadless(), []() {
++#if defined(C_SDL2)
++        // Discard input captured before the transfer, but preserve window events.
++        SDL_PumpEvents();
++        for (const auto type : {SDL_KEYDOWN, SDL_KEYUP, SDL_TEXTEDITING, SDL_TEXTINPUT,
++                               SDL_MOUSEMOTION, SDL_MOUSEBUTTONDOWN, SDL_MOUSEBUTTONUP, SDL_MOUSEWHEEL})
++            SDL_FlushEvent(type);
++        SDL_GetRelativeMouseState(NULL, NULL);
++#endif
++#if C_DEBUG
++        AGENT_KeyboardResetInput();
++        AGENT_MouseResetInput();
++#endif
++        // RPC-owned input reset does not release human-owned mapper bindings.
++        GFX_LosingFocus();
++#if C_DEBUG
++        AgentMouseState mouse;
++        std::string ignored;
++        if (AGENT_MouseGetState(&mouse, &ignored))
++            for (std::uint32_t button = 0; button < 3; ++button)
++                if (mouse.buttons & (1u << button)) Mouse_ButtonReleased(static_cast<std::uint8_t>(button));
++#endif
++    }, error);
++}
++} // namespace dosbox_agent
++#endif
++
+ bool GFX_IsFullscreen(void) {
+     return sdl.desktop.fullscreen;
+ }
+@@ -5966,7 +6007,8 @@
+ 
+ void GFX_Events() {
+ #if defined(C_DOSBOX_AGENT) && defined(C_SDL2)
+-    if (dosbox_agent::AGENT_IsSession() && !dosbox_agent::AGENT_IsHeadless()) {
++    if (dosbox_agent::AGENT_IsSession() && !dosbox_agent::AGENT_IsHeadless() &&
++        !dosbox_agent::AGENT_GetInputControlState().host) {
+         // Spectator window: do not deliver host input or mapper/menu shortcuts
+         // to the guest. In particular, bypass direct joystick and mouse polling
+         // and focus handlers that synthesize guest keyboard releases.
+--- /dev/null
++++ b/include/agent/dotbox_input_control.h
+@@ -0,0 +1,72 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
++// Emulation-thread ownership policy for the DotBox DOSBox-X overlay.
++#ifndef DOSBOX_DOTBOX_INPUT_CONTROL_H
++#define DOSBOX_DOTBOX_INPUT_CONTROL_H
++
++#include <cstdint>
++#include <limits>
++#include <string>
++
++namespace dosbox_agent {
++
++struct AgentInputControlState {
++    bool host = false;
++    std::uint64_t generation = 0;
++};
++
++// All reads and writes belong to the emulation thread. Checking the generation
++// when a queued command executes prevents a pre-handoff input from firing later.
++class DotBoxInputControl {
++public:
++    AgentInputControlState State() const { return state_; }
++    void Reset() { state_ = AgentInputControlState(); }
++
++    bool CanInject(bool has_generation, std::uint64_t generation,
++                   std::string* error) const
++    {
++        if (state_.host) {
++            if (error) *error = "Input is owned by the host";
++            return false;
++        }
++        if (has_generation && generation != state_.generation) {
++            if (error) *error = "Input control generation changed";
++            return false;
++        }
++        return true;
++    }
++
++    template<class Cleanup>
++    bool Transfer(bool host, std::uint64_t expected_generation, bool visible,
++                  Cleanup cleanup, std::string* error)
++    {
++        if (expected_generation != state_.generation) {
++            if (error) *error = "Input control generation changed";
++            return false;
++        }
++        if (host && !visible) {
++            if (error) *error = "Host input requires a visible agent window";
++            return false;
++        }
++        if (state_.generation == (std::numeric_limits<std::uint64_t>::max)()) {
++            if (error) *error = "Input control generation exhausted";
++            return false;
++        }
++        cleanup();
++        state_.host = host;
++        ++state_.generation;
++        return true;
++    }
++
++private:
++    AgentInputControlState state_;
++};
++
++AgentInputControlState AGENT_GetInputControlState();
++bool AGENT_ChangeInputControl(bool host, std::uint64_t expected_generation,
++                             std::string* error);
++bool AGENT_CanInjectInput(bool has_generation, std::uint64_t generation,
++                          std::string* error);
++void AGENT_ResetInputControl();
++
++} // namespace dosbox_agent
++#endif

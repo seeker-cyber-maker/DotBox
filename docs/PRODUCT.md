@@ -3,6 +3,16 @@
 Status: design baseline, 14 November 2026. Requirements below are intended
 behavior, not claims of implemented or measured DotBox capabilities.
 
+## Current milestone — 16 November 2026
+
+Finish the independent engine/framework extraction first. Reuse working fDisBull
+components, own the native build recipe and storage, and verify a clean install
+without fDisBull. Preserve game-specific experiments while deferring additional
+gameplay and audio work. The first integration priority is the Codex/WebRTC
+harness's existing Take over / Return control flow. Keep native input guards
+separate from supported platform ownership observation and synchronization;
+local transfer tests do not qualify that outer integration.
+
 ## Purpose
 
 Let a person and Dot play an original DOS game together, visibly, in DOSBox-X
