@@ -50,6 +50,8 @@ def parser():
         ("inspect", "Inspect bounded frozen-file windows without a game."),
         ("learn", "Retain the next question and its bounded probe allowance."),
         ("scene", "Present grounded scene choices or an internal reconstruction checklist."),
+        ("agi", "Inspect bounded AGI V2 logic and state references offline."),
+        ("route", "Plan and check state-bound walking routes without executing input."),
     ):
         commands.add_parser(name, help=help_text).add_argument("arguments", nargs=argparse.REMAINDER)
     probe = commands.add_parser("probe", help="Print a noninvasive runtime inventory.")
@@ -122,6 +124,12 @@ def main(argv=None):
     if argv and argv[0] == "scene":
         from .scenes import main as scene_main
         return scene_main(argv[1:])
+    if argv and argv[0] == "agi":
+        from .agi import main as agi_main
+        return agi_main(argv[1:])
+    if argv and argv[0] == "route":
+        from .navigation import main as route_main
+        return route_main(argv[1:])
     args = parser().parse_args(argv)
     try:
         if args.command in ("serve", "coordinate"):

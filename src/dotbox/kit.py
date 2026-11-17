@@ -128,7 +128,13 @@ def doctor():
         )
         report["scenes"] = {"ok": all(checks.values()), "checks": checks,
                             "scope": "Packaged authored fixture only; no game recognition, input or voice"}
-        report["offline_learning_ready"] = bool(report["inspection"]["ok"] and report["scenes"]["ok"])
+        from .agi import self_check as agi_check
+        from .navigation import self_check as navigation_check
+        report["agi"] = agi_check()
+        report["navigation"] = navigation_check()
+        report["offline_learning_ready"] = all(
+            report[name]["ok"] for name in ("inspection", "scenes", "agi", "navigation")
+        )
     except (ValueError, OSError, ImportError, KeyError, TypeError, SubprocessError) as error:
         report["error"] = str(error)
     return report

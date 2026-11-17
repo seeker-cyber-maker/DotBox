@@ -32,6 +32,21 @@ def test_doctor_distinguishes_offline_readiness_from_native_qualification():
     assert report["learning"]["store_opened"] is False
     assert report["scenes"]["ok"] is True
     assert report["scenes"]["checks"]["selection_has_no_execution"] is True
+    assert report["agi"]["ok"] is True
+    assert report["agi"]["qualified_interactions"] == 0
+    assert report["navigation"]["ok"] is True
+    assert report["navigation"]["checks"]["portal_boundary"] is True
+
+
+@pytest.mark.parametrize("component", ["agi", "navigation"])
+def test_doctor_requires_each_packaged_offline_tool(monkeypatch, component):
+    from dotbox import agi, kit, navigation
+
+    module = {"agi": agi, "navigation": navigation}[component]
+    monkeypatch.setattr(module, "self_check", lambda: {"ok": False, "error": "authored failure"})
+    report = kit.doctor()
+    assert report["offline_learning_ready"] is False
+    assert report[component]["error"] == "authored failure"
 
 
 def test_export_has_verified_native_recipe_guides_notices_and_helpers(tmp_path):
@@ -42,7 +57,10 @@ def test_export_has_verified_native_recipe_guides_notices_and_helpers(tmp_path):
     catalog = json.loads((destination / "catalog.json").read_text())
     for name in ("skills/dotbox-play/SKILL.md", "native/build-recipe.json",
                  "native/dosbox-x/COPYING", "native/dosbox-x/NOTICES.md",
-                 "scripts/prepare_native.py", "docs/AGENT_START.md"):
+                 "scripts/prepare_native.py", "docs/AGENT_START.md",
+                 "docs/ENGINE_AWARE_PREPARATION.md", "docs/NAVIGATION.md",
+                 "docs/RECOVERY_AND_SAVES.md", "docs/EXTRACTION.md",
+                 "examples/navigation_room.json"):
         data = (destination / name).read_bytes()
         assert hashlib.sha256(data).hexdigest() == catalog["files"][name]["sha256"]
         assert len(data) == catalog["files"][name]["size"]

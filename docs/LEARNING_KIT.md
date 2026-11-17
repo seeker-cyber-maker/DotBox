@@ -2,7 +2,8 @@
 
 The development package includes the agent instructions, offline inspection
 tools, a persisted short learning frontier, a scene/choice projection and a
-private provider-observation store.
+private provider-observation store, a small AGI V2 logic census and a bounded
+walking-route planner.
 A normal installation must not
 depend on the source checkout for these features.
 
@@ -15,11 +16,16 @@ dotbox guide --topic learning
 dotbox guide --topic inspection
 dotbox guide --topic conversation
 dotbox guide --topic state
+dotbox guide --topic agi
+dotbox guide --topic navigation
+dotbox guide --topic recovery
 dotbox guide --topic guides
 dotbox guide --topic lookahead
 dotbox inspect --help
 dotbox learn --help
 dotbox scene --help
+dotbox agi --help
+dotbox route --help
 ```
 
 `doctor` checks the installed resource hashes and executes a small authored x86
@@ -27,6 +33,9 @@ decoder self-check, checks for a stable learning-journal clock identity, and
 projects/selects the packaged authored mailbox fixture without executing it.
 It also checks the authored closed/open-window projections, request-only
 suggestions and passive look, without opening a player observation store. The
+AGI self-check uses authored in-memory logic; the navigation self-check verifies
+straight-leg compression, portal exclusion and a bound proposal. Neither reads
+commercial game files or operates an emulator. The
 current clock binding supports Linux and macOS; other hosts need a qualified
 clock adapter before the journal is ready. It reports offline-kit readiness separately from native
 game readiness. It performs no native launch, input, ownership probe or network
@@ -64,6 +73,33 @@ The included `iced-x86==1.22.0` dependency supplies decoding. No separate fDisBu
 analysis database, Capstone, LLVM or symbolic solver is required for this kit.
 Dependency wheels and their notices belong in the final offline distribution;
 an ordinary pip install alone is not an offline installer.
+
+## Engine-aware state preparation and movement
+
+For an explicitly qualified uncompressed AGI V2 edition using the supported
+2.917 profile, `dotbox agi inspect` inventories logic conditions, writes to
+variables/flags, room/resource candidates, vocabulary and initial object
+metadata. The three small parser/analysis modules are included in DotBox and
+use the standard library. No installed fDisBull or whole-code analyzer is
+required. Reports go to new private files outside Git and the selected input
+tree; stdout reports compact counts and scope. Optional text/IR stays in the
+private report. Static evidence does not create current facts or usable actions.
+See [engine-aware preparation](ENGINE_AWARE_PREPARATION.md) for exact scope,
+budgets, interpreter ambiguity and the outline/resolve commands.
+
+`dotbox route plan` uses the existing `fdisbull-spatial-map-1` format, supplied
+stateful scene and whole collision footprint. It minimizes cardinal distance,
+then turns, and compresses straight runs into legs. Unknown ground and unresolved
+hazards remain unavailable; portals are blocked so the plan stops at an approach
+point. `route check` recalculates the proposal against the supplied current
+inputs. Changed map, scene, state or conditions invalidate it. The authored
+map example and [navigation guide](NAVIGATION.md) ship in the kit. These commands
+produce offline proposals; the live x/y/TAS executor remains integration work.
+
+The [recovery guide](RECOVERY_AND_SAVES.md) defines a fenced restore and controlled
+save comparisons. Native checkpoints already exist in the bundled base, but a
+DotBox live rewind command still needs ownership-generation, timeline and mutable
+file reconciliation. An AGI resource reader is not an original-game save decoder.
 
 ## Conversational scenes
 
@@ -143,6 +179,7 @@ play, to prepare and qualify the actual native payload.
 | Component | This Python package | Complete player distribution |
 | --- | --- | --- |
 | Offline inspection APIs and learning journal | Included | Included |
+| Bounded AGI V2 census and walking-route proposals | Included, offline only | Included with separately qualified live adapters |
 | Playbook and operational recipes | Included and hash checked | Included |
 | Required decoder | Declared pinned installation dependency | Its compatible wheel/library included offline |
 | Native patches, preparation scripts and notices | Included | Matching source/notices retained |
@@ -155,8 +192,9 @@ resource manifest into the wheel and records each resource hash. Both direct
 wheel builds and wheels rebuilt from a source distribution must preserve it.
 Native source packaging does not establish a working native binary.
 
-Memory/register capture, bounded live traces, engine-specific readers and
-automatic scene applicability remain separate implementation slices. The native
+Memory/register capture, bounded live traces, live engine-state adapters,
+movement execution, checkpoint restore and automatic scene applicability remain
+separate implementation slices. The native
 backend already provides relevant primitives, but direct raw-RPC exposure would
 skip ownership, timing and consistency checks. See [the method](INCREMENTAL_PLAY.md)
 for the intended short capture followed by offline analysis.

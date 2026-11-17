@@ -51,6 +51,19 @@ These tools do not touch a live guest. Do not hold a game paused while reasoning
 reading files, authoring metadata or waiting for a worker. Qualified live capture
 must resume the guest before analysis; no general live capture facade ships yet.
 
+For a confirmed compatible AGI V2/2.917 edition, `dotbox agi inspect` supplies
+ordered logic conditions, state writers and resource candidates without general
+x86 analysis. Cache the bounded outline; resolve only when the next question
+needs it. Save-file differences are useful state clues, not automatic semantic
+labels. Use repeated baseline saves and one controlled action before interpreting
+a difference. These tools do not refresh live flags or bypass the learning bound.
+
+For supplied qualified geometry, `dotbox route` proposes shortest walking routes
+with fewer turns and long straight legs. Execute through an applicable monitored
+control only; a plan does not move the actor. Approach an exit before a separate
+selected crossing, and rebind after transitions. Never use coordinate placement
+or an uninterruptible hold to simulate normal travel.
+
 Optional improvements cause no intentional gameplay wait when a working route
 exists. The older 180-second first-preparation budget is a ceiling, never a
 minimum wait or an allowance to restart in each room. Start useful play earlier.
@@ -85,11 +98,21 @@ usable fallback when cloud workers are unavailable.
 Keep player communication about the current game and consequential choices.
 Keep original games, captures, stores and saves private.
 
+Recovery from being stuck or a collision should use a qualified checkpoint or
+game save. Restoring creates a new timeline and invalidates old choices, routes,
+held input and worker candidates. Preserve the player's actual progress after
+takeover; rewind is a recovery action, not a way to make old assumptions fit.
+DotBox has not yet exposed a fenced live restore command; consult the recovery
+guide before adapting the native primitive.
+
 ## Read only the next reference you need
 
 - `dotbox guide --topic learning`: incremental method, budgets and measurements.
 - `dotbox guide --topic conversation`: scene descriptions, choices and player intent.
 - `dotbox guide --topic state`: game flags, async consequences, readiness and useful suggestions.
+- `dotbox guide --topic agi`: small engine-aware logic census and state hypotheses.
+- `dotbox guide --topic navigation`: straight legs, collision scope and monitored execution.
+- `dotbox guide --topic recovery`: rewind transaction and controlled saved-game evidence.
 - `dotbox guide --topic guides`: guide-assisted goals and reconstruction checklists.
 - `dotbox guide --topic inspection`: inspection/journal commands and package scope.
 - `dotbox guide --topic play`: full play skill.
@@ -99,4 +122,5 @@ Keep original games, captures, stores and saves private.
 - `dotbox guide --topic runtime`: standalone installation and ownership boundary.
 - `dotbox guide --topic native`: preparing native source during packaging.
 
-Use `dotbox inspect --help` or `dotbox learn --help` for exact command syntax.
+Use `dotbox inspect --help`, `dotbox agi --help`, `dotbox route --help` or
+`dotbox learn --help` for exact command syntax.
