@@ -26,21 +26,31 @@ proof of live desktop input through the ownership fence.
   commit `676ed6fdc16cafccbd4d676a016a5d5d4deeb463` (draft PR #5).
   Its independent mirror parent is `e3e2548c5cefda60406ee4a8402edbbea1d9684a`;
   their shared tree is `e25e44aa791ecc4159985a9c093d56e9c7e8737b`.
-- Current stateful-scene continuation: `codex/state-aware-scenes-20261117`,
+- Stateful-scene continuation: `codex/state-aware-scenes-20261117`,
   based on primary predictive-preparation commit
   `2322cfbf16441343ea998d76479b7b4fbfd59340` (draft PR #6).
   Its independent mirror parent is `c88464e656912e41a74b986f416d0380e804623f`;
   their shared tree is `93e2baa150ea6e6234e23bad9ebb24c43217ac36`.
+- The state continuation is now published as [draft PR #7](https://github.com/seeker-cyber-maker/DotBox/pull/7).
+  Primary head is `cb72a966411a821cb860c56760675891fc0d0ea3`; independent mirror
+  head is `a7c8556a992a2a64a4474104e44a36f1cf2d8c84`. Their verified shared tree is
+  `4dc1a12a2e871b980db37ea78decf5d85768b4f1`. The user's explicit GitHub update
+  instruction resolved the earlier automatic publication-review refusal.
+- Current AGI/navigation continuation: `codex/agi-navigation-kit-20261117`,
+  based on those exact primary/mirror state heads. Preserve both histories;
+  publication stacks on the state branch and does not merge the draft series.
 - At inspection, `main` was the design baseline at
   `10fa86d8a91bb75e0ccf3da346bc9f72eab91d03`; it did not contain the implementation.
 
 Read `AGENTS.md`, `docs/PRODUCT.md`, `docs/CONVERSATIONAL_PLAY.md`,
 `docs/GUIDE_RECONSTRUCTION.md`, `docs/INCREMENTAL_PLAY.md` and
-`docs/LEARNING_KIT.md` for the current work. Read `docs/OWNERSHIP_BRIDGE.md` and
+`docs/LEARNING_KIT.md`, `docs/ENGINE_AWARE_PREPARATION.md`, `docs/NAVIGATION.md`
+and `docs/RECOVERY_AND_SAVES.md` for the current work. Read `docs/OWNERSHIP_BRIDGE.md` and
 `docs/OWNERSHIP_CONNECTOR.md` before changing the ownership boundary. Follow
 `docs/REPOSITORIES.md` for publication. Earlier AGI/walking/HUD experiments stay
-in the original developer's private checkout and snapshot; this task did not
-inspect or modify those private originals.
+in the original developer's private checkout and snapshot. This continuation
+inspected the installed fDisBull 0.34.1 package and selected pinned source; the
+user's exact old x/y script was not recovered or modified.
 
 ## What was already working
 
@@ -61,7 +71,91 @@ files or shell. A status response never grants input. The receipt reports that
 the publisher was stopped and connection processes were left running; their
 current live state was not rechecked here.
 
-## Current continuation: game state and useful choices
+## Current continuation: engine-aware preparation, routes and recovery
+
+Version `0.1.0.dev5` owns the small AGI V2 logic/resource census and an offline
+walking planner, with `agi`, `navigation` and `recovery` installed guide topics.
+The AGI reader keeps the existing census contract, requires explicit profile
+2.917, preserves per-resource failures and emits a private report plus a compact
+summary. It supplies static conditions, state-write sites and resource/room
+candidates; it does not read live flags, decode original-game saves or qualify
+interactions. The high-bit IF displacement range remains opaque because the
+consulted interpretations disagree; ordinary forward IF and signed GOTO remain
+covered. The selected first-party source and license status are in `EXTRACTION.md`.
+
+The walking planner reuses `fdisbull-spatial-map-1`, including collision footprint
+and coordinate domains. Bounded heading-aware A* minimizes distance, then turns.
+Unknown ground and unresolved hazards stay unavailable. All portal footprints
+are blocked: plan an approach before a separately selected crossing. Collinear
+steps become long legs. A proposal binds exact supplied map, scene, conditions
+and state branch; `route check` reruns bounded deterministic planning and rejects
+stale or edited content. Neither command establishes live freshness or moves
+the actor. Existing x/y monitored controllers and frame/TAS key edges are useful
+integration references, not a second input owner or a shipped live executor.
+
+The recovery audit found full native checkpoint and frame-timeline machinery
+already present in fDisBull and raw `state.save/load` in DotBox's native base.
+Raw load has no expected-control-generation admission/bump. The service's
+run/session/generation/owner identity can consequently remain unchanged through
+a world restore. Do not expose raw load. Add an emulation-thread restore fence,
+input cleanup, new branch/context, file-scope checks and fresh observations as
+specified in `RECOVERY_AND_SAVES.md`. Ordinary `state_revision` is not a substitute
+because ordinary input and saves advance it too. Native snapshots do not restore
+mounted host files; changed autosaves need a qualified matching file snapshot
+or must keep the existing restore restriction. Qualify one capture and restore
+before promising a rolling rewind buffer. No live rewind was added here.
+
+Saved-game differences are hypotheses for persistent state. Compare repeated
+baseline saves, one meaningful action, static writers/consumers and observations
+after the real loader reconstructs state. Keep commercial resources, saves and
+raw reports private. The current static AGI reader is not a save-file decoder.
+
+Independent review found and fixed two preparation-bound issues in the first
+AGI extraction: layout was parsed before checking instruction/code limits, and
+message aliases could multiply decoded text outside those limits. Code spans
+and attempted instructions are now charged before more parsing. Shared text
+budgets cover messages, initial object names and vocabulary; aliases reuse
+unique work while emitted literal occurrences remain charged. Incremental JSON
+hashing/encoding bounds the complete report before file creation. A failed
+report cap produces no file. Coverage distinguishes logical alias entries from
+actual attempted/admitted work. The new text allowance defaults to 256 KiB;
+the report allowance defaults to 8 MiB with a 16 MiB hard ceiling.
+
+Final verification on the calibrated build:
+
+- **733 source tests passed, 7 native checks skipped**, in 34.72 seconds.
+  The native checks require the actual source/executable acceptance inputs.
+- **412 installed tests passed, 0 skipped**, in 16.60 seconds, from 13 suites
+  copied outside the checkout and using authored fixtures exported from the
+  installed wheel. The first invocation lacked those fixture files; that setup
+  error was corrected without changing the runtime.
+- **35 runtime modules, 45 resources and 15 guide topics** match source, direct
+  wheel, sdist-rebuilt wheel and the clean offline installation. Neither fDisBull
+  nor optional MCP is installed there. No source import is used.
+- Independent AGI regression review passed all 56 focused tests and reproduced
+  both original budget failures after correction. Independent navigation review
+  passed 59 focused tests plus 632 separate route-oracle comparisons with no
+  mismatch. The 160-by-168 authored grid used 486 expanded states for 326 steps,
+  one turn and two legs under the normal 10,000-state allowance.
+- Independent installed guidance/CLI review passed ten scenario checks across
+  15 invocations, followed by four narrow final default/help/doctor checks.
+
+Read-only runs against the existing private AGI resources decoded all 90
+King's Quest I LOGICs and 118 Police Quest I EGA LOGICs with no layout, code,
+instruction, text or value-analysis budget stop in resolve mode. The selected
+profile was explicitly 2.917; prior edition identification was retained. Static
+room candidates remain 81 and 42, respectively, with zero qualified executable
+interactions. The first 4 MiB report default refused the roughly 4.6 MB Police
+Quest census, so the final 8 MiB default was tested successfully on both games.
+Final local command times, including process launch and report write, were
+0.947/0.962 seconds for King's Quest outline/resolve and 1.883/1.961 seconds for
+Police Quest. These exclude agent dispatch and live gameplay. Input hashes and
+mtimes stayed unchanged. King's Quest still reports four sound-resource errors;
+its resource-integrity flag stays false while its LOGIC coverage remains useful.
+Original resources and full reports remain private. See
+`docs/evidence/agi-navigation-kit-2026-11-17.json` for the sanitized receipt.
+
+## Prior continuation: game state and useful choices
 
 The user requires persistent game flags, offscreen consequences, independent
 opening/lock state, useful option filtering and passive scene description.

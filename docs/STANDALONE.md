@@ -86,6 +86,10 @@ The proven keyboard/mouse formats and absolute guest-frame `(x,y)` convention
 remain. An accepted input is not a verified game transition. Original saves,
 frames, project stores and session credentials stay private.
 
-Audio, AGI expansion, pathfinding extensions and game qualification are deferred.
+The package includes an offline AGI V2/2.917 census and state-bound cardinal
+route proposals. Read `dotbox guide --topic agi` and `--topic navigation` for
+scope and examples. Live engine-state capture, movement execution, fenced
+rewind, additional engines, audio and original-Dot game qualification remain
+separate integration work.
 The previous local Dune reports describe the dependent prototype and are not
 standalone qualification evidence.

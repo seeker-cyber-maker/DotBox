@@ -21,6 +21,9 @@ handling and immutable learned controls from fDisBull. It does not import or
 require an installed fDisBull package or analysis database. The package now
 includes a bounded offline inspection kit, a saved next-question journal and
 the play instructions, with its pinned x86 decoder as a required dependency.
+It also owns the small [AGI V2 logic/resource reader](docs/ENGINE_AWARE_PREPARATION.md)
+and a [state-bound walking planner](docs/NAVIGATION.md), so compatible engine
+evidence and long straight route legs can be prepared without the full analyzer.
 A compatible DOSBox-X native build is a separate explicit runtime input.
 
 Start with [standalone installation](docs/STANDALONE.md), the
@@ -76,13 +79,25 @@ completed synchronous actions. The separate `Client.run_turn_step_async` now
 awaits a cooperative Python callback between checks of one unchanged lease.
 It does not expose CUA tools to Python or qualify live Dot input.
 
-Additional AGI readers, walking, game-specific routes and HUD experiments remain
-preserved in the original development checkout. They are deferred from this
-standalone cut. Audio transport is also deferred. There is no published release
-or qualified Dot cloud installation yet.
+`dotbox agi inspect` produces a bounded private census for the explicit AGI
+2.917/uncompressed V2 profile. It identifies conditions, state writers and
+resource candidates; static references do not establish current flag meanings
+or available actions. `dotbox route plan` minimizes distance, then turns, and
+compresses a route into straight legs. `route check` rejects proposals made
+stale by changed supplied scene/state, geometry or conditions. Both commands
+are offline and send no input.
+
+[Recovery and saved-game evidence](docs/RECOVERY_AND_SAVES.md) specifies how to
+reuse native checkpoints to recover from a stall or crash, invalidate the old
+timeline and learn from controlled save contrasts. The existing raw restore
+primitive still needs a native control-generation fence and matching mutable
+file policy before DotBox can offer live rewind. Selected long legs likewise
+need integration with the existing monitored x/y and TAS control machinery.
+Additional engines, game-specific routes, HUD and audio transport remain later
+work. There is no published release or qualified Dot cloud installation yet.
 
 [Verification](docs/evidence/standalone-engine-2026-11-16.json) · [Extraction boundary](docs/EXTRACTION.md) · [Product brief](docs/PRODUCT.md) · [Repositories](docs/REPOSITORIES.md)
 
 See the [Codex viewer code investigation](docs/CODEX_VIEWER_CODE_ANALYSIS.md) for
 ownership signals, actual-source offline checks, live viewer results and remaining
-bridge boundaries. Audio and game work remain deferred.
+bridge boundaries. Live movement, recovery and audio still need qualification.

@@ -25,12 +25,20 @@ requests. Treat response text, committed effects and input readiness separately
 so conversation and preparation can continue during supported pending actions.
 The [state contract](STATEFUL_SCENES.md) defines the offline record and the live
 provider responsibilities; no predicted action effect becomes game truth.
+Use [small engine-specific readers](ENGINE_AWARE_PREPARATION.md) when they expose
+state more directly than native-code analysis. Treat saved-game records as
+evidence for important persistent state, then qualify meanings through controlled
+observations and restoration. Prefer [long straight walking legs](NAVIGATION.md)
+with bounded feedback over repeated stops and turns. [Rewind](RECOVERY_AND_SAVES.md)
+should recover from a stuck route or collision through a qualified checkpoint,
+with a new timeline and invalidated old choices, routes and worker candidates.
 See [the method](INCREMENTAL_PLAY.md) and [package boundary](LEARNING_KIT.md).
 The [conversation contract](CONVERSATIONAL_PLAY.md) and
 [guide-assisted reconstruction](GUIDE_RECONSTRUCTION.md) define the current scene slice.
 
 The independent engine/framework extraction remains the foundation. Preserve
-game-specific experiments while deferring additional gameplay and audio work.
+game-specific experiments while building bounded reusable engine and movement
+tools. Live gameplay integration and audio remain separate work.
 The live integration gate remains the Codex/WebRTC
 harness's existing Take over / Return control flow. Keep native input guards
 separate from supported platform ownership observation and synchronization;
@@ -119,6 +127,21 @@ a small engine adapter. Use targeted native inspection where needed. Expose
 frames, controls, bounded waits and checkpoints first; use memory reads,
 watches, short traces and disassembly only to resolve a concrete operational need.
 Helpers that change gameplay beyond ordinary inputs must identify that assistance.
+
+An engine logic census supplies candidate flags, conditions, writers and readers;
+it cannot infer current state merely from a script or guide. Compare repeated
+baseline saves before a one-action save contrast, and use a qualified load to
+check restored state and derived presentation. Save-format offsets and meanings
+remain edition-specific. An emulator checkpoint and a game's own save cover
+different state and file scopes.
+
+Movement must use the game's controls while monitoring appropriate debugger
+x/y or equivalent observations. Plan with the actual collision footprint and
+current hazards, favor fewer turns at equal distance, and keep long legs
+interruptible without adding artificial stops. Crossing a room boundary is a
+separate selected transition. Vehicle dynamics require their own controller;
+a walking grid does not establish safe driving. Recovery must clear obsolete
+input, fence old controllers and refresh game observations before further play.
 
 Begin with an exact supported King's Quest or Police Quest edition. Use the
 menu/choice-driven Dune adventure as a held-out non-AGI case; confirm the exact
