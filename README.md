@@ -36,10 +36,16 @@ its effect and save the recipe afterward. Learn only the next missing interactio
 The current 15-second/two-probe learning allowance is an evaluation policy,
 not a measured promise of seamless play.
 
-The current scene slice adds `dotbox scene present`, `checklist` and `choose`.
-It renders authored current facts, keeps guide expectations internal, and returns
-a scene-bound intent without executing input. It does not yet recognize scenes,
-parse arbitrary speech, fetch walkthroughs or connect a live voice frontend.
+The current scene slice renders provider-reported facts, keeps guide expectations
+internal, and returns a scene-bound intent without executing input. Its
+[stateful scene tools](docs/STATEFUL_SCENES.md) persist observations and flags,
+reject selections made stale by offscreen updates, distinguish enabled actions
+from input readiness, and separate useful suggestions from commands available
+on request. `dotbox scene look` passively describes the current scene; `record`,
+`present --store`, `choose --store` and internal `memory` use the saved observation
+stream. `dotbox guide --topic state` explains the provider adapter contract.
+The offline slice does not yet extract live game flags, recognize scenes, parse
+arbitrary speech, fetch walkthroughs or connect a live voice frontend.
 
 For development continuation, read the [current handoff](docs/DEVELOPMENT_HANDOFF.md).
 

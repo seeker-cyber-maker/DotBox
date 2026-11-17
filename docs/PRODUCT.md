@@ -17,6 +17,14 @@ scenes while Dot narrates and controls the live game. Prioritize selected
 movement as progress and natural preparation time; keep one foreground blocker
 and a bounded predictive frontier. Single-agent play is the fallback when
 workers are unavailable.
+Track observed game flags, inventory and object states across the selected
+route, including confirmed offscreen consequences. Keep open/closed separate
+from locked/unlocked and unknown. Refresh action admission after state changes,
+remove redundant suggestions and preserve uncommon commands for explicit
+requests. Treat response text, committed effects and input readiness separately
+so conversation and preparation can continue during supported pending actions.
+The [state contract](STATEFUL_SCENES.md) defines the offline record and the live
+provider responsibilities; no predicted action effect becomes game truth.
 See [the method](INCREMENTAL_PLAY.md) and [package boundary](LEARNING_KIT.md).
 The [conversation contract](CONVERSATIONAL_PLAY.md) and
 [guide-assisted reconstruction](GUIDE_RECONSTRUCTION.md) define the current scene slice.

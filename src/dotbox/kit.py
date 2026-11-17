@@ -107,13 +107,25 @@ def doctor():
         clock_identity()
         report["learning"] = {"clock_identity_available": True, "store_opened": False,
                               "scope": "Journal prerequisites only; no player workspace inspected"}
-        from .scenes import project_scene, select_choice
+        from .scenes import look_scene, project_scene, select_choice
         name = "examples/scene_mailbox.json"
         example = json.loads(_read(root, name, catalog["files"][name]))
         view = project_scene(example)
         intent = select_choice(example, "open_mailbox", view["scene_sha256"], view["observation_id"])
         checks = {"authored_choice_available": any(choice["id"] == "open_mailbox" for choice in view["choices"]),
                   "selection_has_no_execution": intent["execution"] == "not_performed"}
+        windows = []
+        for phase in ("closed", "open"):
+            name = f"examples/scene_window_{phase}.json"
+            windows.append(json.loads(_read(root, name, catalog["files"][name])))
+        closed, opened = (project_scene(packet) for packet in windows)
+        checks.update(
+            state_change_removes_open="open_window" in closed["suggested_choice_ids"]
+            and "open_window" not in {choice["id"] for choice in opened["choices"]},
+            incidental_choice_remains_explicit="lick_window" in {choice["id"] for choice in opened["choices"]}
+            and "lick_window" not in opened["suggested_choice_ids"],
+            passive_look_has_no_execution=look_scene(windows[1])["execution"] == "not_performed",
+        )
         report["scenes"] = {"ok": all(checks.values()), "checks": checks,
                             "scope": "Packaged authored fixture only; no game recognition, input or voice"}
         report["offline_learning_ready"] = bool(report["inspection"]["ok"] and report["scenes"]["ok"])

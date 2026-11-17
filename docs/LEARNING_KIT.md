@@ -1,7 +1,8 @@
 # Installed learning kit
 
 The development package includes the agent instructions, offline inspection
-tools, a persisted short learning frontier and an authored scene/choice compiler.
+tools, a persisted short learning frontier, a scene/choice projection and a
+private provider-observation store.
 A normal installation must not
 depend on the source checkout for these features.
 
@@ -13,6 +14,7 @@ dotbox guide
 dotbox guide --topic learning
 dotbox guide --topic inspection
 dotbox guide --topic conversation
+dotbox guide --topic state
 dotbox guide --topic guides
 dotbox guide --topic lookahead
 dotbox inspect --help
@@ -22,7 +24,9 @@ dotbox scene --help
 
 `doctor` checks the installed resource hashes and executes a small authored x86
 decoder self-check, checks for a stable learning-journal clock identity, and
-projects/selects the packaged authored mailbox fixture without executing it. The
+projects/selects the packaged authored mailbox fixture without executing it.
+It also checks the authored closed/open-window projections, request-only
+suggestions and passive look, without opening a player observation store. The
 current clock binding supports Linux and macOS; other hosts need a qualified
 clock adapter before the journal is ready. It reports offline-kit readiness separately from native
 game readiness. It performs no native launch, input, ownership probe or network
@@ -63,7 +67,8 @@ an ordinary pip install alone is not an offline installer.
 
 ## Conversational scenes
 
-The package includes authored mailbox, station and barrel records. Export the
+The package includes authored mailbox, station, barrel and closed/open-window
+records. Export the
 kit below to obtain them, or supply a private scene packet from a supported
 observer. These records illustrate the interface; they are not commercial-game
 maps or verified input bindings.
@@ -81,6 +86,17 @@ retains guide expectations, editions, conflicts and unchecked conditions.
 it returns an intent without executing input or claiming a game outcome.
 Use `dotbox scene choose --help` for its exact arguments. See
 [the conversation contract](CONVERSATIONAL_PLAY.md) for limits and preferences.
+
+`record FILE --store PATH` saves a state-bound packet, and `present --store`,
+`look --store` and `choose --store` use the latest persisted observation.
+`memory --store` exposes internal last reports with their as-of revision;
+historical flags do not become current merely because they were retained.
+Provider revisions reject late observations and invalidate selections after
+offscreen changes. Per-choice enabled/readiness assertions and suggestion
+policy remove unusable or incidental actions from the default menu. `look` is
+passive description. See [game state and consequences](STATEFUL_SCENES.md) for
+the ready-to-run authored example, stable entity identity and live adapter
+responsibilities. These tools do not extract or update the game's own flags.
 
 ## Retain one question
 

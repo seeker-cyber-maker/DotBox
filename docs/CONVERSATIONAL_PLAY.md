@@ -112,13 +112,23 @@ noun, sound, condition, exit, consequence or success. Rich narration should
 make known facts easier to imagine, without turning invented atmosphere into
 false game affordances. More description does not silently enable hints.
 
-The initial renderer returns `narration` for the scene and a separate
+The renderer returns `narration` for the scene and a separate
 `choice_prompt` built from a short suggested list. The complete eligible
 choice list remains available for free-form requests or "what else?". Dot may
 rephrase these fields naturally while preserving their facts and action IDs.
 Compose a reply from the permitted facts and choices as well as the suggested
 text; a brief narration can omit a known detail that matters to the current
 question. Do not treat the narration string alone as the complete scene model.
+Per-choice suggestion policy favors useful options and can leave incidental
+verbs available only on request. `dotbox scene look` returns the permitted
+description passively; it does not send a game action or list a new menu.
+
+Read [game state and consequences](STATEFUL_SCENES.md) for the persistent
+observation stream. Track opening and lock state independently. A fresh
+offscreen flag can invalidate an old choice even while the room looks the same.
+Input acceptance, response text, committed effects and readiness are separate
+milestones; the provider must recheck action admission after a change. DotBox
+remembers those observations without applying predicted puzzle effects.
 
 Illustrative authored examples, not verified maps of commercial games:
 
@@ -163,9 +173,10 @@ or qualified by this slice.
 
 | Section | Contract |
 | --- | --- |
-| Identity | Executable SHA-256, edition, optional fingerprint of explicitly selected resources, scene ID and observation ID |
-| Current facts | Stable ID, subject/predicate/value, player text, optional detail, audience, observation ID and evidence reference |
-| Choices | Stable ID, label, required fact IDs, observation ID, availability assertion and an existing control or ordinary-input-route reference |
+| Identity | Executable SHA-256, edition, optional fingerprint of explicitly selected resources, scene ID and observation ID; optional provider/session/branch/revision and opaque context token |
+| Current facts | Stable ID, subject/predicate/value, optional cross-scene entity identity, player text, optional detail, audience, observation ID and evidence reference |
+| Choices | Stable ID, label, required fact IDs, observation ID, availability assertion and an existing control or ordinary-input-route reference; optional enabled/readiness assertions and suggestion policy |
+| Outcome | Optional private provider receipt: input sent, completion, effect category, outcome phase and evidence reference; never an instruction to change flags |
 | Guide sources | Source reference, edition and origin group; copied guides can share a group |
 | Guide claims | Subject/predicate/value, short summary, source ID and any unresolved condition |
 
@@ -185,8 +196,11 @@ evaluator or automatic guide extraction is implied.
 
 Selecting a choice returns a non-executing intent bound to the scene document
 hash and observation ID. A changed document/context requires a refreshed
-selection. This check cannot discover that a caller supplied an old observation
-as current; the later executor must recheck live applicability and ownership.
+selection. `choose --store` compares against the latest persisted observation,
+including offscreen revision changes, and preserves the provider context token
+for the executor. This check cannot discover that a caller supplied an old
+observation as current or that the game changed without a new record; the later
+executor must recheck the live provider context, applicability and ownership.
 Existing default desktop mode still refuses native `act` and other input RPCs.
 
 The module does not implement natural-language intent resolution, speech, game
