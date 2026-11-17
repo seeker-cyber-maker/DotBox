@@ -5,12 +5,22 @@ The original graphical game remains authoritative.
 
 This development cut extracts the working transport, input validation, screenshot
 handling and immutable learned controls from fDisBull. It does not import or
-require an installed fDisBull package, analysis database, disassembler or proof
-engine. A compatible DOSBox-X native build is a separate explicit runtime input.
+require an installed fDisBull package or analysis database. The package now
+includes a bounded offline inspection kit, a saved next-question journal and
+the play instructions, with its pinned x86 decoder as a required dependency.
+A compatible DOSBox-X native build is a separate explicit runtime input.
 
 Start with [standalone installation](docs/STANDALONE.md), the
 [native source/build recipe](docs/STANDALONE_NATIVE.md), and
 [persistent controls](docs/PERSISTENT_CONTROLS.md).
+
+For the current development slice, read [incremental play](docs/INCREMENTAL_PLAY.md)
+and the [installed learning kit](docs/LEARNING_KIT.md). `dotbox guide` gives Dot a
+short starting procedure; `dotbox doctor` checks offline tools and packaged
+resources without launching a game. Use a known applicable control now, observe
+its effect and save the recipe afterward. Learn only the next missing interaction.
+The current 15-second/two-probe learning allowance is an evaluation policy,
+not a measured promise of seamless play.
 
 For development continuation, read the [current handoff](docs/DEVELOPMENT_HANDOFF.md).
 

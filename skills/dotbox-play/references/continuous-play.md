@@ -1,7 +1,9 @@
-# Continuous play with cloud workers
+# Continuous play with optional workers
 
 Use this reference for the play lead and a worker preparing one harness slice.
 Keep the game's immediate continuation ahead of speculative research.
+The default path uses one play lead. Add a worker only when an available worker
+can answer a specific question without delaying current play.
 
 ## Retain the live owner
 
@@ -30,6 +32,8 @@ manual owner selection is integrated with the built-in desktop control channel.
 Store only a short frontier: current scene/action, immediate next likely need,
 usable fallback, worker question and its bound. At startup this may cover a menu,
 opening room and first exit. During play it follows the user's actual branch.
+Do not create the frontier merely to name a control already usable now. Act,
+observe its effect and save the recipe afterward without replay.
 
 An operational slice connects entry/readiness, bounded input, observed effect
 and a usable next state. Learn it from the authentic graphical game, retain the
@@ -52,9 +56,20 @@ launch before process creation and distinguish installer/setup from the configur
 game without dropping either from the end-to-end timeline. Capture actual waits,
 failed actions and observation gaps as they happen, not at the final summary.
 
+For a missing current control, use the separate `dotbox learn` focus: one goal,
+observed context, question, next interaction and fallback. The default trial
+bound is 15 seconds and two probe admissions, including elapsed reasoning and
+dispatch time. Reopening or updating the same context keeps its deadline and
+probe count. Retire work explicitly when a real route change supersedes it.
+On exhaustion, use the applicable fallback or explain the game-facing block.
+The helper cannot stop an already running tool or grant input permission.
+Optional improvements with a working route add no intentional wait.
+
 For persisted mouse controls, use [runtime controls](runtime-controls.md).
-Coordinates are absolute original-frame pixels. The server handles the bounded
-pause/fresh-frame/click/continue transaction; do not keep the guest paused while
+Coordinates are absolute original-frame pixels. In explicit native diagnostic
+mode, the server handles the bounded pause/fresh-frame/click/continue transaction.
+Default desktop mode uses its supported outer input path; native `act` is refused.
+In either mode, do not keep the guest paused while
 the model reads frames or writes recipes. Its returned coordination markers can
 be joined to the caller's command journal. A continue response acknowledges a
 command rather than the exact instant of guest resumption. Compare only the

@@ -11,10 +11,16 @@ proof of live desktop input through the ownership fence.
   `codex/standalone-engine-20261116`, inspected at
   `3e011712c628b86642003e780fbf482e5c913018`.
 - Follow-up branch: `codex/async-turn-fence-20261117`, based on that exact commit.
+- Current learning-kit continuation: `codex/incremental-learning-kit-20261117`,
+  based on primary async-turn-fence commit
+  `999dc0ed788e6b20593166a4e9e40b2c2525004e` (draft PR #3). The independent
+  mirror's matching parent is `69c5289786b2752bffd669bdf605745432a7929c`;
+  those parents have identical trees but different account commit metadata.
 - At inspection, `main` was the design baseline at
   `10fa86d8a91bb75e0ccf3da346bc9f72eab91d03`; it did not contain the implementation.
 
-Read `AGENTS.md`, `docs/PRODUCT.md`, `docs/OWNERSHIP_BRIDGE.md` and
+Read `AGENTS.md`, `docs/PRODUCT.md`, `docs/INCREMENTAL_PLAY.md` and
+`docs/LEARNING_KIT.md` for the current work. Read `docs/OWNERSHIP_BRIDGE.md` and
 `docs/OWNERSHIP_CONNECTOR.md` before changing the ownership boundary. Follow
 `docs/REPOSITORIES.md` for publication. Earlier AGI/walking/HUD experiments stay
 in the original developer's private checkout and snapshot; this task did not
@@ -39,7 +45,68 @@ files or shell. A status response never grants input. The receipt reports that
 the publisher was stopped and connection processes were left running; their
 current live state was not rechecked here.
 
-## This continuation
+## Current continuation: incremental learning kit
+
+The user redirected the available offline development time toward ordinary
+players: DotBox should supply the reversing machinery, and Dot should learn
+only what is needed next without making working play wait for harness authoring.
+
+Version `0.1.0.dev2` adds three modules and five CLI entry points:
+
+- `inspection.py` / `dotbox inspect`: explicit COM/MZ/resource identity, bounded
+  strings, masked byte patterns, real 16/32-bit iced-x86 decoding and frozen-range
+  diffs. Limits and exact selected-byte identities travel with each result.
+- `learning.py` / `dotbox learn`: one private SQLite focus, a non-renewing default
+  15-second/two-probe admission allowance, explicit retirement and immutable
+  caller-reported evidence. Same-context updates do not reset time or counts.
+- `kit.py` / `dotbox guide`, `doctor`, `kit-export`: installed progressive
+  instructions, resource-integrity/decoder/clock checks and a private new-directory
+  export of the native preparation resources. No command launches a native game.
+
+The core dependency now includes `iced-x86==1.22.0`. Setuptools stages an explicit
+32-file resource manifest into the wheel, generating a hash/size catalog. The
+play skill and its references are included; no installed personal-skill plugin
+was changed. Native patches and source notices are packaged, while a prepared
+native executable, platform libraries and the final player installer remain
+separate requirements.
+
+The method now says: use an applicable known action immediately, observe its
+effect, then save useful metadata without replay. No named scene, wrapper or
+complete starting buffer gates an already usable control. A current missing
+interaction gets one bounded question; a working fallback takes priority over
+optional research. The 180-second initial preparation ceiling is not a minimum
+wait or a per-room reset. One agent is sufficient; workers are optional.
+
+Default desktop input and diagnostic native `act` are now distinguished in all
+current play/control guides. The old dependent-prototype startup pointer was
+replaced with the standalone route. Budget enforcement covers admissions only;
+it cannot preempt reasoning/tools, recognize scenes or grant input ownership.
+
+### Current verification
+
+| Check | Result |
+| --- | --- |
+| Inspection, learning and resource/CLI cases | 36 + 27 + 17 = 80 passed |
+| Full source suite | 502 passed, 7 native skips, 32.91 seconds |
+| Direct wheel and wheel rebuilt from sdist | Both built; package bytes match |
+| Source / both wheels / isolated installation | All 25 modules and 32 resources match |
+| Fresh installation from local wheelhouse only | Passed with no index and no fDisBull or optional MCP |
+| Seven copied suites outside source checkout | 181 passed, 0 skipped, 15.74 seconds |
+| Installed authored workflow | Identity, admitted decode, candidate receipt, expiry/fallback and retirement passed |
+| Fresh-reader instruction forward-test | All seven decision scenarios resolved; wording ambiguities corrected |
+| Independent implementation review | Concrete findings fixed; no remaining material issue found |
+
+The tested interpreter is Python 3.12.14 on Linux; Pillow is 12.3.0, iced-x86
+1.22.0 and pytest 9.2.0. Source checks also had optional MCP 2.3.0. The Linux clock
+identity was exercised; the macOS branch remains unexecuted. The runtime still
+lacks the two native inputs listed in the earlier verification, hence the same
+seven skips. The small authored CLI commands took about 0.06–0.14 seconds each
+in one host run; this excludes model and dispatch time and is not player latency.
+
+See [the learning-kit receipt](evidence/incremental-learning-kit-2026-11-17.json)
+for artifact identities, scope, commands, reviews and qualification limits.
+
+## Prior continuation: asynchronous turn fence
 
 An additive `Client.run_turn_step_async(lease, action)` fences a fresh Python
 coroutine on an executor that already has supported action and coordinator
@@ -52,7 +119,7 @@ renewal, permission change or change to the synchronous helper.
 The new regression tests use a real authenticated loopback coordinator and
 harmless data callbacks. They do not operate a desktop or launch a game.
 
-## Verification
+## Prior turn-fence verification
 
 Fresh baseline on Python 3.12.14: **400 passed, 7 skipped** in 28.80 seconds.
 The skips require `DOTBOX_DOSBOX_EXECUTABLE` or `DOTBOX_DOSBOX_BASE_SOURCE`,
@@ -84,7 +151,18 @@ python -m pip install '.[test,connector]'
 python -m pytest -q -ra
 ```
 
-## Next concrete gate
+## Next development and live gates
+
+The next offline implementation should expose a short owned capture transaction
+that validates an entire bounded plan, captures only the required memory/register
+packet and resumes before model reasoning. The pinned native backend requires a
+stopped guest for those reads; raw RPC passthrough is not an acceptable shortcut.
+Test consistency, aggregate limits, partial failure and takeover behavior before
+any real-game use. Then add one edition-scoped engine reader or applicability
+predicate only when it resolves a near-term play question. Existing descriptive
+control metadata does not enforce resource identity or live scene recognition.
+
+The live gates remain separate:
 
 1. Establish a supported path on the original Dot executor that can check a
    turn receipt and complete its existing desktop action without switching
@@ -95,8 +173,10 @@ python -m pytest -q -ra
    its visible effect. Record takeover, return and interruption behavior.
 3. Qualify the standalone native package on that actual Dot runtime, including
    frame/input operation, persisted controls and process cleanup.
-4. Resume gameplay, AGI/pathfinding work and audio only in the approved later
-   milestones. Keep private game files and raw runtime evidence outside Git.
+4. Measure the new method on cold start, warm reuse and a real room/menu
+   transition. Include agent reasoning and dispatch in interruption timings;
+   keep animations and user decisions distinct. Full game recovery and audio
+   remain later work. Keep private game files and raw runtime evidence outside Git.
 
 These are sampled cooperation checks, not an atomic capture lock. A transition
 entirely between samples can be missed; the outer harness still owns capture
