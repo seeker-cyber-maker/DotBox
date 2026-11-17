@@ -20,6 +20,7 @@ import time
 from typing import Literal, TypedDict
 from urllib.parse import urlsplit
 
+from . import __version__
 from .client import Client, private_file
 from .local_auth import LocalCredential
 
@@ -154,7 +155,7 @@ def create_server(reader, *, token_verifier, issuer_url, resource_url, private_t
             return await super().call_tool(name, arguments, context)
 
     server = ReadOnlyServer(
-        "DotBox ownership", version="0.1.0.dev1", log_level="WARNING",
+        "DotBox ownership", version=__version__, log_level="WARNING",
         instructions=("Read-only sampled viewer ownership. Every result is a snapshot, "
                       "not permission to inject input and not a turn lease. "
                       "It may be stale when received. Existing desktop tools own input."),

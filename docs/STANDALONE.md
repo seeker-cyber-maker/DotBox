@@ -4,9 +4,15 @@ The [verification report](evidence/standalone-engine-2026-11-16.json) records th
 clean installation and bounded native checks.
 
 DotBox owns its Python runtime and SQLite control store. No fDisBull package or
-source checkout is required. Python 3.12+ and Pillow are the declared Python
+source checkout is required. Python 3.12+, Pillow and pinned iced-x86 1.22.0 are the declared Python
 requirements; a compatible native DOSBox-X executable and its platform libraries
 are required to run a guest. See [native preparation](STANDALONE_NATIVE.md).
+
+The current wheel includes [the learning kit](LEARNING_KIT.md): bounded offline
+inspection, a saved learning focus, play instructions and native source/build
+resources. `dotbox doctor` checks that kit; `dotbox guide` starts its instructions.
+Use `dotbox kit-export --directory NEW_DIRECTORY` to materialize native source
+resources and helpers. Exporting source does not prepare a native executable.
 
 ## Install
 

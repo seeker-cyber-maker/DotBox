@@ -1,9 +1,14 @@
 # DotBox contributor guidance
 
 Read README.md and docs/PRODUCT.md before implementation. The repository remains a development project; do not describe planned behavior
-as a working release. The current milestone is the standalone DOSBox engine
-and ownership boundary. Defer new gameplay, pathfinding extensions, AGI coverage
-and audio until a clean install runs without fDisBull. Preserve prior experiments.
+as a working release. The current source priority is packaged, incremental
+control learning for players who need no reverse-engineering knowledge. Read
+docs/INCREMENTAL_PLAY.md and docs/LEARNING_KIT.md. Build and test the offline
+inspection kit, saved short frontier and installed play instructions while the
+original-Dot ownership/input qualification remains a separate gate. DotBox must
+own its required analysis dependencies without an fDisBull installation.
+Preserve prior experiments; keep game-specific expansion and audio scoped to
+their later milestones rather than making full-game recovery a prerequisite.
 Codex/WebRTC Take over / Return control belongs to the outer harness; do not
 recreate its UI or label a native-only handoff as platform synchronization.
 

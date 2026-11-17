@@ -1,6 +1,6 @@
 ---
 name: dotbox-play
-description: Play original DOS games cooperatively with Dot while building and reusing a small Z harness; use for the play lead or a parallel cloud worker preparing the next useful controls and scenes.
+description: Play original DOS games cooperatively with Dot, using known controls immediately and learning only the next missing interaction. Use for the play lead or an optional worker extending a small reusable harness.
 ---
 
 # Play and build the harness with DotBox
@@ -10,6 +10,23 @@ next interaction, retain that control immediately, and continue through it.
 Use the current DotBox runtime's verified interfaces. This skill supplies an
 operating method; available commands, persistence and takeover integration must
 be established from the installed build and current session.
+
+## Use the installed kit and act when ready
+
+Read `dotbox guide` and run `dotbox doctor` once when establishing an installation.
+Load a further guide topic only for a current need. A successful offline-kit
+check does not qualify live input. Use the existing supported desktop input path
+and current owner; default DotBox mode refuses native `act`, key and click RPCs.
+
+If a fresh observation and known applicable control suffice, act now. Observe
+the effect, then retain useful metadata without replaying the action. A scene
+name, wrapper, learning journal or complete starting buffer is not a prerequisite
+for an otherwise available action. Unknown rooms can still have visibly usable
+ordinary controls. Check actual starting conditions for scene-specific recipes.
+
+Keep the player's conversation about the game and meaningful choices. Dot owns
+the inspection and harness details. The complete workflow must work with one
+agent; workers are optional.
 
 ## Choose your role and reuse existing work
 
@@ -27,7 +44,8 @@ reuse learned controls before discovering them again. An executable match alone
 does not establish matching game resources. Resolve affected bindings for a nearby
 edition, preserve the original mapping and create a separate adapted revision.
 
-Identify the current scene, usable actions, information/assistance policy and
+Identify enough visible context for the next action; a formal scene name is
+not required. Establish usable actions, information/assistance policy and
 actual input owner. A saved project, chat handoff or visible takeover button does
 not establish a live connection or programmatically readable ownership. Use a
 supported ownership signal when available; otherwise coordinate handoff explicitly.
@@ -41,6 +59,11 @@ limit). Record the deadline and readiness condition: current play and the next
 likely transition have an observed named action or ordinary-input fallback.
 This small record is the first preparation step, not a report reconstructed at
 the end. Include reasoning, dispatch, authoring and tool delays on this clock.
+The deadline is a ceiling, never a minimum wait or a new allowance for each room.
+Start useful play as soon as an applicable action is available.
+When joining an already active run, retain its real start if known. Otherwise
+mark the earlier interval unknown and start recording from now; do not delay
+ongoing play to reconstruct a preparation record or invent a cold-start result.
 
 For a new game without a compatible harness, learn
 the startup/menu route, bounded movement or selection, stop/release, primary
@@ -82,6 +105,20 @@ unfinished, use the known input-backed action. If there is no working fallback,
 test the smallest missing control and retain it promptly. A pending worker is
 not a playable capability; report a real interruption and available choices plainly.
 
+For a genuinely missing control, retain one current goal, one observed context,
+one question, one next interaction and a usable fallback in `dotbox learn`.
+The initial evaluation allowance is **15 seconds and two probe admissions**.
+It includes time between calls; repeating the same context does not reset it.
+Retire old work explicitly after a real route/context change. On exhaustion,
+use the applicable fallback or report a concrete game-facing block. Do not
+rename a question or observation to buy more time. Optional improvements cause
+no intentional gameplay wait. The journal limits admissions; it cannot preempt
+reasoning or running tools and grants no input permission.
+An investigative probe is a bounded analysis or trial selected to answer the
+focus question. Routine supported passive observation of ordinary play is not
+an extra probe; a targeted comparison or test remains one even if called an
+observation. Never use a fresh screenshot alone to renew unchanged research.
+
 For each control, retain its name, inputs, applicable scene/state, bounded
 execution, observed outcome and next usable state. Saving a recipe records
 knowledge; it must not repeat an action already performed. Separate input
@@ -116,6 +153,12 @@ supported engines when it is cheaper and reliable. Add targeted reads, watches,
 traces or disassembly only to answer a concrete operational question. Whole-game
 conversion and replacement machinery are outside this play workflow. Preserve
 the project's held-out Dune boundary and record prior exposure before testing it.
+
+Use `dotbox inspect` for explicit executable/resource hashes, bounded strings,
+byte patterns, x86 instruction windows and frozen-range differences. Read
+`dotbox guide --topic inspection` when needed. These tools do not pause a game.
+Do not hold the guest paused during model reasoning or file inspection. A future
+live capture path must resume before analysis and have its own qualified bounds.
 
 Apply blind/spoiler policy to worker briefs, labels, logs and lead observations.
 Access to hidden memory or a future scene does not make those facts usable in

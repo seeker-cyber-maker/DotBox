@@ -3,12 +3,17 @@
 Status: design baseline, 14 November 2026. Requirements below are intended
 behavior, not claims of implemented or measured DotBox capabilities.
 
-## Current milestone — 16 November 2026
+## Current milestone — 17 November 2026
 
-Finish the independent engine/framework extraction first. Reuse working fDisBull
-components, own the native build recipe and storage, and verify a clean install
-without fDisBull. Preserve game-specific experiments while deferring additional
-gameplay and audio work. The first integration priority is the Codex/WebRTC
+Package the incremental learning machinery and instructions so Dot can use them
+without another repository, analyzer installation or available local worker.
+Use a known applicable control immediately and learn only what blocks the next
+interaction. Persist useful controls and evidence without replaying input.
+See [the method](INCREMENTAL_PLAY.md) and [package boundary](LEARNING_KIT.md).
+
+The independent engine/framework extraction remains the foundation. Preserve
+game-specific experiments while deferring additional gameplay and audio work.
+The live integration gate remains the Codex/WebRTC
 harness's existing Take over / Return control flow. Keep native input guards
 separate from supported platform ownership observation and synchronization;
 local transfer tests do not qualify that outer integration.
@@ -16,8 +21,9 @@ local transfer tests do not qualify that outer integration.
 ## Purpose
 
 Let a person and Dot play an original DOS game together, visibly, in DOSBox-X
-on Dot's own computer. The player should be able to participate without
-handling debugger plumbing or waiting for a complete reverse engineering effort.
+on Dot's own computer. The player should be able to participate without knowing
+that a harness is required, handling debugger plumbing or waiting for a complete
+reverse engineering effort. DotBox supplies that machinery and Dot operates it.
 The planned public introduction is an r/Codex Showcase demonstrating this experience.
 
 The graphical game remains authoritative. Z scenes provide a common action
@@ -28,9 +34,13 @@ The product does not need a replacement game, UDL-to-UIL conversion or UDC.
 
 On first boot without a compatible project, perform bounded operational
 preparation: establish the executable/resource edition, connect the controls,
-verify movement or menu navigation, observe useful state and prepare a small
-starting buffer of Z scenes and actions. A few minutes is the initial product
-target; it must be measured end to end, including agent work and dispatch time.
+verify a useful movement or menu action and retain the smallest useful slice.
+If an applicable control already works, start play without waiting for a named
+scene or a complete buffer. The existing 180-second cold-preparation budget is
+a ceiling, not a required wait. Measure it end to end, including agent work and
+dispatch time. Missing current controls get a separate initial evaluation bound
+of 15 seconds/two probe admissions; optional improvements must not delay a
+working route. These settings need real player-flow measurements.
 
 Persist the results so later runs and compatible community packages skip control
 rediscovery. Validate the relevant compatibility assumptions before reuse.

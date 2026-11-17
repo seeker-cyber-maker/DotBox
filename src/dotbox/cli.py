@@ -43,6 +43,14 @@ def read_definition(path):
 def parser():
     p = argparse.ArgumentParser(prog="dotbox")
     commands = p.add_subparsers(dest="command", required=True)
+    for name, help_text in (
+        ("guide", "Read the installed play instructions."),
+        ("doctor", "Check the installed offline learning kit."),
+        ("kit-export", "Export native source resources and guides."),
+        ("inspect", "Inspect bounded frozen-file windows without a game."),
+        ("learn", "Retain the next question and its bounded probe allowance."),
+    ):
+        commands.add_parser(name, help=help_text).add_argument("arguments", nargs=argparse.REMAINDER)
     probe = commands.add_parser("probe", help="Print a noninvasive runtime inventory.")
     probe.add_argument("arguments", nargs=argparse.REMAINDER)
     serve = commands.add_parser("serve", help="Own one visible DOSBox-X session until explicit shutdown.")
@@ -101,6 +109,15 @@ def main(argv=None):
     if argv and argv[0] == "probe":
         from .runtime_probe import main as probe_main
         return probe_main(argv[1:])
+    if argv and argv[0] in ("guide", "doctor", "kit-export"):
+        from .kit import main as kit_main
+        return kit_main(argv)
+    if argv and argv[0] == "inspect":
+        from .inspection import main as inspect_main
+        return inspect_main(argv[1:])
+    if argv and argv[0] == "learn":
+        from .learning import main as learn_main
+        return learn_main(argv[1:])
     args = parser().parse_args(argv)
     try:
         if args.command in ("serve", "coordinate"):

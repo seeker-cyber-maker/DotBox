@@ -15,7 +15,7 @@ Resource-tree compatibility is not established by the executable binding.
 
 ## Prepare once
 
-Start the [play service](PLAYABLE_SLICE.md) with the authored playground and a
+Start the [standalone service](STANDALONE.md) with the authored playground and a
 compatible ownership-enabled DOSBox-X. In another tool call, observe its lease
 and save the supplied left/right vocabulary:
 
@@ -37,6 +37,20 @@ Use the revision returned by that save explicitly below:
 ```sh
 python -m dotbox harness-list --session /private/work/dotbox-session/session.json
 python -m dotbox harness-info '<revision-id>' --session /private/work/dotbox-session/session.json
+```
+
+Default desktop mode uses the supported outer keyboard/mouse tools and refuses
+native input RPCs, including `act`. Saved definitions record knowledge; they do
+not by themselves implement an outer-tool executor or host-coordinate mapping.
+Use a visibly applicable ordinary control immediately, observe its effect, then
+save it. Do not replay an action merely to give it a name.
+
+## Explicit native diagnostic execution
+
+The following commands require a service started with `--manual-control` and
+an explicitly coordinated agent turn. They are not normal desktop-mode commands:
+
+```sh
 python -m dotbox control agent --resume \
   --session /private/work/dotbox-session/session.json \
   --lease /private/work/controls.json > /private/work/agent.json

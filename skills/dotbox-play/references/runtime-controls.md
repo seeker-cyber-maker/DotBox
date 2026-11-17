@@ -1,9 +1,18 @@
 # Persist and use the next control
 
 Use the installed DotBox build and a prepared compatible DOSBox-X. Read
-`docs/PLAYABLE_SLICE.md` in the checkout for first launch. The owner service
+`dotbox guide --topic runtime` (or `docs/STANDALONE.md`) for first launch. The owner service
 survives short-lived clients; keep that service alive. Current explicit
 development ownership is separate from the desktop's built-in takeover UI.
+
+In default desktop mode, use the supported ordinary desktop keyboard/mouse
+tools under the current outer input owner. Native `act`, key, type, click,
+play and pause RPCs are refused. The store still retains useful recipes and
+observations. A saved guest-frame coordinate is not automatically a host-window
+coordinate; an outer executor must establish its own fresh mapping.
+
+Use an applicable known control immediately. Observe its result and save useful
+metadata afterward. Do not construct a wrapper or replay the input to save it.
 
 Observe status and an original frame through the supported CLI:
 
@@ -12,7 +21,8 @@ python -m dotbox status --session /private/work/session/session.json > /private/
 python -m dotbox frame --session /private/work/session/session.json --output /private/work/frame.png
 ```
 
-Use an existing fresh agent lease when the agent owns input; do not select agent
+For the explicit `--manual-control` native diagnostic path only, use an existing
+fresh agent lease when the agent owns input; do not select agent
 ownership while the human is playing. If a manual test needs an explicit handback,
 coordinate it first and use the runtime's `control agent --resume` only at an
 admitted startup/pause boundary. A stored recipe never establishes ownership.
@@ -42,11 +52,10 @@ observed actions. Keyboard-only sequences remain supported. Expected dimensions
 protect coordinate space, not scene identity; check current applicability before
 calling a scene-dependent action.
 
-Save metadata without replaying the input, then select the returned revision:
+Save metadata without replaying the input:
 
 ```sh
 python -m dotbox harness-save --definition /private/work/controls.json --session /private/work/session/session.json --lease /private/work/status.json > /private/work/saved.json
-python -m dotbox act REVISION open_panel --session /private/work/session/session.json --lease /private/work/saved.json
 ```
 
 Use `harness-save --parent REVISION` for an incremental compatible revision.
@@ -54,7 +63,17 @@ Use `harness-save --parent REVISION` for an incremental compatible revision.
 or project reopen; there is no automatic latest selection. A new owner needs a
 new lease. Old keyboard `fdisbull-macro-set-1` vocabularies remain supported.
 
-On a running agent-owned guest, a mouse `act` establishes a bounded pause,
+## Explicit native diagnostic execution
+
+Only in a service started with `--manual-control`, an applicable subsequent
+action may select the saved revision through `dotbox act`. Do not immediately
+repeat an action already used to learn the recipe:
+
+```sh
+python -m dotbox act REVISION open_panel --session /private/work/session/session.json --lease /private/work/saved.json
+```
+
+On a running agent-owned diagnostic guest, a mouse `act` establishes a bounded pause,
 captures fresh frame IDs, checks dimensions and ownership, sends the absolute
 click, and issues continue. This all happens in one service request without
 model reasoning while paused. Inspect the returned coordination markers and a
