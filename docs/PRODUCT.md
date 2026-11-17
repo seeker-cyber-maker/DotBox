@@ -1,15 +1,20 @@
 # DotBox product brief
 
-Status: design baseline, 14 November 2026. Requirements below are intended
+Status: design baseline updated 17 November 2026. Requirements below are intended
 behavior, not claims of implemented or measured DotBox capabilities.
 
 ## Current milestone — 17 November 2026
 
 Package the incremental learning machinery and instructions so Dot can use them
 without another repository, analyzer installation or available local worker.
-Use a known applicable control immediately and learn only what blocks the next
-interaction. Persist useful controls and evidence without replaying input.
+Make Dot the conversational interface: offer grounded scene descriptions and
+choices, then carry out the player's intent. Autonomous play selects from the
+same scene/action model within a delegated goal. Use a known applicable control
+immediately for that intent and learn only what blocks the next interaction.
+Persist useful controls and evidence without replaying input.
 See [the method](INCREMENTAL_PLAY.md) and [package boundary](LEARNING_KIT.md).
+The [conversation contract](CONVERSATIONAL_PLAY.md) and
+[guide-assisted reconstruction](GUIDE_RECONSTRUCTION.md) define the current scene slice.
 
 The independent engine/framework extraction remains the foundation. Preserve
 game-specific experiments while deferring additional gameplay and audio work.
@@ -27,7 +32,10 @@ reverse engineering effort. DotBox supplies that machinery and Dot operates it.
 The planned public introduction is an r/Codex Showcase demonstrating this experience.
 
 The graphical game remains authoritative. Z scenes provide a common action
-and observation interface, with an optional text representation and progress HUD.
+and observation interface for descriptions, meaningful choices and control
+selection. Dot can improvise the phrasing from grounded facts, with a deterministic
+renderer as a fallback. Description detail, decision maker and assistance level
+are independent preferences. A progress HUD remains optional.
 The product does not need a replacement game, UDL-to-UIL conversion or UDC.
 
 ## Preparing once, then learning during play
@@ -41,6 +49,13 @@ a ceiling, not a required wait. Measure it end to end, including agent work and
 dispatch time. Missing current controls get a separate initial evaluation bound
 of 15 seconds/two probe admissions; optional improvements must not delay a
 working route. These settings need real player-flow measurements.
+
+Include a bounded documentation pass: establish the broad goal and control
+conventions, then collate two or three compatible guides when useful and available.
+Their objects, exits and route dependencies become expected-scene checklists.
+Current observations determine what can be described or offered now; guide
+agreement does not establish current state. Index later material for retrieval
+along the chosen route. Missing sources or incomplete checklists do not gate play.
 
 Persist the results so later runs and compatible community packages skip control
 rediscovery. Validate the relevant compatibility assumptions before reuse.

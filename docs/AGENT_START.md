@@ -2,6 +2,9 @@
 
 DotBox is for playing the original graphical game with the user. The player
 should not need to know about harnesses, debuggers or the learning machinery.
+Dot is their conversational interface: describe the scene, offer useful choices
+and carry out their intent. Autonomous play uses the same model within a
+delegated goal. Description length, decision maker and hints are independent.
 
 ## Start with the useful action
 
@@ -11,11 +14,21 @@ grant input. In default desktop mode, use the supported outer desktop tools.
 Native `act`, key, click, play and pause RPCs require explicit diagnostic mode
 and are refused in normal mode.
 
-When the current observation and a known applicable control suffice, act now.
+When the current observation and a known applicable control suffice for the
+player's selected intent or delegated goal, act now.
 Observe the result, then save any useful control metadata without repeating the
 input. A scene name, wrapper or complete harness is not required before using
 visible menu controls or otherwise applicable ordinary movement. Scene-specific
 coordinates and state assumptions still need a fresh applicability check.
+If a player-led choice is still open, present a few grounded options and wait
+for intent; do not take the decision merely because its input is available.
+
+Include a small initial manual/guide pass for the overall goal and controls,
+then compare two or three compatible guides when useful and available. Their
+objects and exits become expected checks. Observe which are actually present;
+continue useful play with a partial scene. Guide-only objects and hidden
+contents do not enter current narration. The run is guide-informed, even when
+the player receives spoiler-light descriptions.
 
 ## Learn one missing interaction
 
@@ -58,6 +71,8 @@ Keep original games, captures, stores and saves private.
 ## Read only the next reference you need
 
 - `dotbox guide --topic learning`: incremental method, budgets and measurements.
+- `dotbox guide --topic conversation`: scene descriptions, choices and player intent.
+- `dotbox guide --topic guides`: guide-assisted goals and reconstruction checklists.
 - `dotbox guide --topic inspection`: inspection/journal commands and package scope.
 - `dotbox guide --topic play`: full play skill.
 - `dotbox guide --topic controls`: storing and using controls in the actual mode.

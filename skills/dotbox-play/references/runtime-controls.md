@@ -11,7 +11,8 @@ play and pause RPCs are refused. The store still retains useful recipes and
 observations. A saved guest-frame coordinate is not automatically a host-window
 coordinate; an outer executor must establish its own fresh mapping.
 
-Use an applicable known control immediately. Observe its result and save useful
+For the player's selected intent or delegated goal, use an applicable known
+control immediately. Observe its result and save useful
 metadata afterward. Do not construct a wrapper or replay the input to save it.
 
 Observe status and an original frame through the supported CLI:

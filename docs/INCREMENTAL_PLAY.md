@@ -6,10 +6,16 @@ DotBox must supply the tools and operating instructions Dot needs. The source
 implementation below is not yet qualification of uninterrupted play on Dot's
 actual computer.
 
+Dot is also the [conversational interface](CONVERSATIONAL_PLAY.md): a Z-scene
+supplies grounded descriptions and choices. Player-led and autonomous modes
+share the same action model. A bounded [initial guide pass](GUIDE_RECONSTRUCTION.md)
+provides the overall goal and nearby expected objects/exits for reconstruction.
+
 ## The interaction rule
 
 When a fresh observation, a known applicable control and the supported input
-path suffice for the intended action, act now. Observe its result and retain
+path suffice for the player's selected intent or delegated autonomous goal,
+act now. Observe its result and retain
 the useful recipe afterward. Naming a scene, creating a wrapper or completing
 a starting buffer must not delay an otherwise available action.
 
@@ -22,10 +28,12 @@ as evidence that the game progressed.
 The ordinary loop is:
 
 1. Observe the current game and the player's immediate goal.
-2. Use an applicable known control through the supported current input owner.
-3. Observe the result, including failure or uncertainty.
-4. Save the useful control and observation without replaying the input.
-5. Continue; prepare only the immediate next need when that work is useful.
+2. In player-led mode, describe useful choices and obtain intent if it is not
+   already clear. In autonomous mode, choose within the delegated goal.
+3. Use an applicable known control through the supported current input owner.
+4. Observe the result, including failure or uncertainty.
+5. Save the useful control and observation without replaying the input.
+6. Continue; prepare only the immediate next need when that work is useful.
 
 An unknown scene name alone does not invalidate visibly applicable ordinary
 movement or menu controls. A scene-specific coordinate recipe does need its

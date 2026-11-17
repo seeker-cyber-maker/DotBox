@@ -11,15 +11,21 @@ proof of live desktop input through the ownership fence.
   `codex/standalone-engine-20261116`, inspected at
   `3e011712c628b86642003e780fbf482e5c913018`.
 - Follow-up branch: `codex/async-turn-fence-20261117`, based on that exact commit.
-- Current learning-kit continuation: `codex/incremental-learning-kit-20261117`,
+- Learning-kit continuation: `codex/incremental-learning-kit-20261117`,
   based on primary async-turn-fence commit
   `999dc0ed788e6b20593166a4e9e40b2c2525004e` (draft PR #3). The independent
   mirror's matching parent is `69c5289786b2752bffd669bdf605745432a7929c`;
   those parents have identical trees but different account commit metadata.
+- Current conversational-scene continuation: `codex/conversational-scenes-20261117`,
+  based on primary learning-kit commit `605f41240f271f2311a997495b3eb0292c574f35`
+  (draft PR #4). Its independent mirror parent is
+  `c131661fece58a3d096938df5632d2986cf0ed90`; their shared tree is
+  `55265b1641e9d97a8f52e1e427fa2d3039c6ff0d`.
 - At inspection, `main` was the design baseline at
   `10fa86d8a91bb75e0ccf3da346bc9f72eab91d03`; it did not contain the implementation.
 
-Read `AGENTS.md`, `docs/PRODUCT.md`, `docs/INCREMENTAL_PLAY.md` and
+Read `AGENTS.md`, `docs/PRODUCT.md`, `docs/CONVERSATIONAL_PLAY.md`,
+`docs/GUIDE_RECONSTRUCTION.md`, `docs/INCREMENTAL_PLAY.md` and
 `docs/LEARNING_KIT.md` for the current work. Read `docs/OWNERSHIP_BRIDGE.md` and
 `docs/OWNERSHIP_CONNECTOR.md` before changing the ownership boundary. Follow
 `docs/REPOSITORIES.md` for publication. Earlier AGI/walking/HUD experiments stay
@@ -45,7 +51,64 @@ files or shell. A status response never grants input. The receipt reports that
 the publisher was stopped and connection processes were left running; their
 current live state was not rechecked here.
 
-## Current continuation: incremental learning kit
+## Current continuation: conversational scenes
+
+The user clarified that autonomous play is supported, while the primary
+experience is Dot acting as the game's conversational interface. Z-scenes
+provide grounded descriptions and choices; Dot phrases them according to the
+player's preferences. An initial manual/guide pass supplies the broad goal and
+expected objects/exits as a reconstruction checklist. The Magic Door was named
+as an interaction reference, not an integration target.
+
+Version `0.1.0.dev3` adds `scenes.py` and `dotbox scene` with four offline
+operations: present, checklist, validate and choose. A closed, bounded authored
+packet keeps current observation claims separate from guide expectations.
+Brief/normal/detailed player views retain the same permitted facts and choices;
+their deterministic narration and choice prompt provide a fallback for Dot's
+own phrasing. The internal checklist preserves disagreements, unknown editions,
+copied-source groups and unchecked conditions without voting claims into truth.
+
+Choice selection is bound to the exact document digest and observation ID. It
+returns an intent with no input execution, no ownership grant and no inferred
+outcome. Choices reference existing immutable controls or ordinary supported
+input routes; there is no second raw input language. All semantic observations,
+audience classifications and route applicability remain caller assertions.
+
+The guide/skill now distinguishes player-led choice from autonomous delegation.
+"Act now" applies to an already selected intent or delegated goal. A bounded
+guide pass fits the existing preparation timeline, and incomplete reconstruction
+does not block a working route. Description length, decision maker and hint
+preference are separate. Guide-informed narration does not imply blind play.
+
+The wheel contains 37 operational resources, including two new topic guides
+and authored mailbox/station/barrel examples. Doctor projects and selects the
+mailbox fixture without executing an action. The examples contain no commercial
+game data; their source identities and input-route references are illustrative.
+
+Current source verification: **551 passed, 7 native skips** in 33.84 seconds.
+The new scene suite has **45 passing cases** and the package suite **21**,
+including exported-example CLI round trips. Independent review found no
+confirmed blocking defect. A fresh-reader eight-scenario test exercised offline
+projection/selection and produced the intended game-facing decisions; wording
+about zero/ambiguous targets and using the full scene view was clarified.
+
+Direct and sdist-rebuilt wheels have identical package bytes. All **26 runtime
+modules and 37 operational resources** match source, both wheels and the fresh
+installation. Installing from local dependency wheels with `--no-index` passed;
+there is no source import, fDisBull or optional MCP in that environment. Eight
+copied suites outside the source tree passed **230 tests, 0 skipped**, in
+15.87 seconds. Installed mailbox/station/barrel projection and selection checks
+also passed, including detail invariance, partial coverage, hidden-content
+exclusion, stale-observation refusal and zero execution. Python/dependency
+versions remain those recorded for the preceding learning-kit slice.
+
+See [the scene receipt](evidence/conversational-scenes-2026-11-17.json) for the
+completed installation results, exact artifacts and qualification boundaries.
+No automatic guide extractor, condition evaluator, natural-language parser,
+scene recognizer, goal planner, live input adapter or voice frontend is supplied
+by this offline module.
+
+## Prior continuation: incremental learning kit
 
 The user redirected the available offline development time toward ordinary
 players: DotBox should supply the reversing machinery, and Dot should learn
@@ -82,7 +145,7 @@ current play/control guides. The old dependent-prototype startup pointer was
 replaced with the standalone route. Budget enforcement covers admissions only;
 it cannot preempt reasoning/tools, recognize scenes or grant input ownership.
 
-### Current verification
+### Learning-kit verification
 
 | Check | Result |
 | --- | --- |
@@ -153,7 +216,15 @@ python -m pytest -q -ra
 
 ## Next development and live gates
 
-The next offline implementation should expose a short owned capture transaction
+First connect one small real scene to the qualified observation/input path:
+present useful choices, resolve an unambiguous player intent, perform a bounded
+ordinary action and describe only its observed result. Establish the exact game
+edition and a small cited goal/guide brief. Test the same scene under bounded
+autonomous delegation. A complete world graph or scene checklist is not required.
+Speech can consume the same view and intent contract after the text loop works;
+actual voice availability and pacing remain integration measurements.
+
+When that route needs native evidence, expose a short owned capture transaction
 that validates an entire bounded plan, captures only the required memory/register
 packet and resumes before model reasoning. The pinned native backend requires a
 stopped guest for those reads; raw RPC passthrough is not an acceptable shortcut.

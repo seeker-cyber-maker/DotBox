@@ -30,6 +30,8 @@ def test_doctor_distinguishes_offline_readiness_from_native_qualification():
     assert report["inspection"]["decoder"]["version"] == "1.22.0"
     assert report["learning"]["clock_identity_available"] is True
     assert report["learning"]["store_opened"] is False
+    assert report["scenes"]["ok"] is True
+    assert report["scenes"]["checks"]["selection_has_no_execution"] is True
 
 
 def test_export_has_verified_native_recipe_guides_notices_and_helpers(tmp_path):
@@ -124,6 +126,7 @@ def test_packaged_resources_refuse_tampering(tmp_path, monkeypatch, alteration):
 
 @pytest.mark.parametrize("arguments", [
     ["guide"], ["doctor"], ["inspect", "--help"], ["learn", "--help"],
+    ["scene", "--help"],
 ])
 def test_offline_cli_never_opens_a_live_client(arguments, monkeypatch, capsys):
     from dotbox import cli
@@ -146,4 +149,35 @@ def test_top_level_help_discovers_the_kit(capsys):
         main(["--help"])
     assert result.value.code == 0
     output = capsys.readouterr().out
-    assert all(command in output for command in ("doctor", "guide", "inspect", "learn", "kit-export"))
+    assert all(command in output for command in ("doctor", "guide", "inspect", "learn", "kit-export", "scene"))
+
+
+@pytest.mark.parametrize("name,choice_id,count", [
+    ("mailbox", "open_mailbox", 1), ("station", "inspect_radio", 4), ("barrel", "look_inside", 1),
+])
+def test_exported_scene_examples_work_through_the_offline_cli(tmp_path, monkeypatch, capsys,
+                                                            name, choice_id, count):
+    from dotbox import cli
+    from dotbox.kit import export_resources, guide
+
+    def forbidden(*args, **kwargs):
+        pytest.fail("Scene projection/selection opened a live Client")
+    monkeypatch.setattr(cli, "Client", forbidden)
+    root = tmp_path / "source-kit"
+    export_resources(root)
+    example = root / "examples" / ("scene_" + name + ".json")
+    before = example.read_bytes()
+    assert cli.main(["scene", "present", str(example), "--detail", "detailed"]) == 0
+    view = json.loads(capsys.readouterr().out)["result"]
+    assert len(view["choices"]) == count
+    assert "guide_claims" not in view
+    if name == "barrel":
+        assert "pouch" not in json.dumps(view).lower()
+    assert cli.main(["scene", "choose", str(example), "--choice", choice_id,
+                     "--scene-sha256", view["scene_sha256"], "--observation-id", view["observation_id"]]) == 0
+    intent = json.loads(capsys.readouterr().out)["result"]
+    assert intent["execution"] == "not_performed"
+    assert intent["choice_id"] == choice_id
+    assert example.read_bytes() == before
+    assert "conversational interface" in guide("conversation")
+    assert "two or three" in guide("guides").lower()

@@ -49,6 +49,7 @@ def parser():
         ("kit-export", "Export native source resources and guides."),
         ("inspect", "Inspect bounded frozen-file windows without a game."),
         ("learn", "Retain the next question and its bounded probe allowance."),
+        ("scene", "Present grounded scene choices or an internal reconstruction checklist."),
     ):
         commands.add_parser(name, help=help_text).add_argument("arguments", nargs=argparse.REMAINDER)
     probe = commands.add_parser("probe", help="Print a noninvasive runtime inventory.")
@@ -118,6 +119,9 @@ def main(argv=None):
     if argv and argv[0] == "learn":
         from .learning import main as learn_main
         return learn_main(argv[1:])
+    if argv and argv[0] == "scene":
+        from .scenes import main as scene_main
+        return scene_main(argv[1:])
     args = parser().parse_args(argv)
     try:
         if args.command in ("serve", "coordinate"):
