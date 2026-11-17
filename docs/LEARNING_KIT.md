@@ -98,8 +98,10 @@ produce offline proposals; the live x/y/TAS executor remains integration work.
 
 The [recovery guide](RECOVERY_AND_SAVES.md) defines a fenced restore and controlled
 save comparisons. Native checkpoints already exist in the bundled base, but a
-DotBox live rewind command still needs ownership-generation, timeline and mutable
-file reconciliation. An AGI resource reader is not an original-game save decoder.
+DotBox live rewind command still needs ownership-generation, timeline and
+memory-only restore qualification. Files on disk keep their current versions;
+changed autosaves are not rolled back. An AGI resource reader is not an
+original-game save decoder.
 
 ## Conversational scenes
 

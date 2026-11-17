@@ -60,6 +60,7 @@ def test_export_has_verified_native_recipe_guides_notices_and_helpers(tmp_path):
                  "scripts/prepare_native.py", "docs/AGENT_START.md",
                  "docs/ENGINE_AWARE_PREPARATION.md", "docs/NAVIGATION.md",
                  "docs/RECOVERY_AND_SAVES.md", "docs/EXTRACTION.md",
+                 "docs/AITD_REUSE.md",
                  "examples/navigation_room.json"):
         data = (destination / name).read_bytes()
         assert hashlib.sha256(data).hexdigest() == catalog["files"][name]["sha256"]

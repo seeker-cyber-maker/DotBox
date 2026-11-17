@@ -50,11 +50,12 @@ data are not native preparation dependencies.
 | DOSBox-X tree | `68005f10ab25418b40621875ad8e7a4bd867335c` |
 | Base patch origin | fDisBull `ce91c303f2fccd1db9b1e3917ecc8c98473bfdb9`, `experimental/dosbox-x` |
 | Base patch SHA-256 | `bc0ca8c93deaf6cb96eea91e39176b2713ab333e29bfefcf730e1a1d3c75eb2f` |
-| Cooperative-input patch SHA-256 | `4bb0c1f6e908f0e52be291ddc97c4456e3d9ddd6bbf0bf5ba5a1a8fb454dd58d` |
+| Cooperative-input/restore patch SHA-256 | Current `overlay_sha256` in [`native/manifest.json`](../native/manifest.json), also pinned in the build recipe |
 | Native ownership protocol | `dotbox-input-control-1` |
+| Native restore admission fence | `dotbox-restore-control-1`; control fencing only, not a complete rewind capability |
 
-The existing [`native/manifest.json`](../native/manifest.json) and ownership
-patch are preserved. The historical `fdisbull_*` field names identify the
+The [`native/manifest.json`](../native/manifest.json) binds the current ownership
+and restore-fence overlay. The historical `fdisbull_*` field names identify the
 overlay's base provenance; they are not runtime imports or checkout selectors.
 The original base manifest is retained verbatim. Its historical verification
 fields are not claims about a newly prepared or built DotBox delivery.
@@ -90,9 +91,11 @@ full corresponding prepared source, and required notices. See
 
 ## Qualification boundaries
 
-The source preparation was replayed locally without compiling. Its 38 final
-source hashes match the existing prepared ownership-enabled native tree. This
-proves source preparation, not a fresh native build or binary reproducibility.
+Source preparation checks all 38 final result hashes. The current overlay was
+applied and verified against the exact pinned base without compiling a complete
+emulator. Compiled standalone policy tests cover generation admission, unchanged
+owner and invalidation before cleanup/failure. These checks prove the policy and
+source preparation, not a fresh native build or binary reproducibility.
 The earlier local arm64 executable is historical evidence; this source recipe
 does not silently substitute it for a newly built delivery.
 
@@ -106,3 +109,11 @@ keyboard/mouse behavior must be checked on Dot's actual desktop separately.
 Source tests, an executable's existence and prior fDisBull qualification do not
 establish that desktop result. Packaging, binary distribution and runtime
 activation are separate delivery checks.
+
+The restore fence intentionally changes raw `state.load`: clients must supply
+an observed `expected_generation`, and old requests must never be retried with
+a newly fetched value. An optional native test checks refusal and failed-load
+generation invalidation when a matching executable is supplied. Complete
+memory-only recovery additionally needs neutral captured/restored input, a
+qualified DOS file/device boundary, post-failure closure, new provider context
+and fresh rendered observations. No player rewind API is exposed by this cut.

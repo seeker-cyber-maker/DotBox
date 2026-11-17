@@ -93,6 +93,15 @@ also supplies scheduled key edges and bounded advancement. These remain
 integration references; they have not been imported as a second live input
 owner into DotBox.
 
+The [recovered AITD source](AITD_REUSE.md) supplies another concrete adapter:
+cardinal walking plans around observed actor bounds, waypoints at bends, and
+ordinary keyboard movement checked against current position and heading.
+Its rectangle push planner additionally includes the actor's approach to a
+contact stance. Retain DotBox's stronger footprint, known/safe-area, portal and
+timeline admission, plus its distance-then-turn cost. The AITD actor projection
+does not recover static walls, and its coarse manipulation plan only advises
+two separately qualified original-game routes.
+
 A long geometric leg must remain interruptible. The future executor should
 retain its direction while observing at bounded intervals where supported,
 without visibly stopping at every observation. Do not turn the leg into one
@@ -113,12 +122,13 @@ are usually more useful than exact equality when an update can skip a pixel.
 An applicable known fallback should remain available while a better route or
 interaction slice is prepared.
 
-The user's exact earlier x/y script was not recovered from the private original
-checkout in this slice. The installed fDisBull controller/timeline interfaces
-were inspected. In particular, its broad `move` helper hardcodes fast-forward
-and can close unresolved sessions, so that lifecycle policy must be adapted
-before it can support ordinary visible play. Coordinate-writing assisted
-placement remains a separate explicit operation.
+The user's exact earlier x/y TAS script is still unidentified. The AITD source
+recovery establishes the preserved walking and manipulation adapters; it does
+not establish that either is that script. The installed fDisBull
+controller/timeline interfaces were also inspected. Its broad `move` helper
+hardcodes fast-forward and can close unresolved sessions, so that lifecycle
+policy must be adapted before it can support ordinary visible play.
+Coordinate-writing assisted placement remains a separate explicit operation.
 
 ## Recovery and vehicle movement
 
@@ -126,8 +136,10 @@ A walking grid does not model vehicle speed, heading, braking distance, turn
 radius or moving obstacles. Car driving needs an appropriate controller and
 state model; a geometrically clear path alone does not qualify it. Rewind can
 retain a failed attempt and recover before the collision once the full restore
-path is qualified. Every restore invalidates queued movement and creates a
-fresh scene branch, even when the room looks unchanged.
+path is qualified. Every memory restore invalidates queued movement and creates
+a fresh scene branch, even when the room looks unchanged. Reobserve coordinates,
+collision state, foreground menus and readiness under the new input lease before
+admitting another route. Disk files are outside the revert operation.
 
 See [recovery and saved-game evidence](RECOVERY_AND_SAVES.md) for the restore
 transaction and file scope, and [continuous play](../skills/dotbox-play/references/continuous-play.md)

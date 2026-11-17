@@ -36,9 +36,13 @@ proof of live desktop input through the ownership fence.
   head is `a7c8556a992a2a64a4474104e44a36f1cf2d8c84`. Their verified shared tree is
   `4dc1a12a2e871b980db37ea78decf5d85768b4f1`. The user's explicit GitHub update
   instruction resolved the earlier automatic publication-review refusal.
-- Current AGI/navigation continuation: `codex/agi-navigation-kit-20261117`,
-  based on those exact primary/mirror state heads. Preserve both histories;
-  publication stacks on the state branch and does not merge the draft series.
+- The AGI/navigation continuation is published as [draft PR #8](https://github.com/seeker-cyber-maker/DotBox/pull/8).
+  Primary head is `f9572d84943c57dcdb83587f85966619ef392325`; independent mirror
+  head is `b018024963dac96e75785b0fc084c63d697333a2`. Their verified shared tree is
+  `707ab7a0a3ce0cb68087368389c48895ad6cd448`.
+- Current memory-recovery continuation: `codex/memory-recovery-20261117`, based
+  on that shared tree. Publish on each account's respective AGI/navigation head,
+  preserving both histories and the stacked draft series.
 - At inspection, `main` was the design baseline at
   `10fa86d8a91bb75e0ccf3da346bc9f72eab91d03`; it did not contain the implementation.
 
@@ -50,7 +54,8 @@ and `docs/RECOVERY_AND_SAVES.md` for the current work. Read `docs/OWNERSHIP_BRID
 `docs/REPOSITORIES.md` for publication. Earlier AGI/walking/HUD experiments stay
 in the original developer's private checkout and snapshot. This continuation
 inspected the installed fDisBull 0.34.1 package and selected pinned source; the
-user's exact old x/y script was not recovered or modified.
+user's exact old x/y TAS script remains unidentified. The latest board-led
+recovery did retrieve the AITD movement/menu source described in `AITD_REUSE.md`.
 
 ## What was already working
 
@@ -71,7 +76,80 @@ files or shell. A status response never grants input. The receipt reports that
 the publisher was stopped and connection processes were left running; their
 current live state was not rechecked here.
 
-## Current continuation: engine-aware preparation, routes and recovery
+## Current continuation: memory-only recovery and recovered AITD work
+
+Version `0.1.0.dev6` corrects the recovery contract and adds a native source-level
+restore admission fence. Revert restores memory and necessary machine/device
+state; it must not replace files with older copies. A changed, closed autosave
+does not itself block recovery. Immutable source/resources, mount configuration
+and concrete saved-handle dependencies remain separate compatibility checks.
+
+The native overlay advertises `input.restore_control=dotbox-restore-control-1`.
+Raw `state.load` now requires `expected_generation`. The emulation-thread check
+preserves owner and advances generation before cleanup/loading; stale generation
+is rejected before effects. Old tagged input stays invalid after an admitted
+failure. This is not a `memory_checkpoint` capability or a public Python recovery
+API. The serializer and explicit `frame_keys` policy are unchanged. Native
+load can rehydrate keyboard hardware state; neutral capture and verification
+remain necessary. Newer mutable files must not be restored from history.
+
+Two source audits found that DOS handle reconstruction can flush current pending
+writes while reopening a file. That is persistence of current writes, not disk
+rollback, and should not be confused with the historical backup/restore path
+already disabled by `AGENT_StateFile`. Qualify the I/O boundary before exposing
+interactive recovery. A small initial profile can exclude active writable
+handles/pending writes/mutable disk images while allowing changed closed saves.
+Do not omit DOS handle restoration or claim byte-preserving load without proof.
+
+The original Charming board's stored fDisBull handoff led to the preserved
+source/history archive. All 69 indexed artifacts matched size/hash. Eight
+AITD continuation Python files and earlier menu/reference helpers were recovered.
+Their ordinary walking controller uses current X/Z/heading, bends and bounded
+stall/divergence checks; its object planner includes actor contact stances.
+DotBox keeps its existing heading-aware planner and stronger footprint/safety
+admission. Menus use sparse current-state and highlighted-selection guards,
+with modal exclusion and separate selection/execution outcomes.
+
+The old AITD continuation's `load()` explicitly replaces `SAVE0.ITD` from a
+retained copy. Exclude that research policy from memory revert. The new installed
+`aitd` topic documents the reusable parts, exact provenance and missing private
+calibration. No AITD source/asset or new game-specific adapter is imported.
+Historical AITD tests/replay timings were not rerun.
+
+The existing service identity already includes native generation. An authenticated
+socket regression verifies that a same-owner generation change invalidates the
+old turn while an ordinary `state_revision` change does not. It does not repair
+the ownership boundary automatically. A future complete recovery controller must
+handle admitted failure, fresh branch/store and coherent post-restore observations;
+offline SceneStores and worker candidates do not invalidate themselves.
+
+Matching upstream source is available and both patch stages can be verified.
+A compatible complete native build and original-Dot live recovery remain
+unqualified on this host. The available fDisBull binary is a different native
+revision and is not substituted for this overlay. The bounded next integration
+is one ordinary long walking leg plus one menu selection with a separately
+qualified memory restore and current ownership/observation checks.
+
+### Memory-recovery verification
+
+| Check | Result |
+| --- | --- |
+| Full source suite with exact base native source supplied | 736 passed, 8 native-binary skips, 36.01 seconds |
+| Independent focused native/service review | 21 passed, 4 native-binary skips; no blocking finding |
+| Direct wheel and wheel rebuilt from sdist | Both built; all package bytes match |
+| Source / both wheels / clean offline installation | 35 runtime modules and 46 resources match; 16 guide topics |
+| Four copied focused suites outside the checkout | 44 passed, 4 native-binary skips, 3.12 seconds |
+| Pinned native source and overlay | Upstream tree reconstructed; 37 base-result hashes and the 38-file final recipe verified; repeat application leaves bytes unchanged |
+| Recovered AITD source archive | All 69 indexed artifact sizes and hashes matched |
+
+The installed package used Python 3.12.14, Pillow 12.3.0, iced-x86 1.22.0 and
+pytest 9.2.0, with no fDisBull or optional MCP available. The exact-base native
+patch application test ran; the eight full-suite skips all require a matching
+native executable. No emulator binary was built, native session launched, game
+input delivered or end-to-end rewind qualified. See the
+[sanitized memory-recovery receipt](evidence/memory-recovery-2026-11-17.json).
+
+## Prior continuation: engine-aware preparation, routes and recovery
 
 Version `0.1.0.dev5` owns the small AGI V2 logic/resource census and an offline
 walking planner, with `agi`, `navigation` and `recovery` installed guide topics.
@@ -93,16 +171,20 @@ stale or edited content. Neither command establishes live freshness or moves
 the actor. Existing x/y monitored controllers and frame/TAS key edges are useful
 integration references, not a second input owner or a shipped live executor.
 
-The recovery audit found full native checkpoint and frame-timeline machinery
+The prior recovery audit found full native checkpoint and frame-timeline machinery
 already present in fDisBull and raw `state.save/load` in DotBox's native base.
-Raw load has no expected-control-generation admission/bump. The service's
-run/session/generation/owner identity can consequently remain unchanged through
-a world restore. Do not expose raw load. Add an emulation-thread restore fence,
-input cleanup, new branch/context, file-scope checks and fresh observations as
-specified in `RECOVERY_AND_SAVES.md`. Ordinary `state_revision` is not a substitute
-because ordinary input and saves advance it too. Native snapshots do not restore
-mounted host files; changed autosaves need a qualified matching file snapshot
-or must keep the existing restore restriction. Qualify one capture and restore
+Before dev6, raw load had no expected-control-generation admission/bump. The
+service's run/session/generation/owner identity could consequently remain
+unchanged through a world restore. That audit called for a restore fence,
+input cleanup, new branch/context, immutable-dependency checks and fresh observations as
+specified in `RECOVERY_AND_SAVES.md`; dev6 implements only the native control
+fence portion. Ordinary `state_revision` is not a substitute
+because ordinary input and saves advance it too. The user's subsequent correction
+requires memory-only recovery: mounted host files retain their current versions,
+and an unrelated changed autosave must not block restore. Do not implement a
+matching filesystem snapshot or copy fDisBull's blanket mutable-file restriction.
+Qualify native DOS handle/device behavior as well as the Python boundary.
+Qualify one capture and restore
 before promising a rolling rewind buffer. No live rewind was added here.
 
 Saved-game differences are hypotheses for persistent state. Compare repeated

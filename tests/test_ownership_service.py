@@ -158,6 +158,41 @@ def test_guest_replacement_invalidates_turn_even_when_viewer_owner_stays_dot(bri
     assert client.wait_for_turn("dot", timeout=0)["epoch"] > lease["epoch"]
 
 
+def test_restore_generation_fences_turn_while_ordinary_revisions_do_not(bridged, monkeypatch):
+    """Socket-level receipt behavior; this does not execute a native restore."""
+    _, client, _, _, publish, game, _ = bridged
+    revision = [5]
+    native_status = game.status
+
+    def observed_status():
+        return {**native_status(), "state_revision": revision[0]}
+
+    monkeypatch.setattr(game, "status", observed_status)
+    publish()
+    lease = client.wait_for_turn("dot", timeout=0)
+    effects = []
+    revision[0] += 1  # Ordinary input or capture may change this revision.
+    client.run_turn_step(lease, lambda: effects.append("ordinary-turn"))
+    assert client.request("turn-check", {"lease": lease})["ok"]
+
+    before = client.request("status")["result"]
+    game.generation += 1  # Receipt of an admitted same-owner restore fence.
+    with pytest.raises(TurnInterrupted):
+        client.run_turn_step(lease, lambda: effects.append("stale-must-not-run"))
+    after = client.request("status")["result"]
+    assert effects == ["ordinary-turn"]
+    assert before["run_id"] == after["run_id"]
+    assert before["native_owner"] == after["native_owner"] == "host"
+    assert after["generation"] == before["generation"] + 1
+    assert after["owner"] == "unclaimed"
+    assert after["platform_takeover"]["owner"] == "unknown"
+    # New viewer evidence cannot silently repair a changed native boundary.
+    publish()
+    assert not client.request("turn-check", {"lease": lease})["ok"]
+    assert not client.request("turn-claim", {"controller_id": "dot"})["ok"]
+    assert game.calls.count("transfer") == 1
+
+
 def test_native_harness_ownership_drift_disables_turns_without_repairing_it(bridged):
     _, client, _, _, publish, game, _ = bridged
     publish()

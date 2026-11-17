@@ -66,6 +66,70 @@ int main() {
     subprocess.run([str(binary)], check=True)
 
 
+def test_restore_fence_preserves_owner_and_consumes_generation_before_effects(tmp_path):
+    compiler = shutil.which('c++') or shutil.which('g++')
+    if compiler is None:
+        pytest.skip('C++ compiler required for restore-fence policy check')
+    source = tmp_path / 'restore_fence.cpp'
+    source.write_text(r'''
+#include "dotbox_input_control.h"
+#include <cassert>
+#include <stdexcept>
+#include <string>
+using dosbox_agent::DotBoxInputControl;
+int main() {
+    DotBoxInputControl control;
+    std::string error;
+    int cleanups = 0;
+    auto cleanup = [&]() { ++cleanups; };
+    assert(!control.FenceRestore(1, cleanup, &error));
+    assert(cleanups == 0 && control.State().generation == 0);
+
+    assert(control.FenceRestore(0, [&]() {
+        // The prior generation is already unusable during cleanup.
+        assert(!control.State().host && control.State().generation == 1);
+        assert(!control.CanInject(true, 0, &error));
+        ++cleanups;
+    }, &error));
+    assert(cleanups == 1 && !control.State().host);
+    assert(!control.FenceRestore(0, cleanup, &error));
+    assert(cleanups == 1 && control.State().generation == 1);
+
+    // A cleanup failure has effects; the consumed generation must survive it.
+    try {
+        control.FenceRestore(1, [&]() {
+            ++cleanups;
+            throw std::runtime_error("cleanup failed");
+        }, &error);
+        assert(false);
+    } catch (const std::runtime_error&) {}
+    assert(cleanups == 2 && control.State().generation == 2);
+    assert(!control.CanInject(true, 1, &error));
+    assert(!control.FenceRestore(1, cleanup, &error));
+    assert(cleanups == 2);
+
+    // A later admission consumes another generation without changing owner.
+    assert(control.FenceRestore(2, cleanup, &error));
+    assert(control.State().generation == 3);
+    assert(!control.CanInject(true, 2, &error));
+
+    assert(control.Transfer(true, 3, true, cleanup, &error));
+    assert(control.FenceRestore(4, [&]() {
+        assert(control.State().host && control.State().generation == 5);
+        ++cleanups;
+    }, &error));
+    assert(control.State().host && control.State().generation == 5);
+    assert(!control.CanInject(true, 5, &error));
+    assert(!control.FenceRestore(4, cleanup, &error));
+    assert(cleanups == 5 && control.State().generation == 5);
+}
+''')
+    binary = tmp_path / 'restore_fence'
+    subprocess.run([compiler, '-std=c++11', '-Wall', '-Wextra', '-Werror',
+                    '-I', str(NATIVE), str(source), '-o', str(binary)], check=True)
+    subprocess.run([str(binary)], check=True)
+
+
 def test_overlay_manifest_binds_patch_and_shared_policy():
     manifest = json.loads((NATIVE / 'manifest.json').read_text())
     assert manifest['format'] == 'dotbox-native-overlay-1'
@@ -156,6 +220,64 @@ def test_native_visible_owner_transfers_reset_and_reject_stale_inputs(tmp_path, 
         assert reset['generation'] == 3
         keyboard = debug.call('input.keyboard.state')['keyboard']
         assert keyboard['pending_events'] == 0 and keyboard['owned_keys'] == 0
+    finally:
+        debug.close()
+    assert debug.rpc.process.poll() is not None
+
+
+def test_native_restore_rejects_stale_generation_and_fences_failed_load(tmp_path):
+    session = _native_session(tmp_path)
+    debug = session(window=False)
+    try:
+        assert debug.rpc.capabilities['input']['restore_control'] == 'dotbox-restore-control-1'
+        debug.call('input.keyboard.press', {'key': 'a', 'hold_ms': 500, 'control_generation': 0})
+        before = debug.call('input.keyboard.state')['keyboard']
+        assert before['pending_events'] > 0
+        path = str(tmp_path / 'missing-state.sav')
+        with pytest.raises(ValueError, match='expected_generation'):
+            debug.call('state.load', {'path': path})
+        with pytest.raises(ValueError, match='generation changed'):
+            debug.call('state.load', {'path': path, 'expected_generation': 1})
+        assert debug.call('input.control')['generation'] == 0
+        assert debug.call('input.keyboard.state')['keyboard'] == before
+
+        # Even a failed admitted load must retire all input from generation zero.
+        with pytest.raises(ValueError, match='STATE_FAILED'):
+            debug.call('state.load', {'path': path, 'expected_generation': 0})
+        after = debug.call('input.control')
+        assert (after['owner'], after['generation']) == ('agent', 1)
+        keyboard = debug.call('input.keyboard.state')['keyboard']
+        assert keyboard['pending_events'] == 0 and keyboard['owned_keys'] == 0
+        with pytest.raises(ValueError, match='generation changed'):
+            debug.call('state.load', {'path': path, 'expected_generation': 0})
+        with pytest.raises(ValueError, match='generation changed'):
+            debug.call('input.keyboard.press', {'key': 'a', 'control_generation': 0})
+        assert debug.call('input.control')['generation'] == 1
+    finally:
+        debug.close()
+    assert debug.rpc.process.poll() is not None
+
+
+def test_native_restore_receipt_preserves_owner_and_advances_generation(tmp_path):
+    session = _native_session(tmp_path)
+    debug = session(window=False)
+    try:
+        assert debug.rpc.capabilities['input']['restore_control'] == 'dotbox-restore-control-1'
+        path = str(tmp_path / 'authored-state.sav')
+        registers = debug.call('state.get_registers')
+        saved = debug.call('state.save', {'path': path})
+        assert debug.call('input.control')['generation'] == 0
+        debug.call('input.keyboard.press', {'key': 'a', 'hold_ms': 500, 'control_generation': 0})
+        restored = debug.call('state.load', {
+            'path': path, 'frame_keys': saved['frame_keys'], 'expected_generation': 0})
+        assert restored['completed'] is True and restored['input_reset'] is True
+        assert (restored['owner'], restored['generation']) == ('agent', 1)
+        assert restored['frame_keys'] == saved['frame_keys']
+        after = debug.call('state.get_registers')
+        for field in ('general', 'segments', 'instruction_pointer', 'flags', 'cpu_mode'):
+            assert after[field] == registers[field]
+        with pytest.raises(ValueError, match='generation changed'):
+            debug.call('input.keyboard.press', {'key': 'a', 'control_generation': 0})
     finally:
         debug.close()
     assert debug.rpc.process.poll() is not None
