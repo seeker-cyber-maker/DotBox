@@ -9,6 +9,10 @@ requirements; a compatible native DOSBox-X executable and its platform libraries
 are required to run a guest. See [native preparation](STANDALONE_NATIVE.md).
 For a developer build on the Mac Studio, see the
 [local macOS build and test procedure](LOCAL_MACOS_BUILD.md).
+The separate [cloud Linux test record](https://github.com/seeker-cyber-maker/DotBox/blob/codex/local-macos-build-20261117/docs/LOCAL_LINUX_TEST.md)
+records a fresh Linux native build, eight executed fixtures and one successful
+Police Quest controls route. It used checkout source and an existing Python
+environment; it is not a fresh installed-wheel or portable-release acceptance.
 
 The current wheel includes [the learning kit](LEARNING_KIT.md): bounded offline
 inspection, a saved learning focus, play instructions and native source/build

@@ -35,9 +35,11 @@ native source and requires eight actual native fixture passes, with no skips.
 A fresh Mac Studio build passed all eight fixtures, four headless and four
 visible, on 17 November 2026. See the
 [sanitized native-build receipt](https://github.com/seeker-cyber-maker/DotBox/blob/codex/local-macos-build-20261117/docs/evidence/local-macos-native-2026-11-17.json).
-This qualifies the local developer build's authored fixtures; original-Dot
-desktop integration, commercial-game play and complete memory rewind remain
-separate gates.
+A separate [cloud Linux build](docs/LOCAL_LINUX_TEST.md) also passed all eight
+fixtures, and an ordinary-input Police Quest run completed the locker-to-shower
+controls endpoint. These results qualify the recorded developer-build fixtures
+and one functional game route. Original-Dot desktop integration, reusable route
+and timing qualification, and complete memory rewind remain separate gates.
 
 For the current development slice, read [incremental play](docs/INCREMENTAL_PLAY.md)
 and the [installed learning kit](docs/LEARNING_KIT.md). `dotbox guide` gives Dot a
@@ -107,11 +109,14 @@ The [recovered AITD work](docs/AITD_REUSE.md), available through
 `dotbox guide --topic aitd`, supplies prior walking feedback, manipulation
 planning and reference-backed menu methods. Its research helper that replaces
 save files is explicitly excluded from memory revert.
-The next user-selected [Police Quest acceptance tests](docs/POLICE_QUEST_ACCEPTANCE.md)
+The user-selected [Police Quest acceptance tests](docs/POLICE_QUEST_ACCEPTANCE.md)
 are changing in the locker room and reaching the showers, then recovering from
-late arrival at the first briefing. `dotbox guide --topic policequest` supplies
-the EGA-specific test conditions and static timer findings. Both live trials
-remain unqualified; this guide adds no game-control or recovery operation.
+late arrival at the first briefing. The first has one successful functional
+run on the cloud Linux computer, including shower activation and cleanup through
+ordinary controls. A reusable route and complete timing trace remain open;
+the missed-briefing memory-recovery trial has not run. `dotbox guide --topic
+policequest` supplies the EGA-specific conditions and static timer findings.
+The guide itself adds no game-control or recovery operation.
 Additional engines, game-specific routes, HUD and audio transport remain later
 work. There is no published release or qualified Dot cloud installation yet.
 
@@ -119,4 +124,5 @@ work. There is no published release or qualified Dot cloud installation yet.
 
 See the [Codex viewer code investigation](docs/CODEX_VIEWER_CODE_ANALYSIS.md) for
 ownership signals, actual-source offline checks, live viewer results and remaining
-bridge boundaries. Live movement, recovery and audio still need qualification.
+bridge boundaries. Movement through that ownership bridge, recovery and audio
+still need qualification; the separate local controls run does not close them.

@@ -168,12 +168,14 @@ ownership transitions, stale-input rejection, restore admission fencing and
 service/control persistence. They do not complete the original-Dot desktop
 handoff or implement a player-facing memory rewind operation.
 
-Next qualify the two [Police Quest trials](POLICE_QUEST_ACCEPTANCE.md): ordinary
-locker-room clothing change followed by walking to the usable showers, and a
-late-briefing failure followed by memory-only recovery and successful attendance.
-The second trial still needs the complete recovery transaction; the current
-native restore fence alone is insufficient. Preserve current disk files during
-revert and use observed guest-clock state for the deadline.
+The two [Police Quest trials](POLICE_QUEST_ACCEPTANCE.md) are ordinary locker-room
+clothing change followed by walking to the usable showers, and a late-briefing
+failure followed by memory-only recovery and successful attendance. The first
+now has one functional pass on a separate cloud Linux build; this does not
+qualify the Mac gameplay path or a reusable, timed harness. The second trial
+still needs the complete recovery transaction; the current native restore
+fence alone is insufficient. Preserve current disk files during revert and
+use observed guest-clock state for the deadline.
 
 Retain the full corresponding prepared source, required notices, compiler
 configuration and linked-library identities with any candidate binary. A

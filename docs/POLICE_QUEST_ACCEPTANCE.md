@@ -2,9 +2,44 @@
 
 Selected by the user on 17 November 2026: change in the locker room and reach
 the showers to qualify controls; miss the briefing and rewind to qualify
-recovery. These are the next live acceptance goals. **Neither has been run or
-passed in DotBox.** This document adds an edition-bound test specification and
-static investigation, not a game adapter or a rewind API.
+recovery. **One ordinary-input functional controls run passed on the cloud
+Linux computer on 17 November 2026.** Sonny changed into the towel, closed the
+locker, reached the usable shower and successfully turned it on; the shower
+was turned off afterward. Reusable harness and timing qualification remain
+open. **The missed-briefing memory-rewind trial has not run.** This document
+contains the edition-bound specification, static investigation and bounded
+live result; it does not add a game adapter or a rewind API.
+
+## Recorded local controls result
+
+The [sanitized controls receipt](https://github.com/seeker-cyber-maker/DotBox/blob/codex/local-macos-build-20261117/docs/evidence/police-quest-local-controls-2026-11-17.json)
+binds this run to the EGA resources, source tree and newly compiled Linux native
+executable. One coordinator used the default desktop service and ordinary
+keyboard input. Fresh native-window observations showed the lobby, locker-room
+entry, assigned locker, changed outfit and return to the room. The final
+shower interaction produced the game's success response and visible water;
+an ordinary turn-off command removed the water effect. No guest memory edits,
+teleports, game-load action or filesystem rollback was used. All 27 recorded
+original and isolated-copy input file hashes remained unchanged.
+
+The route required live correction. Arrow keys latched movement, while repeating
+the same direction stopped motion in an unchanged room. The current keypad
+mapping entered a digit when the center key was tried, so it was not adopted as
+a stop control. NPC conversations interrupted movement. The shower picture's
+collision barrier required a western approach followed by eastward movement;
+head-pixel estimates were insufficient at the final interaction boundary.
+The original game's response established arrival, rather than an inferred live
+coordinate or flag value.
+
+This was an exploratory functional run using retained guide/static findings.
+It did not measure cold preparation, a complete movement/turn trace or player-
+visible delay breakdown, and it did not satisfy the opening preparation budget.
+No reusable route revision or live engine-state adapter was qualified. The
+separate shell namespace could not read the desktop service's temporary token;
+the run therefore makes no CLI lease-observation claim. Original-Dot takeover
+synchronization, repeatable harness execution and the full instrumented
+acceptance below remain separate work. The eight native fixture passes are
+recorded independently in the [Linux native receipt](https://github.com/seeker-cyber-maker/DotBox/blob/codex/local-macos-build-20261117/docs/evidence/local-linux-native-2026-11-17.json).
 
 ## Bind the edition and the two starting states
 
@@ -153,7 +188,9 @@ The retained census was freshly matched against nine selected source files and
 all 118 LOGIC payload hashes. A separate read-only site check decoded the current
 resources and verified 34 operations and 16 conditions; input hashes and mtimes
 were unchanged. The coordinator reran that check and read the relevant control
-flow. No original game, movement, clock timing or native restore was executed.
+flow. That initial static investigation executed no original game, movement,
+clock timing or native restore. The subsequent local controls run above adds
+observed game progression; it does not add live clock or native-rewind evidence.
 
 - [Original Sierra manual](https://www.sierragamers.com/wp-content/uploads/2019/12/Police_Quest_1_Manual.pdf), printed pages 20–21: newspaper, assigned position and first briefing sequence.
 - [AGI walkthrough](https://sierrahelp.com/Walkthroughs/PQ1AGIWalkthrough.html): corroborating opening and later shower sequences; its prose is not a timer specification.

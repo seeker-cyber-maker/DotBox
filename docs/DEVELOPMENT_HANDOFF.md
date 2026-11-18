@@ -89,7 +89,27 @@ files or shell. A status response never grants input. The receipt reports that
 the publisher was stopped and connection processes were left running; their
 continued availability cannot be inferred from that historical receipt.
 
-## Current continuation: completed local Mac native qualification
+## Current continuation: cloud Linux native and functional game test
+
+The coordinator compiled the pinned native source on its own Linux x86_64
+computer and executed the full gate: **8 passed in 3.59 seconds**, four headless
+and four visible, with no skips, failures or errors. The build input was local
+commit `dee1213f1701917fd523911c3a477645c5bd2054`, shared tree
+`1911d22aceeb546712e90f7bcc2894f4389c8315`. Missing official Debian development
+packages were extracted into a private prefix; no elevated execution or Studio
+connection was needed. See [the Linux test record](LOCAL_LINUX_TEST.md).
+
+The same native executable completed one Police Quest EGA functional controls
+run through ordinary desktop input: lobby, assigned locker, change to towel,
+close locker, usable shower, successful activation and turn-off cleanup. All
+27 recorded original and copied game input hashes were unchanged. The route
+encountered latched movement, NPC dialogs and a shower collision barrier; the
+game's response confirmed the final arrival. The
+[controls receipt](evidence/police-quest-local-controls-2026-11-17.json) separates
+this result from a reusable harness, cold preparation, latency measurement,
+original-Dot ownership integration and memory rewind. Those remain open.
+
+## Earlier local Mac native qualification
 
 Version `0.1.0.dev7` adds `scripts/build_local_macos.py` for a fresh, private
 Apple Silicon build with two compiler jobs, the pinned bundled SDL2, an ordinary
@@ -140,9 +160,9 @@ unset and stale inherited SDK roots, propagation to a real child process and
 preservation of the parent process environment. This is separate from the
 eight real native fixtures. The output is a developer executable and isolated
 Python environment, not a signed application or portable offline release.
-Original-Dot takeover/input integration, commercial-game play and both Police
-Quest trials remain unqualified. A complete player-facing memory-rewind API is
-still absent.
+The Mac result did not qualify original-Dot takeover/input integration or either
+Police Quest trial. The later Linux controls pass is separate. A complete
+player-facing memory-rewind API is still absent.
 
 ### Historical helper/source verification
 
@@ -210,10 +230,11 @@ at that memory-fence continuation, but it had not built a matching complete
 native executable. The Mac native qualification above is a later result;
 original-Dot live recovery remains unqualified. The historical fDisBull binary
 was a different native revision and was not substituted for this overlay. The
-recovered walking/menu work remains a controller reference. The user has now selected the concrete
-Police Quest controls and rewind trials below as the next live acceptance goals.
+recovered walking/menu work remains a controller reference. The user selected
+the concrete Police Quest controls and rewind trials below. The later Linux
+functional controls pass is recorded above; memory rewind remains open.
 
-### User-selected Police Quest trials: specified, not executed
+### Initial Police Quest specification and static investigation
 
 The controls endpoint is changing in the locker room, closing the locker and
 walking to the usable showers. Water activation is an optional separate action.
@@ -232,10 +253,11 @@ findings and candidate observation predicates, not qualified live mappings.
 
 The retained census matched nine resource files and all 118 LOGIC payloads.
 The coordinator reran a private check of 34 operations and 16 conditions against
-the current bytes; hashes and mtimes remained unchanged. No game or native
-session was launched. The original interpreter's clock/pause behavior, live
-route and memory restore remain unverified. This follow-up changes operational
-resources and evidence only; runtime code and native patch are unchanged.
+the current bytes; hashes and mtimes remained unchanged. That initial static
+investigation launched no game or native session. The later Linux run adds one
+functional route pass, while the original interpreter's clock/pause behavior
+and memory restore remain unverified. The initial follow-up changed operational
+resources and evidence only; runtime code and native patch were unchanged.
 The existing source kit suite passed 23 checks. An ordinary wheel and clean
 offline installation agree with the source on all 35 runtime modules and
 47 operational resources, with 17 topics. The installed `policequest` command,
