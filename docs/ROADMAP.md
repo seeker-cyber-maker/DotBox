@@ -39,10 +39,12 @@ small enough to demonstrate through the visible original game.
    into a fresh project and skip rediscovery. Adapt one nearby edition using
    only the included operational notes and bounded validation. Exercise updates,
    conflicts, incompatible editions and interrupted actions.
-6. **Run the held-out Dune test.** Freeze the general mechanisms and AGI work
-   before inspecting Dune's operational internals. Record any earlier exposure.
-   Test whether ordinary menu/choice interaction can acquire useful actions
-   without a complete native-game analysis.
+6. **Run the next Dune transfer test.** Freeze the general mechanisms and AGI
+   work before Dune-specific adaptation. Record the earlier assisted CD opening
+   trial and other exposure; this is not an untouched or blind holdout. Follow
+   [the validation plan](DUNE_VALIDATION.md) through menus, selected entities,
+   travel and one delayed strategic order. Use ongoing reverse engineering at
+   actual ambiguities, then compare adapted results with the frozen baseline.
 7. **Qualify installation and the Showcase experience.** Build a tailored
    offline DOSBox-X package for the measured Dot runtime; test a clean install
    through the release portal. Demonstrate cold start, user participation,

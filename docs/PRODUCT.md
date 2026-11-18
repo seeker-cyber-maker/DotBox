@@ -69,6 +69,12 @@ local relational foundation for exact identities, state and dependencies, with
 optional text/vector indexes for finding relevant knowledge. Predictive models
 and simulations support planning without independently advancing game state.
 
+Keep [reverse engineering](REVERSE_ENGINEERING.md) available throughout play
+and preparation. Dot can resolve ambiguous meanings, trace state dependencies
+across contexts and identify storage reuse through engine, resource and native
+evidence. These findings enrich the same model; they are not restricted to AGI
+or to the initial scan. Required tools belong in the package.
+
 ## Preparing once, then learning during play
 
 Precompute the complete supported static resource set when cheap and bounded,
@@ -160,10 +166,13 @@ separate selected transition. Vehicle dynamics require their own controller;
 a walking grid does not establish safe driving. Recovery must clear obsolete
 input, fence old controllers and refresh game observations before further play.
 
-Begin with an exact supported King's Quest or Police Quest edition. Use the
-menu/choice-driven Dune adventure as a held-out non-AGI case; confirm the exact
-edition before running it. Keep Dune-specific discoveries out of the initial
-AGI development path so the later test measures generality.
+Begin with an exact supported King's Quest or Police Quest edition. The next
+non-AGI target is the original Cryo Dune adventure/strategy game. Follow
+[Dune validation](DUNE_VALIDATION.md): confirm the edition, freeze the generic
+baseline, record the earlier assisted CD opening trial and manual exposure,
+then separate the baseline from target-specific adaptation. Test menu context,
+selected entity, travel, delayed orders and clock semantics. Do not describe
+the target as an untouched or blind holdout.
 
 ## Shareable harness and compatibility notes
 

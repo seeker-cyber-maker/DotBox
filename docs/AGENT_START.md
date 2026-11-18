@@ -62,6 +62,13 @@ Save-file differences are useful state clues, not automatic semantic
 labels. Use repeated baseline saves and one controlled action before interpreting
 a difference. These tools do not refresh live flags or bypass the learning bound.
 
+Keep reverse engineering available after preparation and for non-AGI games.
+An ambiguous fact or missing relation can require native/resource analysis,
+cross-context readers/writers or a qualified runtime capture. Distinguish one
+persistent variable used elsewhere from one storage slot reused for another
+meaning. Cache evidence-backed findings in the model. Raw native debugger
+primitives are not yet a general owned live capture workflow in this package.
+
 For supplied qualified geometry, `dotbox route` proposes shortest walking routes
 with fewer turns and long straight legs. Execute through an applicable monitored
 control only; a plan does not move the actor. Approach an exit before a separate
@@ -116,6 +123,8 @@ guide before adapting the native primitive.
 - `dotbox guide --topic conversation`: scene descriptions, choices and player intent.
 - `dotbox guide --topic state`: game flags, async consequences, readiness and useful suggestions.
 - `dotbox guide --topic world`: internal model, relational knowledge, semantic retrieval and scene projections.
+- `dotbox guide --topic reversing`: ongoing ambiguity, dependency discovery and native-analysis integration.
+- `dotbox guide --topic dune`: next non-AGI baseline, earlier CD exposure and menu/strategy acceptance slices.
 - `dotbox guide --topic agi`: small engine-aware logic census and state hypotheses.
 - `dotbox guide --topic navigation`: straight legs, collision scope and monitored execution.
 - `dotbox guide --topic recovery`: rewind transaction and controlled saved-game evidence.

@@ -116,6 +116,13 @@ be cheaper than visual guessing. Engine-specific readers must report their
 actual supported edition; a missing reader does not justify importing a whole
 analysis pipeline or rebuilding it during ordinary play.
 
+Reverse engineering remains available for ambiguous meanings and relationships,
+including writers and consumers outside the current room and temporary storage
+reused in another context. Use the [investigation contract](REVERSE_ENGINEERING.md)
+to return reusable evidence to the world model. Foreground limits bound blocked
+play; they do not prohibit broader cached preparation or separately bounded
+worker analysis. A working route takes precedence over optional research.
+
 The current Python toolkit implements the frozen-file half: identification,
 explicit resource hashes, bounded strings/patterns, x86 instruction windows and
 range differences. Native memory/register reads require a stopped guest in the

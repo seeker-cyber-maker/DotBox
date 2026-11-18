@@ -143,6 +143,14 @@ diagnostic captures rather than treating every frame as a new semantic memory.
 
 ## Compile broadly, verify incrementally
 
+Reverse engineering remains a permanent source of model evidence. Use the
+[investigation workflow](REVERSE_ENGINEERING.md) to resolve ambiguous facts,
+follow writers and consumers across scenes, and distinguish shared persistent
+state from storage reused for another meaning. The model can request further
+analysis when a prediction fails or a relationship remains unclear. AGI is one
+provider; native/resource analysis for other engines feeds the same entity,
+relationship, evidence and action contracts.
+
 For a supported engine, run cheap deterministic extraction across the complete
 selected resource set once within the declared budgets. The existing AGI reader
 already scans available LOGIC resources. Reuse its full instruction data for

@@ -10,6 +10,11 @@ typed entities, relationships, conditional rules, hypotheses and derived views;
 z-scenes project the relevant model plus current observations. Exact state and
 action admission remain separate from semantic retrieval. Whole-resource static
 precomputation is useful; live verification and control stay incremental.
+Read docs/REVERSE_ENGINEERING.md for ongoing ambiguity and relationship
+discovery, including shared variables and reused storage. Native disassembly
+remains required alongside engine readers; a decoder alone is not a def-use
+analyzer or a qualified live capture workflow. Read docs/DUNE_VALIDATION.md for
+the next original-Cryo-Dune transfer test and the earlier Dune CD exposure.
 For engine state, movement or recovery, read docs/ENGINE_AWARE_PREPARATION.md,
 docs/NAVIGATION.md and docs/RECOVERY_AND_SAVES.md. The packaged AGI V2 census and
 walking planner are offline candidates; live observations, movement execution
@@ -57,8 +62,10 @@ assume an installed skill-discovery command.
   assistance preferences independent.
 - Build operational harness slices during play. Full game recovery, QEMU and
   the UDL/UIL/UDC conversion pipeline are outside the first release.
-- Prefer interpreter state for supported engines; keep the named Dune case
-  held out from initial engine-specific development and record prior exposure.
+- Prefer interpreter state for supported engines and retain generic/native
+  analysis for unresolved relationships. For the next Dune test, freeze the
+  generic baseline before adaptation and record prior exposure; the earlier
+  assisted CD opening trial means this is not an untouched or blind holdout.
 - Distinguish observed game progression from harness coverage.
 
 ## Evidence and implementation

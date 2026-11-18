@@ -214,8 +214,10 @@ commands distinct from the desktop's built-in Take over / Return control flow.
 Use frames, ordinary inputs and bounded waits first; use interpreter state for
 supported engines when it is cheaper and reliable. Add targeted reads, watches,
 traces or disassembly only to answer a concrete operational question. Whole-game
-conversion and replacement machinery are outside this play workflow. Preserve
-the project's held-out Dune boundary and record prior exposure before testing it.
+conversion and replacement machinery are outside this play workflow. For Dune,
+freeze the generic baseline before target-specific adaptation and record prior
+exposure, including the earlier assisted CD trial. Read `dotbox guide --topic dune`
+for the menu/strategy test plan; do not describe that target as untouched or blind.
 
 Use `dotbox inspect` for explicit executable/resource hashes, bounded strings,
 byte patterns, x86 instruction windows and frozen-range differences. Read

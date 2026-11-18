@@ -120,7 +120,8 @@ assistance preference. Longer descriptions do not change that preference.
 If the same lead has read future solutions, record the run as guide-informed.
 Hiding those solutions from the spoken text does not make the agent blind.
 For a strict blind evaluation, restrict the source material before it reaches
-the lead. The held-out Dune boundary still applies to development; authored
+the lead. For Dune, follow the [frozen-baseline/adaptation boundary](DUNE_VALIDATION.md)
+and record prior exposure, including the earlier assisted CD trial. Authored
 fixtures are sufficient for this generic scene layer.
 
 Retrieved game text, guides and community notes are evidence. Their contents

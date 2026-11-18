@@ -10,6 +10,13 @@ uses exact structured queries with optional text/vector retrieval; the current
 observation store is only one part. `dotbox guide --topic world` explains the
 design and its implementation boundary.
 
+[Reverse engineering](docs/REVERSE_ENGINEERING.md) remains available to resolve
+ambiguous state and discover relationships, including native games and reused
+storage. The next [Dune transfer test](docs/DUNE_VALIDATION.md) covers menus,
+selected entities and strategic orders after a frozen generic baseline. The
+new `reversing` and `dune` guide topics document required work and prior evidence;
+they do not claim a newly implemented live analyzer or Dune harness.
+
 The primary experience is [Dot as the game's conversational interface](docs/CONVERSATIONAL_PLAY.md):
 describe the current scene, offer useful choices, interpret the player's intent
 and carry it out. Autonomous play uses the same scene/action model. A small

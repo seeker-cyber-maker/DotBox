@@ -5,6 +5,34 @@ proof of live desktop input through the ownership fence.
 
 ## Current architecture decision: Dot's internal game model
 
+Follow-up on 18 November: reverse engineering is an ongoing requirement for
+ambiguous meanings, dependency discovery and storage reuse, including non-AGI
+games. Read [the investigation workflow](REVERSE_ENGINEERING.md) and
+[Dune validation](DUNE_VALIDATION.md), also packaged as `reversing` and `dune`.
+The current inspector has bounded identity/search/diff/linear disassembly;
+native capture/watch/trace integration and automatic native xref/def-use analysis
+remain missing. The next reusable live slice is a bounded owned evidence
+capture operation feeding offline analysis and the world model.
+
+The user proposed Dune as the next non-AGI direction, interpreted as the original
+Cryo game from the description and existing project evidence. Preserve
+the existing 15 November assisted Dune CD opening receipt: four views were
+reached, but dialogue semantics, story effects and later strategy were not
+qualified. Freeze a fresh generic baseline and record this prior/manual exposure
+before target-specific adaptation. The new plan covers menu/subject identity,
+conversation, travel, one delayed order, clock semantics and warm reuse. This
+documentation pass consulted that receipt and the original manual; it did not
+inspect Dune assets, execute the game or recover Dune internals.
+
+Fresh verification of this follow-up: **59 existing kit/inspection tests passed**.
+The rebuilt ordinary wheel was installed into a new directory; the `world`,
+`reversing`, `dune`, `play` and `guides` topics matched their source text. All
+51 packaged resources and 35 runtime modules matched; 21 topics were registered,
+and the offline doctor passed without native qualification. The source links
+and patch whitespace were checked. See the [verification receipt](
+evidence/reverse-engineering-dune-guidance-2026-11-18.json). This is guidance
+and packaging verification, not a live investigation or strategic-game test.
+
 The user clarified that Dot should build her own convenient representation of
 the game's entities, relationships, rules and possibilities, while z-scenes
 describe the relevant present situation. Read [WORLD_MODEL.md](WORLD_MODEL.md)
