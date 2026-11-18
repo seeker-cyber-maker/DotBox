@@ -1,7 +1,45 @@
 # DotBox development handoff
 
-Updated 17 November 2026. This is a development continuation, not a release or
+Updated 18 November 2026. This is a development continuation, not a release or
 proof of live desktop input through the ownership fence.
+
+## Current architecture decision: Dot's internal game model
+
+The user clarified that Dot should build her own convenient representation of
+the game's entities, relationships, rules and possibilities, while z-scenes
+describe the relevant present situation. Read [WORLD_MODEL.md](WORLD_MODEL.md)
+or the packaged `dotbox guide --topic world` before extending scene storage.
+Use a typed relational foundation, initially separate from the strict existing
+SceneStore, with optional text/vector indexes over useful semantic material.
+Dot can create abstractions and hypotheses; observations, predictions, model
+revisions and live state revisions remain distinct. Rewind retains knowledge
+while invalidating dynamic bindings to the abandoned branch.
+
+This documentation continuation is based on PR #10's primary head
+`adade95acad4ae5062de99f76805305e7a3a2203` and independent mirror head
+`6dbef65fe923eb54a1a498d63d5c8259671578f1`, with the same input tree
+`0e4e2a82826b274b1ef211f29a988c61d38e753a`. It preserves those histories and
+adds packaged guidance; it does not implement WorldStore, embeddings, live
+driving or another rewind operation. Complete cheap static extraction and
+draft compilation are compatible with incremental live qualification.
+
+The next useful implementation is a private versioned world store with stable
+typed entities/relations, evidence and conditional rule references, then AGI
+draft import and observation linking. Exact neighborhood/dependency queries
+should feed the existing scene/action admission path. Semantic indexing can
+follow a measured retrieval need. Do not insert new tables into SceneStore
+without a migration, or relabel its last-fact cache as a complete event history.
+
+Fresh verification for this guidance change: all 23 existing kit tests passed.
+A newly built ordinary wheel was installed into a new directory, imported from
+that directory rather than the checkout, and returned the exact source text for
+`guide --topic world`. All 49 packaged resource bytes/hashes matched the source;
+19 guide topics were registered and the offline doctor passed without claiming
+native qualification. Relative document links and the patch whitespace check
+passed. An independent read-only review found no actionable issues. The
+[verification receipt](evidence/world-model-guidance-2026-11-18.json) records the
+reused dependency environment and initial environment/checker corrections.
+No native rebuild or gameplay test was part of this documentation change.
 
 ## Start here
 

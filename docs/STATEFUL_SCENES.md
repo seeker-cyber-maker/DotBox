@@ -2,8 +2,11 @@
 
 Decision: 17 November 2026. The original game determines flags, inventory,
 locks and outcomes. DotBox remembers provider observations, keeps menus tied
-to the observed timeline, and helps Dot select useful suggestions. It does not
-run a second copy of the game's puzzle rules.
+to the observed timeline, and helps Dot select useful suggestions. Dot can build
+an [internal causal and predictive model](WORLD_MODEL.md), including rule
+simulation for planning. That model does not independently commit predicted
+effects to the player's game state or this observation store. A z-scene is a
+current projection; Dot's world knowledge can be much broader.
 
 The `0.1.0.dev4` offline slice implements a persistent observation store,
 state-bound selection, provider admission gates, suggestion policy and passive

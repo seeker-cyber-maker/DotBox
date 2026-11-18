@@ -3,6 +3,13 @@
 Play DOS games with Dot using an independent DOSBox-X session framework.
 The original graphical game remains authoritative.
 
+Dot's planned [internal game model](docs/WORLD_MODEL.md) retains entities,
+relationships, rules, evidence and her own useful abstractions. Z-scenes are
+bounded views of that knowledge plus current observations. The proposed model
+uses exact structured queries with optional text/vector retrieval; the current
+observation store is only one part. `dotbox guide --topic world` explains the
+design and its implementation boundary.
+
 The primary experience is [Dot as the game's conversational interface](docs/CONVERSATIONAL_PLAY.md):
 describe the current scene, offer useful choices, interpret the player's intent
 and carry it out. Autonomous play uses the same scene/action model. A small

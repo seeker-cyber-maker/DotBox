@@ -5,6 +5,11 @@ as a working release. The current source priority is packaged, incremental
 control learning and Dot as the game's conversational interface. Read
 docs/CONVERSATIONAL_PLAY.md, docs/GUIDE_RECONSTRUCTION.md,
 docs/INCREMENTAL_PLAY.md, docs/LEARNING_KIT.md and docs/STATEFUL_SCENES.md.
+Read docs/WORLD_MODEL.md for the requested internal representation: Dot builds
+typed entities, relationships, conditional rules, hypotheses and derived views;
+z-scenes project the relevant model plus current observations. Exact state and
+action admission remain separate from semantic retrieval. Whole-resource static
+precomputation is useful; live verification and control stay incremental.
 For engine state, movement or recovery, read docs/ENGINE_AWARE_PREPARATION.md,
 docs/NAVIGATION.md and docs/RECOVERY_AND_SAVES.md. The packaged AGI V2 census and
 walking planner are offline candidates; live observations, movement execution

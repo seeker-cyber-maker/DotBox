@@ -55,9 +55,13 @@ Examples of useful questions:
 - Does releasing Right stop movement, or does this game use toggled movement?
 - Which observed flag distinguishes the closed door from the opening animation?
 
-"Recover all rooms", "map every interaction" and "identify every variable" have
-no immediate consumer and do not belong on the play path. A finding is useful
-when it changes the next bounded action or how its outcome is observed.
+Exhaustive semantic recovery of all rooms, interactions and variables does not
+belong on the foreground play path. Cheap whole-resource extraction and cached
+conditional drafts are useful preparation for Dot's
+[internal world model](WORLD_MODEL.md); do them once within their declared
+budgets instead of rediscovering each room. Keep only the next relevant part
+in the active context. A foreground finding is useful when it changes the next
+bounded action or how its outcome is observed.
 
 ## Foreground bounds and background deadlines
 

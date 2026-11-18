@@ -33,8 +33,11 @@ the player receives spoiler-light descriptions.
 ## Learn one missing interaction
 
 Keep only the current goal, observed context, one operational question, immediate
-next interaction and usable fallback. Examples: "Does Enter select this item?"
-or "Does releasing Right stop movement?" Avoid full room maps or game recovery.
+next interaction and usable fallback in the active play context. Examples:
+"Does Enter select this item?" or "Does releasing Right stop movement?" Retain
+broader entities, relationships, rules and hypotheses in Dot's internal model;
+a z-scene projects the relevant current view. Cheap whole-resource compilation
+can run once and be cached without requiring exhaustive recovery before play.
 
 Use `dotbox learn` when a missing control genuinely blocks progress. Its default
 trial allowance is 15 seconds and two probe admissions. The clock includes time
@@ -53,8 +56,9 @@ must resume the guest before analysis; no general live capture facade ships yet.
 
 For a confirmed compatible AGI V2/2.917 edition, `dotbox agi inspect` supplies
 ordered logic conditions, state writers and resource candidates without general
-x86 analysis. Cache the bounded outline; resolve only when the next question
-needs it. Save-file differences are useful state clues, not automatic semantic
+x86 analysis. Cache a bounded whole-resource outline or resolve pass when its
+cost fits preparation; deepen unresolved semantics along the useful frontier.
+Save-file differences are useful state clues, not automatic semantic
 labels. Use repeated baseline saves and one controlled action before interpreting
 a difference. These tools do not refresh live flags or bypass the learning bound.
 
@@ -111,6 +115,7 @@ guide before adapting the native primitive.
 - `dotbox guide --topic learning`: incremental method, budgets and measurements.
 - `dotbox guide --topic conversation`: scene descriptions, choices and player intent.
 - `dotbox guide --topic state`: game flags, async consequences, readiness and useful suggestions.
+- `dotbox guide --topic world`: internal model, relational knowledge, semantic retrieval and scene projections.
 - `dotbox guide --topic agi`: small engine-aware logic census and state hypotheses.
 - `dotbox guide --topic navigation`: straight legs, collision scope and monitored execution.
 - `dotbox guide --topic recovery`: rewind transaction and controlled saved-game evidence.

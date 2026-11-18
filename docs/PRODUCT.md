@@ -1,6 +1,6 @@
 # DotBox product brief
 
-Status: design baseline updated 17 November 2026. Requirements below are intended
+Status: design baseline updated 18 November 2026. Requirements below are intended
 behavior, not claims of implemented or measured DotBox capabilities.
 
 ## Current milestone — 17 November 2026
@@ -61,7 +61,21 @@ renderer as a fallback. Description detail, decision maker and assistance level
 are independent preferences. A progress HUD remains optional.
 The product does not need a replacement game, UDL-to-UIL conversion or UDC.
 
+Dot must be able to construct and revise her own [internal game model](WORLD_MODEL.md):
+typed entities, relationships, conditional rules, evidence, hypotheses and
+task-specific abstractions. Z-scenes expose a relevant current view of that
+larger model, combined with provider observations and action admission. Use a
+local relational foundation for exact identities, state and dependencies, with
+optional text/vector indexes for finding relevant knowledge. Predictive models
+and simulations support planning without independently advancing game state.
+
 ## Preparing once, then learning during play
+
+Precompute the complete supported static resource set when cheap and bounded,
+then cache conditional world drafts. Incremental work applies to semantic
+enrichment, live verification and controls; it does not require postponing a
+whole-game bytecode scan until each room is visited. Complete world recovery
+remains unnecessary for starting useful play.
 
 On first boot without a compatible project, perform bounded operational
 preparation: establish the executable/resource edition, connect the controls,

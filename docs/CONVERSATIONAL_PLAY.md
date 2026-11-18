@@ -13,6 +13,13 @@ with that product or a claim that DotBox already has a live voice frontend.
 
 ## One scene model, two decision makers
 
+The scene model is a bounded interface over Dot's larger
+[internal game representation](WORLD_MODEL.md). Dot can retain relationships,
+causal rules, plans and hypotheses across the whole game, then combine the
+relevant knowledge with current observations to prepare a z-scene. Player and
+reconstruction views apply their own evidence and audience rules. A scene
+packet is not the full memory or ontology, and prose is not the storage format.
+
 Both player-led and autonomous play use the same observations, scene facts,
 choices, control references and outcome checks. In player-led mode, Dot offers
 choices and waits for the player's intent. In autonomous mode, Dot selects the

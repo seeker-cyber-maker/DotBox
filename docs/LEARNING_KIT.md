@@ -16,6 +16,7 @@ dotbox guide --topic learning
 dotbox guide --topic inspection
 dotbox guide --topic conversation
 dotbox guide --topic state
+dotbox guide --topic world
 dotbox guide --topic agi
 dotbox guide --topic navigation
 dotbox guide --topic recovery
@@ -45,6 +46,10 @@ The default guide starts from the next useful game action. Full play guidance,
 runtime-control distinctions, inspection recipes, learning policy and native
 source/build instructions are included as package resources. Load the topic
 needed now instead of loading every reference into the agent context.
+The `world` topic documents Dot's requested internal representation and the
+planned structured store, optional semantic retrieval and scene-projection
+boundary. It adds guidance, not a world database, embedding dependency or live
+rule executor. The current SceneStore still retains provider observations only.
 The `lookahead` topic aliases the continuous-play reference: full cloud workers,
 predictive scene candidates, movement as natural preparation time and separate
 foreground/background bounds. It documents the operating contract; it does not
