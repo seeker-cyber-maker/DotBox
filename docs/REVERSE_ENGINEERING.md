@@ -121,6 +121,27 @@ Record instrumentation interference and remove only the experiment's probes.
 Use richer discovery captures to derive cheap qualified runtime predicates;
 unknown predicates return to bounded observation without weakening the guard.
 
+## Generalize the relationship and search for siblings
+
+Use the [transition-family contract](EVENT_TRANSITIONS.md) to turn a useful
+event/guard/effect finding into further work. Separate structural invariants
+from selector, entity and context parameters. Enumerate compatible callers,
+branch arms, script operations, registration sites or data-table entries rather
+than assuming every button duplicates its code. Masked bytes, structural/data-flow
+patterns and known schemas answer different questions.
+
+Transfer established family facts under their assumptions; investigate new
+bindings and material differences. Preserve site-plus-argument/context for shared
+dispatch and unresolved indirect/return/queued continuations. Record scan bounds,
+omissions and counterexamples. A matching instruction shape alone does not name
+an action or prove an effect, while a verified schema can justify many facts
+without a separate live experiment for each entry.
+
+Index which analysis questions require each claim. A newly accepted schema or
+field role can unlock parallel work on siblings and consumers. Reevaluate only
+affected dependencies, deduplicate jobs and prioritize useful questions. Keep
+this knowledge frontier separate from current game reachability and action admission.
+
 ## Current machinery and missing integration
 
 | Capability | Current source/package scope |
@@ -132,6 +153,7 @@ unknown predicates return to bounded observation without weakening the guard.
 | Register/memory/trace/access-breakpoint primitives | Present in the bundled native source, subject to actual build and negotiated capabilities |
 | General owned evidence capture/watch/trace workflow | Integration and qualification still required at the normal DotBox session interface |
 | Native CFG, xrefs, definition/use chains and storage-lifetime analysis | Not provided by the current linear decoder; a separate analysis layer is required |
+| General transition families and prerequisite-driven analysis expansion | Design guidance; existing masked search/AGI census provide inputs, but a family ledger and structural scanner remain implementation work |
 
 The package must own the compatible modules and dependencies it needs. It must
 not send an ordinary player to install fDisBull or another analyzer when an

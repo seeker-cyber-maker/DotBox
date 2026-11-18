@@ -112,6 +112,14 @@ Use richer bounded captures for discovery and qualified sparse checks for
 routine recognition. Readiness, semantic commit and presentation remain
 independent evidence. These are design requirements, not a new live analyzer.
 
+Use [event-conditioned state transitions](EVENT_TRANSITIONS.md) as the shared
+foundation across menus, screens, rooms and local changes. Input modalities are
+concrete bindings. One recovered rule, code pattern or data schema can expose
+related candidates and satisfy prerequisites for independent analyses. Retain
+families, bindings and observed occurrences separately, reuse established common
+facts, and check live applicability before using a selected action. The analysis
+frontier grows with learned relationships as well as with the player's route.
+
 Include a bounded documentation pass: establish the broad goal and control
 conventions, then collate two or three compatible guides when useful and available.
 Their objects, exits and route dependencies become expected-scene checklists.

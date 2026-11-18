@@ -3,7 +3,42 @@
 Updated 18 November 2026. This is a development continuation, not a release or
 proof of live desktop input through the ownership fence.
 
-## Latest continuation: bootstrap strategic interfaces and model event loops
+## Latest continuation: generic transitions and analysis dependencies
+
+18 November 2026. The user generalizes menus, screen changes and room entry as
+event-conditioned state transitions. Added [EVENT_TRANSITIONS.md](EVENT_TRANSITIONS.md),
+packaged as `dotbox guide --topic transitions`, and aligned the existing world,
+process, reversing, incremental-play and agent entry guidance.
+
+The design separates reusable families/rules, concrete bindings and observed
+occurrences. A recovered dispatcher, structural pattern or data schema can
+enumerate siblings and satisfy prerequisites for independent analysis. Transfer
+established common facts without repeating an identical experiment for every
+instance; keep interpretation, execution support and current applicability
+separate. Invocation readiness does not require knowing the outcome in advance.
+Track dependency invalidation, bounded expansion and the existing foreground
+budget. The knowledge frontier is distinct from player reachability.
+
+The recovered XCOM selector rule and inspected serializer candidate extractor
+are concrete precedents. Their documented bounds remain: no automatic induction
+from one click, no all-button count, and no recovered XCOM add-on source archive.
+This slice implements no family ledger, general structural scanner, scheduler
+or live capture. The existing Police Quest controls/rewind acceptance is unchanged.
+
+Fresh verification: 23 existing kit tests passed; a rebuilt wheel installed into
+an isolated target matched 55 resources and 35 runtime modules. All 25 topic
+functions and seven affected CLI guides matched source; the offline doctor
+passed with native qualification false. Independent design and source-reuse
+reviews passed. See [the verification receipt](
+evidence/event-transition-guidance-2026-11-18.json). Current BBS work:
+project dotbox, ticket e-a784add1-d1b9-4879-9dff-5819a247eba9.
+
+An offline family/binding/evidence ledger fed by existing census outputs is a
+bounded future slice. DotBox-owned live capture and further native scanning
+remain separate integration work; original Cryo Dune remains the next transfer
+target after the declared generic baseline.
+
+## Previous continuation: bootstrap strategic interfaces and model event loops
 
 The user added the original main-menu analysis workflow and the missing process
 model: Options/control mappings, Load/serializer state, New Game/intro prompts,

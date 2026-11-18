@@ -138,6 +138,7 @@ guide before adapting the native primitive.
 - `dotbox guide --topic state`: game flags, async consequences, readiness and useful suggestions.
 - `dotbox guide --topic world`: internal model, relational knowledge, semantic retrieval and scene projections.
 - `dotbox guide --topic loops`: main-menu bootstrap, isolated state experiments, event phases and clocks.
+- `dotbox guide --topic transitions`: shared event/guard/effect families, sibling discovery and newly enabled analysis tasks.
 - `dotbox guide --topic reversing`: ongoing ambiguity, dependency discovery and native-analysis integration.
 - `dotbox guide --topic dinopark`: recovered mechanics, existing provider and bounded integration path.
 - `dotbox guide --topic xcom`: recovered startup, serializer and event-discovery work with timing scope.

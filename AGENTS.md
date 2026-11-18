@@ -27,6 +27,10 @@ work. Initial usable controls, relevant loop coverage and full task completion
 have separate readiness clocks. The 180-second initial-control profile is not
 a universal cold game-loop limit; preserve misses and explicitly bound longer
 preparation without extending a blocked foreground action.
+Read docs/EVENT_TRANSITIONS.md for the common event/guard/effect contract across
+menus, screens, rooms and local changes. Separate families, bindings and observed
+occurrences. Reuse established patterns/schemas to enumerate siblings and unlock
+independent questions; retain evidence dependencies and current applicability.
 For engine state, movement or recovery, read docs/ENGINE_AWARE_PREPARATION.md,
 docs/NAVIGATION.md and docs/RECOVERY_AND_SAVES.md. The packaged AGI V2 census and
 walking planner are offline candidates; live observations, movement execution

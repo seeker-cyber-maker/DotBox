@@ -78,6 +78,13 @@ frontiers. These are not counts of buttons or automatic named-button discovery.
 TFTD received static results only in that note. General delayed producer/consumer,
 callback, queue/latch and native-to-script joining remained future work. [X5]
 
+This is a precedent for [transition-family discovery](EVENT_TRANSITIONS.md):
+recover one selector mechanism, enumerate related source bindings, then use
+their differences and dependencies to direct further analysis. Menus are one
+application of the shared event/guard/effect contract. Keep family-level facts,
+binding semantics and current live applicability separate, and reuse established
+common evidence without repeating an identical investigation for every candidate.
+
 The source-only add-on was delivered through its originating conversation as
 `fdisbull-menu-event-discovery-20261107.zip`, SHA-256
 `cff20df90a2ac3db1589dfc83ca0c663150f92d6b885fb1f42ecc5773e60e1d7`.

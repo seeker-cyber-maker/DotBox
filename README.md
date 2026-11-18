@@ -33,6 +33,12 @@ Initial usable controls, an understood operating loop and full task completion
 have separate readiness measures; complex cold preparation may need its own
 declared longer bound. No event-loop analyzer or XCOM provider is added here.
 
+[Generic event transitions](docs/EVENT_TRANSITIONS.md), topic `transitions`, put
+menus, screens, rooms and local changes under one event/guard/effect contract.
+Learned code patterns or table schemas can expose sibling bindings and unlock
+independent analyses. The guide separates reusable rules, concrete bindings
+and observed occurrences; family storage and automatic expansion remain planned.
+
 The primary experience is [Dot as the game's conversational interface](docs/CONVERSATIONAL_PLAY.md):
 describe the current scene, offer useful choices, interpret the player's intent
 and carry it out. Autonomous play uses the same scene/action model. A small

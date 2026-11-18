@@ -72,6 +72,8 @@ The foundation should preserve:
 | Observations and episodes | Provider-scoped state reports, selected actions, receipts and reconciled outcomes with their timeline |
 | Evidence and notes | Bytecode/resource locations, guide references, experimental results and Dot's semantic explanations |
 | Processes, phases and triggers | Context-bound event/clock relationships, pending operations and partial ordering needed by the current goal |
+| Transition families and bindings | Shared event/guard/effect rules, concrete code/data/input bindings and separately observed occurrences |
+| Analysis dependencies | Claims and artifacts that enable further questions, with source/revision scope and invalidation links |
 
 Keep booleans, integers, enum values, entity references and explicitly unknown
 values typed. A display label is an alias, not an entity identity. Two doors
@@ -88,6 +90,22 @@ title. Foreign keys can preserve record references [2]; they do not validate
 the semantic truth of a claim.
 
 ## Dot owns the useful abstractions
+
+### One event/state-transition foundation
+
+Use [generic transition families](EVENT_TRANSITIONS.md) across menus, screens,
+rooms, local mutations and timed effects. Clicks, keys, spatial crossings and
+callbacks are event sources; their concrete input/movement bindings retain
+timing and guards. Preserve context push/pop, location changes, state writes
+and queued effects within that common contract.
+
+Separate a reusable family/rule, a concrete parameterized binding and an observed
+occurrence. Structural similarity, semantic interpretation, execution support
+and current applicability carry independent evidence. A recovered schema can
+establish many facts at once; it does not turn every candidate into an enabled
+live action. A new finding can satisfy prerequisites for multiple independent
+analyses without changing the player's state or reachability. Retain those
+dependencies so revised evidence invalidates the affected interpretations.
 
 ### Model how the game advances
 

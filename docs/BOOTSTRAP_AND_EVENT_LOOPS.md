@@ -13,6 +13,7 @@ Read this document through `dotbox guide --topic loops`.
 
 ## Contents
 
+- [Use the shared transition contract](#use-the-shared-transition-contract)
 - [Start with the current prompt](#start-with-the-current-prompt)
 - [Use saves as structured evidence](#use-saves-as-structured-evidence)
 - [Represent processes and clocks](#represent-processes-and-clocks)
@@ -20,6 +21,21 @@ Read this document through `dotbox guide --topic loops`.
 - [Prepare with isolated helpers](#prepare-with-isolated-helpers)
 - [Separate readiness and preparation time](#separate-readiness-and-preparation-time)
 - [Small implementation and acceptance slices](#small-implementation-and-acceptance-slices)
+
+## Use the shared transition contract
+
+Menu opening, screen switching, room entry and local state mutation are
+instances of [event-conditioned transitions](EVENT_TRANSITIONS.md). Input
+modality is a binding; guards, effects and continuations describe the operation.
+The examples below use menus to explain discovery, not to define a separate
+semantic foundation. Phase/timer rules schedule or constrain the same transitions.
+
+One recovered mechanism can expose sibling callers, selector arms, script
+instructions or table entries. Retain a family, its parameterized bindings and
+actual occurrences separately. Transfer evidence for the common parts, inspect
+material differences and qualify the boundaries needed by the current consumer.
+New findings can unlock several independent analyses; use that dependency
+frontier alongside preparation for likely next locations.
 
 ## Start with the current prompt
 

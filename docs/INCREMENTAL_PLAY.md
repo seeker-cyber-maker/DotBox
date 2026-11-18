@@ -172,6 +172,16 @@ refresh the actual game state and retire the old intention before resuming.
 
 ## Dot leads; cloud workers prepare ahead
 
+The [analysis frontier](EVENT_TRANSITIONS.md#findings-expose-more-answerable-questions)
+also includes questions unlocked by new knowledge. A recovered dispatcher,
+table schema or state-field role may expose many related bindings and independent
+consumers. Batch cheap enumeration, then distribute useful unresolved questions
+with their prerequisite evidence; do not assign one agent to every raw match.
+Transfer established common facts and investigate differences. Deduplicate work
+and invalidate dependent interpretations when their assumptions change.
+Keep knowledge readiness separate from player reachability and preserve the
+single foreground question and its existing deadline.
+
 Dot can spawn supported full cloud agents when usage permits. While Dot
 narrates, retrieves the immediate information and operates the live game,
 workers can recover and edit candidate scenes for the selected destination or
