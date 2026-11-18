@@ -32,7 +32,12 @@ Start with [standalone installation](docs/STANDALONE.md), the
 For a local Apple Silicon build, use the
 [Mac build-and-test helper](docs/LOCAL_MACOS_BUILD.md). It builds the pinned
 native source and requires eight actual native fixture passes, with no skips.
-The helper is implemented; execution on the Mac Studio remains unverified.
+A fresh Mac Studio build passed all eight fixtures, four headless and four
+visible, on 17 November 2026. See the
+[sanitized native-build receipt](https://github.com/seeker-cyber-maker/DotBox/blob/codex/local-macos-build-20261117/docs/evidence/local-macos-native-2026-11-17.json).
+This qualifies the local developer build's authored fixtures; original-Dot
+desktop integration, commercial-game play and complete memory rewind remain
+separate gates.
 
 For the current development slice, read [incremental play](docs/INCREMENTAL_PLAY.md)
 and the [installed learning kit](docs/LEARNING_KIT.md). `dotbox guide` gives Dot a

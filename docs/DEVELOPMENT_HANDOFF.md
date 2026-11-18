@@ -51,6 +51,11 @@ proof of live desktop input through the ownership fence.
   mirror head `d12764adc1feccfd1361af45a67c1f36ce651adf`. Their shared input tree
   is `f63ffc7cc7bddadf80db6c8355f238be146c1d90`. Use this implementation branch
   for the local build; do not assume the draft stack is merged into `main`.
+- The local build's SDK fix is published in [draft PR #10](https://github.com/seeker-cyber-maker/DotBox/pull/10).
+  Its publication snapshot is primary `18d374d395471ef0ef741187a955c8ad66773b70`,
+  independent mirror `238b5a1bc3c9a35612bc93f7a0b9c6d74f000f23`, and shared tree
+  `45d39466a994b488ed1faf767beff5f3abbcf587`. The measured Mac worktree identity
+  is recorded separately below; it was not a rebuild of these later commits.
 - At inspection, `main` was the design baseline at
   `10fa86d8a91bb75e0ccf3da346bc9f72eab91d03`; it did not contain the implementation.
 
@@ -82,9 +87,9 @@ run on the previous host and are not results from this continuation.
 The connector is status-only: no turn claims/checks/releases, input, frames,
 files or shell. A status response never grants input. The receipt reports that
 the publisher was stopped and connection processes were left running; their
-current live state was not rechecked here.
+continued availability cannot be inferred from that historical receipt.
 
-## Current continuation: local Mac build and strict native tests
+## Current continuation: completed local Mac native qualification
 
 Version `0.1.0.dev7` adds `scripts/build_local_macos.py` for a fresh, private
 Apple Silicon build with two compiler jobs, the pinned bundled SDL2, an ordinary
@@ -101,24 +106,57 @@ the run. A source receipt is metadata, not an independent binary attestation.
 Installed-wheel doctor evidence remains separate from fixtures importing the
 checkout's source. Runner unit tests use authored reports and do not run DOSBox-X.
 
-No connection to the Mac Studio or fresh macOS native build was established in
-this continuation. The selected cloud executor is Linux; its SSH client failed
-before a connection attempt. This does not diagnose the Studio or require an AI
-agent to run the local compiler. Start with the logged-in Mac Terminal command
-in [LOCAL_MACOS_BUILD.md](LOCAL_MACOS_BUILD.md), inspect the saved result and
-continue from any actual compiler/runtime failure. A headless pass alone cannot
-qualify visible execution. Full original-Dot input and the two Police Quest
-trials remain later integration gates; this continuation adds no rewind API.
+The Browser plugin established command access to a logged-in Studio Terminal.
+That existing connection was used for the local build. Direct SSH from the
+cloud executor still fails before contacting Studio, and the platform forbids
+the elevated execution path requested to diagnose that client. No Tailscale
+configuration change was part of the native build.
 
-Final source verification passed **802 tests**, with exactly **eight native
-executable skips**. The supplied pinned base enabled the real overlay application
-and repeat-application check. The new build helper has 38 focused checks and the
-strict runner has 28; these include authored process cleanup and read-only pip
-configuration probes, not emulator acceptance. An ordinary wheel and clean
-offline installation match all 35 runtime modules, 48 resources and 18 topics;
-the installed `macos` guide, export and doctor pass. Independent review found
-no remaining blocker after the cancellation and pip-probe fixes. See the
-[sanitized helper verification](evidence/local-macos-build-2026-11-17.json).
+The full `all` build succeeded on Darwin 27.2.0 arm64 with Python 3.12.16 in
+**4 minutes 22 seconds**. The native gate executed exactly **eight fixtures:
+four headless and four visible**, with pytest exit zero and no skipped, failed
+or errored test. The executable SHA-256 stayed unchanged across the run. The
+separate installed-wheel doctor reported the offline learning kit ready.
+
+The first attempt failed at SDL2 configuration with `ld: library 'System' not
+found`. The helper had resolved the SDK and direct Command Line Tools compiler
+paths but had not passed the SDK root to its child processes. A minimal C probe
+failed with the inherited environment and succeeded when only `SDKROOT` was set
+to the selected SDK. The helper now includes `SDKROOT=sdk` in its existing
+compiler-environment binding; the fresh retry passed the full build and gate.
+
+The measured Mac checkout was primary
+`6573cb5fb1c135629bac5d5ebcd1738fd91ab44c` plus that exact one-line SDK fix. Its
+build-helper SHA-256 was
+`bfb462f0f57e337df9e3e805185cf0b14f3232cc6cc4ef8ed1b19cc21d82a155`.
+The fix was subsequently committed locally as `b25346a` and published in the
+SDK-fix snapshot listed above. Do not attribute the measured binary to a later
+documentation or publication commit. See the
+[sanitized native-build receipt](evidence/local-macos-native-2026-11-17.json)
+for the complete bounded evidence.
+
+The focused helper suite was rerun after the fix: **39 passed**. It covers
+unset and stale inherited SDK roots, propagation to a real child process and
+preservation of the parent process environment. This is separate from the
+eight real native fixtures. The output is a developer executable and isolated
+Python environment, not a signed application or portable offline release.
+Original-Dot takeover/input integration, commercial-game play and both Police
+Quest trials remain unqualified. A complete player-facing memory-rewind API is
+still absent.
+
+### Historical helper/source verification
+
+Before the Mac run, source verification passed **802 tests**, with exactly
+**eight native executable skips**. That complete source suite was not rerun for
+the SDK fix. The supplied pinned base enabled the real overlay application and
+repeat-application check. At that snapshot the build helper had 38 focused
+checks and the strict runner had 28, including authored process cleanup and
+read-only pip configuration probes. The ordinary wheel and clean offline
+installation matched all 35 runtime modules, 48 resources and 18 topics;
+the installed `macos` guide, export and doctor passed. Independent review found
+no remaining blocker after the cancellation and pip-probe fixes. Preserve the
+[earlier sanitized helper verification](evidence/local-macos-build-2026-11-17.json)
+as historical evidence rather than treating its native skips as the new Mac result.
 
 ## Retained continuation: memory-only recovery and recovered AITD work
 
@@ -167,11 +205,12 @@ the ownership boundary automatically. A future complete recovery controller must
 handle admitted failure, fresh branch/store and coherent post-restore observations;
 offline SceneStores and worker candidates do not invalidate themselves.
 
-Matching upstream source is available and both patch stages can be verified.
-A compatible complete native build and original-Dot live recovery remain
-unqualified on this host. The available fDisBull binary is a different native
-revision and is not substituted for this overlay. The recovered walking/menu
-work remains a controller reference. The user has now selected the concrete
+Matching upstream source was available and both patch stages could be verified
+at that memory-fence continuation, but it had not built a matching complete
+native executable. The Mac native qualification above is a later result;
+original-Dot live recovery remains unqualified. The historical fDisBull binary
+was a different native revision and was not substituted for this overlay. The
+recovered walking/menu work remains a controller reference. The user has now selected the concrete
 Police Quest controls and rewind trials below as the next live acceptance goals.
 
 ### User-selected Police Quest trials: specified, not executed
@@ -200,7 +239,8 @@ resources and evidence only; runtime code and native patch are unchanged.
 The existing source kit suite passed 23 checks. An ordinary wheel and clean
 offline installation agree with the source on all 35 runtime modules and
 47 operational resources, with 17 topics. The installed `policequest` command,
-resource export and offline doctor passed; native qualification remains false.
+resource export and offline doctor passed; that documentation-only follow-up
+did not perform native qualification.
 See the [acceptance investigation receipt](evidence/police-quest-acceptance-2026-11-17.json).
 
 ### Initial memory-fence snapshot verification
@@ -616,5 +656,6 @@ The live gates remain separate:
 
 These are sampled cooperation checks, not an atomic capture lock. A transition
 entirely between samples can be missed; the outer harness still owns capture
-and input already in flight. No live ownership probe, desktop input, environment
-switch, tunnel change, game launch or release publication was performed here.
+and input already in flight. The local Mac build and authored native fixtures
+recorded above do not qualify these original-Dot desktop gates or commercial-game
+play. Full memory rewind and release publication remain separate work.

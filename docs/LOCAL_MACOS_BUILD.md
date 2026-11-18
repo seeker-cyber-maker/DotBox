@@ -3,8 +3,13 @@
 The local compiler and tests run directly in Terminal; they do not need an AI
 agent or a weekly usage allowance. This procedure builds the current DotBox
 Python package and its patched DOSBox-X, then requires real native fixture
-tests to pass. **The helper has not yet been executed on the Mac Studio.**
-Its orchestration tests are not evidence of a successful macOS build.
+tests to pass. **A fresh Mac Studio build passed the full eight-test native gate
+on 17 November 2026:** four headless and four visible fixtures, with no skips,
+failures or errors. The installed offline-kit doctor also passed. The run used
+Darwin 27.2.0 arm64 and Python 3.12.16 and completed in 4 minutes 22 seconds.
+See the [sanitized native-build receipt](https://github.com/seeker-cyber-maker/DotBox/blob/codex/local-macos-build-20261117/docs/evidence/local-macos-native-2026-11-17.json)
+for the exact source and executable identities. Helper orchestration tests
+remain separate evidence from this executed native gate.
 
 Use a native arm64 Terminal in a logged-in desktop session for the full test.
 The initial output is a developer executable plus an isolated Python environment,
@@ -36,11 +41,19 @@ and return to Terminal. Use native Apple Silicon Homebrew at
 /opt/homebrew/bin/brew install python@3.12 autoconf automake pkgconf libpng zstd ncurses
 ```
 
-The helper does not install Homebrew, change the selected SDK, invoke `sudo` or
-install system packages. It reports missing prerequisites before starting work.
+The helper does not install Homebrew, change the global Xcode selection, invoke
+`sudo` or install system packages. It reports missing prerequisites before starting work.
 The source needs C++14; the selected Apple Clang toolchain provides that language
 mode. NASM, fDisBull, FFmpeg, FluidSynth and libslirp are not prerequisites for
 this selected build and DotBox fixture set.
+
+The helper reads the selected SDK with `xcrun --show-sdk-path` and sets
+`SDKROOT` in its child build environment. SDL2 and DOSBox-X configure/compiler
+steps inherit that explicit path. The first Mac attempt reached SDL2 configure
+but failed with `ld: library 'System' not found` because direct Command Line
+Tools compiler invocation lacked the SDK root. Setting only `SDKROOT` to the
+selected SDK fixed a minimal C compile/link probe and the subsequent full build.
+This is a per-build environment binding, not a persistent shell or system change.
 
 SDL2 is built from the source already included in the pinned DOSBox-X commit
 (version 2.32.10 with its upstream IME changes). This deliberately records one

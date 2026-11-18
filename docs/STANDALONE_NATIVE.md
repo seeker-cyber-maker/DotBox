@@ -65,8 +65,11 @@ fields are not claims about a newly prepared or built DotBox delivery.
 For an Apple Silicon Mac, the [local build-and-test helper](LOCAL_MACOS_BUILD.md)
 sets up a private build, uses the bundled pinned SDL2 and runs the strict native
 fixture gate. It requires a full DotBox source checkout, including tests;
-`dotbox kit-export` alone is not that checkout. The helper has not yet qualified
-the Mac Studio.
+`dotbox kit-export` alone is not that checkout. A fresh Mac Studio build passed
+the complete eight-fixture gate on 17 November 2026; see the qualification scope
+below. The helper passes the SDK selected by `xcrun` as `SDKROOT` to its child
+build processes so direct Command Line Tools compiler invocations can find the
+system libraries.
 
 For a manual build, install the host's normal DOSBox-X development prerequisites:
 a C/C++14 toolchain, autoconf, automake, pkg-config, SDL2 development files, ncurses,
@@ -97,13 +100,21 @@ full corresponding prepared source, and required notices. See
 
 ## Qualification boundaries
 
-Source preparation checks all 38 final result hashes. The current overlay was
-applied and verified against the exact pinned base without compiling a complete
-emulator. Compiled standalone policy tests cover generation admission, unchanged
-owner and invalidation before cleanup/failure. These checks prove the policy and
-source preparation, not a fresh native build or binary reproducibility.
-The earlier local arm64 executable is historical evidence; this source recipe
-does not silently substitute it for a newly built delivery.
+Source preparation checks all 38 final result hashes against the exact pinned
+base; those source checks do not compile a complete emulator. Compiled standalone
+policy tests cover generation admission, unchanged owner and invalidation before
+cleanup/failure. These remain evidence of the policy and source preparation,
+not binary reproducibility.
+
+Separately, a fresh Mac Studio developer build passed the full native gate on
+Darwin 27.2.0 arm64 with Python 3.12.16: four headless and four visible fixtures,
+pytest exit zero, no skips/failures/errors and an unchanged executable SHA-256.
+The installed offline-kit doctor also passed. The
+[sanitized native-build receipt](https://github.com/seeker-cyber-maker/DotBox/blob/codex/local-macos-build-20261117/docs/evidence/local-macos-native-2026-11-17.json)
+binds that run to its measured checkout plus the one-line SDK environment fix.
+It does not qualify other hosts, a signed application, a portable offline release
+or original-Dot desktop integration. Earlier local arm64 executables remain
+historical evidence and were not substituted for this fresh build.
 
 For each intended host, build and identify a fresh executable, then run the
 DotBox native protocol and full-service acceptance tests from a source checkout:
