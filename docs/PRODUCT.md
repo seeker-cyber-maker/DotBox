@@ -3,7 +3,7 @@
 Status: design baseline updated 18 November 2026. Requirements below are intended
 behavior, not claims of implemented or measured DotBox capabilities.
 
-## Current milestone — 17 November 2026
+## Current development direction — 18 November 2026
 
 Package the incremental learning machinery and instructions so Dot can use them
 without another repository, analyzer installation or available local worker.
@@ -87,11 +87,30 @@ On first boot without a compatible project, perform bounded operational
 preparation: establish the executable/resource edition, connect the controls,
 verify a useful movement or menu action and retain the smallest useful slice.
 If an applicable control already works, start play without waiting for a named
-scene or a complete buffer. The existing 180-second cold-preparation budget is
-a ceiling, not a required wait. Measure it end to end, including agent work and
-dispatch time. Missing current controls get a separate initial evaluation bound
-of 15 seconds/two probe admissions; optional improvements must not delay a
-working route. These settings need real player-flow measurements.
+scene or a complete buffer. The existing 180-second initial-control evaluation
+profile is a ceiling for that declared job, not a promise of complete interface
+or game-loop recovery. A complex cold-preparation job may declare a longer
+bound and distinct milestones before it starts. Preserve the initial start,
+missed deadlines and actual elapsed time; a later job cannot hide an earlier
+miss. Missing current controls retain the separate 15-second/two-probe foreground
+bound. Longer worker preparation does not extend a blocked live action, and
+optional improvements must not delay a working route.
+
+Use the current prompt to choose the next useful investigation. Main-menu
+Options can expose controls, Load can expose serialized state and original
+loader behavior, and New Game can establish intro/input and operating-interface
+transitions. These are possible research branches, not required detours before
+following the player's choice. Isolated helpers can investigate them in parallel
+when their inputs are independent. See [bootstrap and event loops](BOOTSTRAP_AND_EVENT_LOOPS.md)
+and the [XCOM reuse map](XCOM_REUSE.md).
+
+The internal model must retain relevant simulation phases, triggers, queued
+operations and clock relationships. Distinguish host delay, guest execution
+and game-domain time; a modal menu or held calendar need not stop every
+subsystem. One observed input/effect pair is not complete loop understanding.
+Use richer bounded captures for discovery and qualified sparse checks for
+routine recognition. Readiness, semantic commit and presentation remain
+independent evidence. These are design requirements, not a new live analyzer.
 
 Include a bounded documentation pass: establish the broad goal and control
 conventions, then collate two or three compatible guides when useful and available.

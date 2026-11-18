@@ -3,7 +3,49 @@
 Updated 18 November 2026. This is a development continuation, not a release or
 proof of live desktop input through the ownership fence.
 
-## Latest continuation: reuse DinoPark's recovered work
+## Latest continuation: bootstrap strategic interfaces and model event loops
+
+The user added the original main-menu analysis workflow and the missing process
+model: Options/control mappings, Load/serializer state, New Game/intro prompts,
+isolated helper perturbations, phased/timed events and action-bound visual/native
+evidence. Read [BOOTSTRAP_AND_EVENT_LOOPS.md](BOOTSTRAP_AND_EVENT_LOOPS.md) and
+[XCOM_REUSE.md](XCOM_REUSE.md), packaged as `loops` and `xcom`.
+
+Recovered fDisBull MR !82 reports separate named startup controls, serializer
+transfer/adoption/continuation/display boundaries and later original-menu event
+discovery. A later UFO cold-context run reached Geoscape at 171.355 seconds but
+its full save/money goal remained incomplete after 91.060 minutes. Prepared
+route timings and earlier assisted runs have different scopes. No universal
+ten-minute minimum or complete XCOM loop qualification follows from them.
+The source-only 7 November add-on is described by a public note; its archive
+was not recovered and must not be assumed present in the current release.
+
+The inspected DinoPark provider already has sparse pixel witnesses, targeted
+two/four-boundary original transaction checks, retained attempts and guest-phase
+budgets. Generic fDisBull event-search/trace and serializer modules are reuse
+candidates. A broad automatic DinoPark breakpoint-discovery sweep was not located
+in those provider modules. Their primitives do not qualify DotBox's pending
+owned capture or arbitrary executable modes.
+
+The 180-second policy is now explicitly the initial usable-control evaluation
+profile. A complex cold-preparation job can declare a longer bound and milestones
+while preserving the original timeline and missed deadlines. The 15-second/two-
+probe foreground limit is unchanged. First visibility, useful control, relevant
+operating loop and complete goal are distinct. Natural movement is useful time;
+menu transitions may offer none, and no artificial delays should conceal work.
+
+This continuation changes design and packaged guidance only. It adds no process
+store, XCOM/DinoPark provider port, live event capture or game run. Fresh checks:
+23 kit tests passed; a rebuilt wheel installed into an isolated target matched
+54 resources and 35 runtime modules. All 24 guide topic functions and nine CLI
+guides matched source. The offline doctor passed without native qualification;
+117 relative links and the play skill frontmatter were checked. Independent
+design, XCOM and DinoPark/provenance reviews passed, with scoped continuation
+and source-locator corrections applied. See the [verification receipt](
+evidence/bootstrap-event-loop-guidance-2026-11-18.json). The BBS work ticket is
+`e-3f9890c0-4d46-4353-a7d2-380c0b0f1c7e` in project `fdb`, role `fdb-dotbox-dev`.
+
+## Previous continuation: reuse DinoPark's recovered work
 
 The user identified extensive prior DinoPark Tycoon research. The coordinator
 read the saved E55 handoff, behavioral report, 22-card game-story map and

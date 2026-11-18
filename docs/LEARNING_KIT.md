@@ -57,6 +57,12 @@ distinguishes shipped frozen-data tools from the pending owned capture and
 native relationship-analysis layers. The `dune` topic defines the next non-AGI
 menu/strategy validation, retaining the earlier CD trial's limits. These topics
 add instructions, not a new analyzer, Dune adapter or gameplay qualification.
+The `loops` topic defines main-menu bootstrap, isolated serializer/state probes,
+phase/trigger/clock knowledge and bounded action-event captures. The `xcom` topic
+locates existing startup, state and sparse-recognition experiments and preserves
+their different timing/assistance scopes. Neither adds an event-loop analyzer,
+live capture API or XCOM provider. Initial-control and broader cold-preparation
+readiness remain separate from the foreground missing-control allowance.
 The `lookahead` topic aliases the continuous-play reference: full cloud workers,
 predictive scene candidates, movement as natural preparation time and separate
 foreground/background bounds. It documents the operating contract; it does not

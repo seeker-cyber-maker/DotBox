@@ -71,6 +71,7 @@ The foundation should preserve:
 | Rules and action models | Ordered guard expressions, possible effects, state dependencies and references to existing input routes |
 | Observations and episodes | Provider-scoped state reports, selected actions, receipts and reconciled outcomes with their timeline |
 | Evidence and notes | Bytecode/resource locations, guide references, experimental results and Dot's semantic explanations |
+| Processes, phases and triggers | Context-bound event/clock relationships, pending operations and partial ordering needed by the current goal |
 
 Keep booleans, integers, enum values, entity references and explicitly unknown
 values typed. A display label is an alias, not an entity identity. Two doors
@@ -87,6 +88,29 @@ title. Foreign keys can preserve record references [2]; they do not validate
 the semantic truth of a claim.
 
 ## Dot owns the useful abstractions
+
+### Model how the game advances
+
+Keep [process knowledge](BOOTSTRAP_AND_EVENT_LOOPS.md) alongside the spatial and
+entity graph. Record relevant subsystem/mode, phase boundaries, accepted events,
+immediate or deferred effects, clock domains, dependencies and interruption
+conditions. A selected command may write a pending record that a later tick,
+turn or callback consumes. Current scene facts alone cannot express that work.
+
+Use evidence-bound partial ordering. Independent subsystems can overlap; a
+held calendar does not establish a global pause; display and readiness can lag
+semantic commit. Keep local mutation and navigation independent. Serialized
+record order is a useful structural clue, not proof of simulation order.
+Unknown trigger/ordering/clock relationships remain hypotheses.
+
+Retain host time, guest execution and game turns/days/steps separately, including
+instrumented stops and available RNG provenance. A simulation or phase prediction
+can guide planning but cannot advance the player's observation store. The
+[XCOM evidence](XCOM_REUSE.md) supports independent adoption/continuation/display
+witnesses and [DinoPark](DINOPARK_REUSE.md) supplies concrete bounded attempts;
+neither is a newly implemented general process engine in DotBox.
+
+### Add useful concepts without changing game truth
 
 Dot can add semantic labels, aliases, groupings, plans, inferred relations,
 reusable summaries and alternative hypotheses. Examples include:

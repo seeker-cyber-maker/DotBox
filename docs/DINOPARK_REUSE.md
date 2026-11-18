@@ -72,6 +72,41 @@ rounding, cached values and shared random-stream order where established.
 Transfer those representation capabilities to Dune, while measuring Dune's own
 rules and timing. [S3]
 
+## Pixel witnesses and action-event boundaries
+
+The inspected provider's `pixel_predicate`/`matches` functions compose positive
+samples, tolerance, minimum matches and explicit rejection predicates.
+`observe_frame` can read pixels directly without retaining another screenshot;
+`take_frame` retains a full frame for durable evidence. Static profiles exclude
+known moving or changing regions. Screen recognition, selected species/price,
+modal exclusion and input readiness remain separate predicates. [S1]
+
+`TextScene.confirm_food_order` arms two byte-verified original execution
+boundaries, sends one queued confirmation click, and checks native before/after
+food, cash and expense fields. It distinguishes a completed bulk commit from
+a partial write and from the later street request. `confirm_vegasaurus_order`
+uses four known post-update boundaries and retains animation frames. These are
+concrete targeted phase checks, not evidence that a generic automated shotgun
+breakpoint discovery sweep was recovered from the DinoPark provider. [S1]
+
+The package also contains generic `event_search.py`/`execution_trace.py` and an
+execution-event-search reference: repeated action A, idle/contrast B, candidate
+sites and site/register/value refinement. Preserve shared-dispatch arguments,
+coverage bounds and the actual executable/backend support when adapting it.
+The reference's initial live `debug-trace-until` owned, stopped real-mode path
+does not qualify XCOM LE tracing or DotBox's normal live session API. [S5]
+
+Saved-state bindings illustrate the loader distinction: the inspected native
+format covers cash/loan, calendar/counters, food/staff, species and pen records,
+while the loader rebuilds pen geometry prefixes. Serialized state is useful
+structural evidence without being the whole live model. `advance_time` observes
+bounded guest advancement and actual calendar/counters/notices; inherited wait
+constants are not natural-play timing measurements. [S1]
+
+See [bootstrap and event loops](BOOTSTRAP_AND_EVENT_LOOPS.md) for the generalized
+capture, process and isolated-experiment contracts and [XCOM reuse](XCOM_REUSE.md)
+for the related original-menu research. No new runtime test is reported here.
+
 ## Smallest useful DotBox integration
 
 1. **Recover and bind existing evidence.** Index the relevant source, report,
@@ -151,6 +186,10 @@ operations. See [recovery and saves](RECOVERY_AND_SAVES.md).
 - **S4 — later state of work:** [3 November interruption handoff](https://github.com/seeker-cyber-maker/fDisBull/blob/ad1e9a3177cc8fda60b9c0c64e8a40f6fabb1edd/docs/agent-handoffs/2026-11-03-dinopark-interruption.md).
   Its native sessions had exited. Use its source-bound evidence and remaining
   questions; historical handles are not live connections.
+
+- **S5 — bounded event discovery:** [execution-event-search reference](https://github.com/seeker-cyber-maker/fDisBull/blob/ad1e9a3177cc8fda60b9c0c64e8a40f6fabb1edd/src/fdisbull/skills/fdisbull-investigate/references/execution-event-search.md)
+  with `src/fdisbull/event_search.py`, `execution_trace.py`,
+  `serializer_discovery.py` and `serializer_candidates.py` at the same commit.
 
 Keep private reports, games, captures, saves and analysis databases outside Git.
 This guide is a small authored reuse map and can ship without those artifacts.

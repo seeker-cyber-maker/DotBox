@@ -23,6 +23,16 @@ existing fDisBull native scene provider. Use its state lifetimes, purchase
 phases and guarded recovery contracts to develop the shared model and menu
 machinery. This guidance does not yet port the provider into DotBox.
 
+[Bootstrap and event-loop guidance](docs/BOOTSTRAP_AND_EVENT_LOOPS.md), available
+as `dotbox guide --topic loops`, adds goal-driven main-menu investigation,
+isolated save/state experiments and action-to-event observation. Dot needs to
+learn relevant phases, clocks and deferred effects as well as scenes. The
+[XCOM reuse map](docs/XCOM_REUSE.md), topic `xcom`, recovers prior startup,
+serializer and sparse-recognition work with its actual evidence limits.
+Initial usable controls, an understood operating loop and full task completion
+have separate readiness measures; complex cold preparation may need its own
+declared longer bound. No event-loop analyzer or XCOM provider is added here.
+
 The primary experience is [Dot as the game's conversational interface](docs/CONVERSATIONAL_PLAY.md):
 describe the current scene, offer useful choices, interpret the player's intent
 and carry it out. Autonomous play uses the same scene/action model. A small

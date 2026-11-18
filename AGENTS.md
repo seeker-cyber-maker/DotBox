@@ -20,6 +20,13 @@ E55 mechanics research and later fDisBull provider are existing reuse material.
 Recover their contracts and qualified controls before repeating discovery;
 Dune remains the next target. Keep recovered knowledge, current observations
 and live harness coverage separate, including pending transactions and readiness.
+Read docs/BOOTSTRAP_AND_EVENT_LOOPS.md for main-menu reconnaissance, isolated
+save perturbation, action-event captures and phase/clock semantics. Read
+docs/XCOM_REUSE.md before rediscovering startup, serializer or sparse-recognition
+work. Initial usable controls, relevant loop coverage and full task completion
+have separate readiness clocks. The 180-second initial-control profile is not
+a universal cold game-loop limit; preserve misses and explicitly bound longer
+preparation without extending a blocked foreground action.
 For engine state, movement or recovery, read docs/ENGINE_AWARE_PREPARATION.md,
 docs/NAVIGATION.md and docs/RECOVERY_AND_SAVES.md. The packaged AGI V2 census and
 walking planner are offline candidates; live observations, movement execution

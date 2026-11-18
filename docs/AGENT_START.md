@@ -58,7 +58,12 @@ For native/menu-driven work, consult `dotbox guide --topic dinopark` before
 rediscovering state meanings or transaction behavior. Its prior mechanics
 research and fDisBull provider supply reusable contracts. Rebind to the actual
 edition and current observation; an old rule, supported verb or completion
-receipt does not itself enable an action now.
+receipt does not itself enable an action now. `dotbox guide --topic xcom` adds
+the prior startup, serializer, event-discovery and sparse-recognition work.
+Use `dotbox guide --topic loops` when the missing question concerns an intro,
+menu, delayed operation, simulation phase or timer. Helpers can compare isolated
+save/state variants while Dot follows the player's route; their findings are
+knowledge, not live progression.
 
 For a confirmed compatible AGI V2/2.917 edition, `dotbox agi inspect` supplies
 ordered logic conditions, state writers and resource candidates without general
@@ -82,8 +87,11 @@ selected crossing, and rebind after transitions. Never use coordinate placement
 or an uninterruptible hold to simulate normal travel.
 
 Optional improvements cause no intentional gameplay wait when a working route
-exists. The older 180-second first-preparation budget is a ceiling, never a
-minimum wait or an allowance to restart in each room. Start useful play earlier.
+exists. The 180-second initial-control profile is a ceiling for that job, never
+a minimum wait, a universal game-loop recovery limit or an allowance to restart
+in each room. A complex cold-preparation job can declare a longer bound and
+milestones while retaining original elapsed time and misses. It cannot extend
+the blocked foreground allowance. Start useful play as soon as supported.
 
 ## Retain progress
 
@@ -129,8 +137,10 @@ guide before adapting the native primitive.
 - `dotbox guide --topic conversation`: scene descriptions, choices and player intent.
 - `dotbox guide --topic state`: game flags, async consequences, readiness and useful suggestions.
 - `dotbox guide --topic world`: internal model, relational knowledge, semantic retrieval and scene projections.
+- `dotbox guide --topic loops`: main-menu bootstrap, isolated state experiments, event phases and clocks.
 - `dotbox guide --topic reversing`: ongoing ambiguity, dependency discovery and native-analysis integration.
 - `dotbox guide --topic dinopark`: recovered mechanics, existing provider and bounded integration path.
+- `dotbox guide --topic xcom`: recovered startup, serializer and event-discovery work with timing scope.
 - `dotbox guide --topic dune`: next non-AGI baseline, earlier CD exposure and menu/strategy acceptance slices.
 - `dotbox guide --topic agi`: small engine-aware logic census and state hypotheses.
 - `dotbox guide --topic navigation`: straight legs, collision scope and monitored execution.

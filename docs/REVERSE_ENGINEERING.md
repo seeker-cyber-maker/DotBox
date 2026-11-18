@@ -97,6 +97,30 @@ Graph relationships can be contextual. A mapping such as "this field is the
 selected entity's job while this menu is active" is more useful and accurate
 than permanently renaming one byte as a global job variable.
 
+## Trace one selected event, then retain the useful relation
+
+Use [bootstrap and event loops](BOOTSTRAP_AND_EVENT_LOOPS.md) for action-bound
+capture and isolated state experiments. Begin from one prompt or operation:
+retain its attempt, selected entity/context, applicable code mapping and clocks.
+Compare repeated A with idle and a contrasting B when useful; bind bounded frames,
+native state and trace/hit records to the same evidence context. Separate local
+mutation, context transition and deferred work.
+
+Reuse fDisBull's existing `event_search.py`, `execution_trace.py` and serializer
+discovery as source candidates; [DinoPark](DINOPARK_REUSE.md) already brackets
+known transaction boundaries and [XCOM](XCOM_REUSE.md) records generic selector
+leads and original-menu experiments. Their source/backend conditions still need
+DotBox integration. Real-mode trace support does not imply LE support.
+
+A finite spread of candidate breakpoints can narrow the action's path without
+recovering the whole game. Preserve argument/value distinctions when multiple
+buttons share a dispatcher. A hit, a changed pixel or a staging-buffer write is
+evidence at that boundary, not proof of complete causality or later adoption.
+For deferred work, pursue the smallest relevant producer/consumer connection.
+Record instrumentation interference and remove only the experiment's probes.
+Use richer discovery captures to derive cheap qualified runtime predicates;
+unknown predicates return to bounded observation without weakening the guard.
+
 ## Current machinery and missing integration
 
 | Capability | Current source/package scope |

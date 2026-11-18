@@ -1,6 +1,6 @@
 # Incremental play for an ordinary player
 
-Decision: 17 November 2026. The player should be able to say "let's play" and
+Decision: updated 18 November 2026. The player should be able to say "let's play" and
 make game choices without learning what a harness, debugger or Z scene is.
 DotBox must supply the tools and operating instructions Dot needs. The source
 implementation below is not yet qualification of uninterrupted play on Dot's
@@ -63,20 +63,42 @@ budgets instead of rediscovering each room. Keep only the next relevant part
 in the active context. A foreground finding is useful when it changes the next
 bounded action or how its outcome is observed.
 
+## Bootstrap the next useful operation
+
+Ask what the current prompt requires to continue toward the selected goal.
+Options/help may expose controls; Load/save may expose persistent records and
+reconstruction; New Game may require alternating observed waits and input.
+Use those branches when useful, without exploring every menu or silently changing
+settings. Existing [XCOM work](XCOM_REUSE.md) supplies named controls, serializer
+experiments and sparse recognition; [DinoPark](DINOPARK_REUSE.md) supplies
+native/pixel witnesses and phase-aware transaction controls.
+
+Learn enough of the relevant event loop to distinguish immediate input, queued
+work, later phase/timer effects, redraw and readiness. Use controlled helper
+experiments without modifying the player's guest or mounted mutable files.
+[Bootstrap and event loops](BOOTSTRAP_AND_EVENT_LOOPS.md) defines the capture,
+process and clock contracts. This guidance does not implement a live analyzer.
+
 ## Foreground bounds and background deadlines
 
 | Work | Initial evaluation policy | On exhaustion |
 | --- | --- | --- |
-| First preparation without reusable controls | Existing 180-second end-to-end ceiling; stop earlier when a useful action is available | Retain the working subset and use it; report a real block if no action is possible |
+| Initial usable-control evaluation | Existing 180-second end-to-end profile; stop earlier when the selected useful action is supported | Record any miss; retain the working subset and use it; report a real block if no action is possible |
+| Complex cold interface/process preparation | Separately declared work bound and readiness milestones, possibly longer than the initial-control profile | Preserve actual elapsed time and prior misses; return partials, use working controls, or describe the real preparation block |
 | A missing current control | 15 seconds and at most two probe admissions | Stop admitting probes; use an applicable fallback or report one game-facing block |
 | Optional improvement with a working route | No intentional gameplay wait | Continue playing; adopt the improvement between completed actions |
 | Predictive cloud-worker preparation | Separate useful-by point and hard work/resource bound, including startup and dispatch | Return useful partials; stop or reprioritize within actual platform support; continue through a working live route |
 
 These are trial settings, not measured latency promises. Include model
 reasoning, tool dispatch, unsuccessful probes and publication time in the
-player-visible interval. The 180-second ceiling is neither a minimum wait nor
-a new allowance for each room. Repeating the same learning focus must not reset
-its deadline or probe count.
+player-visible interval. The 180-second profile is neither a minimum wait, a
+universal game-loop reconstruction limit, nor a new allowance for each room.
+First visibility, useful input, the current operating slice, relevant loop
+coverage and full-goal completion have separate milestones. The user's 10+
+minute XCOM estimate is unmeasured; historical times have different readiness
+and assistance scopes. Declare longer preparation explicitly, retain the
+original timeline, and never rename a blocked focus to extend its allowance.
+Repeating the same learning focus must not reset its deadline or probe count.
 
 The 15-second/two-probe setting is the lead's foreground missing-control
 allowance, not a cap on all background scene construction. Background work may
@@ -208,4 +230,8 @@ discovery without one, a stale candidate after a player choice, uncertain effect
 metadata saving without replay, and reconnect without rediscovering controls.
 Add preparation during movement, an unexpectedly early arrival, a different
 exit, unavailable worker usage and an immediate text transition.
+Also record long cold preparation with early usable controls, menu-only paths
+with no natural buffer, and separate first-screen, first-action and loop-coverage
+milestones. A missed initial-control profile remains a miss even when later
+preparation succeeds.
 No source test count establishes seamless visible play by itself.

@@ -96,13 +96,14 @@ actual input owner. A saved project, chat handoff or visible takeover button doe
 not establish a live connection or programmatically readable ownership. Use a
 supported ownership signal when available; otherwise coordinate handoff explicitly.
 
-## Prepare a small opening buffer
+## Prepare the next usable slice
 
 Before the first launch or input, write a private `run_start` event with UTC,
 `monotonic_ns`, clock identity, the source/skill revision, and an explicit
-`preparation_budget_s` (default **180 seconds** unless the task specifies another
-limit). Record the deadline and readiness condition: current play and the next
-likely transition have an observed named action or ordinary-input fallback.
+`preparation_budget_s` (default **180 seconds** for the initial-control evaluation
+profile unless the task specifies another limit). Record the job scope, deadline
+and readiness condition: a useful selected action has an observed effect and
+an applicable named action or ordinary-input route for the current goal.
 This small record is the first preparation step, not a report reconstructed at
 the end. Include reasoning, dispatch, authoring and tool delays on this clock.
 The deadline is a ceiling, never a minimum wait or a new allowance for each room.
@@ -117,13 +118,30 @@ interaction and back/cancel as applicable. Retain a few useful opening Z scenes
 or routes with observed entry conditions, expected results and input fallbacks.
 A turn-based game may need selection/submission instead of actor movement.
 
+Use [bootstrap and event loops](../../docs/BOOTSTRAP_AND_EVENT_LOOPS.md), also
+`dotbox guide --topic loops`, for main-menu research and phased/timed behavior.
+Options may reveal controls, Load may expose saved-state structure, and New Game
+may require an observed wait/input sequence. These are useful branches, not
+mandatory detours. Run perturbation/load experiments only in an isolated helper
+guest with separate mutable files. Read `dotbox guide --topic xcom` to reuse
+the existing startup, serializer and sparse-recognition work.
+
+Separate first visibility, first useful action, the current operating slice,
+relevant loop coverage and full-goal completion. The initial-control profile
+does not promise complete cold interface/loop recovery in three minutes. Declare
+a longer preparation job and its milestones explicitly before it starts when
+needed, while retaining the original start and any earlier miss. Never use that
+job to reset a blocked foreground focus or hide its elapsed time. Keep using
+working controls and describe a real preparation block when no fallback exists.
+
 End preparation when that readiness condition holds and write `buffer_usable`
 with its observed evidence. At the deadline, write `budget_expired` if it has not
 held, publish the working subset, and continue through available controls. Keep
 only a real blocker on the critical path. Do not extend or restart the clock to
 hide a miss. A budget expiry does not pause the game or require new permission.
 Do not require a fixed scene count, save support, full engine recovery or
-distant-level coverage. Treat a few minutes as a measured target, not a promise.
+distant-level coverage. Treat the default profile as an evaluation target, not
+a measured promise. A broader preparation job retains its own declared bound.
 For an existing game, fill its current gaps instead of repeating startup.
 
 Record `launch_requested` **before** spawning each owner, then its ready response,
