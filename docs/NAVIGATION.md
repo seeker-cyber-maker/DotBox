@@ -132,6 +132,13 @@ Coordinate-writing assisted placement remains a separate explicit operation.
 
 ## Recovery and vehicle movement
 
+The user's selected first live controls trial is [Police Quest's locker-to-shower
+route](POLICE_QUEST_ACCEPTANCE.md): perform the ordinary clothing change, close
+the locker and reach the usable shower approach with fresh position and frame
+evidence. The EGA shower is within the locker-room overview; a referenced helper
+LOGIC is not a room transition. Arrival is the requested endpoint; activating
+the shower is a separate optional interaction. This trial has not been run.
+
 A walking grid does not model vehicle speed, heading, braking distance, turn
 radius or moving obstacles. Car driving needs an appropriate controller and
 state model; a geometrically clear path alone does not qualify it. Rewind can

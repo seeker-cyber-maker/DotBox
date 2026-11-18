@@ -208,6 +208,15 @@ rewind; ordinary movement must not be extended to hide capture work.
 
 ## Acceptance cases for implementation
 
+The user's selected first live recovery trial is [missing Police Quest's first
+briefing, then rewinding and attending it](POLICE_QUEST_ACCEPTANCE.md). The
+inspected EGA edition has separate late-arrival and briefing-start mechanisms;
+closing the newspaper accelerates the latter without resetting the former.
+Bind the checkpoint to the actual predeadline guest clock, reproduce the late
+outcome, restore memory while preserving a newer closed disk file, then observe
+successful attendance. Static logic inspection has established candidate test
+conditions, not a measured host duration or a passed rewind trial.
+
 - Ordinary input advances state revisions without invalidating an unchanged
   ownership turn; a restore rejects all old-generation input and old choices.
 - A held steering key cannot survive as an unowned or implicit resumed input.

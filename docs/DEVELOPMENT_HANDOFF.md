@@ -40,9 +40,12 @@ proof of live desktop input through the ownership fence.
   Primary head is `f9572d84943c57dcdb83587f85966619ef392325`; independent mirror
   head is `b018024963dac96e75785b0fc084c63d697333a2`. Their verified shared tree is
   `707ab7a0a3ce0cb68087368389c48895ad6cd448`.
-- Current memory-recovery continuation: `codex/memory-recovery-20261117`, based
-  on that shared tree. Publish on each account's respective AGI/navigation head,
-  preserving both histories and the stacked draft series.
+- The memory-recovery continuation is published as [draft PR #9](https://github.com/seeker-cyber-maker/DotBox/pull/9),
+  branch `codex/memory-recovery-20261117`. Its initial fence snapshot has primary
+  head `f364476892b309ff76fa024a739b36c2c0f6fc73`, mirror head
+  `727babb122f2bc09bbfe311635e0c9b38e423c5c`, and shared tree
+  `9d88e87fb4990f47a74da9f8f1c6c1609c8eb810`. The Police Quest acceptance
+  specification continues on that draft branch, preserving both histories.
 - At inspection, `main` was the design baseline at
   `10fa86d8a91bb75e0ccf3da346bc9f72eab91d03`; it did not contain the implementation.
 
@@ -126,11 +129,40 @@ offline SceneStores and worker candidates do not invalidate themselves.
 Matching upstream source is available and both patch stages can be verified.
 A compatible complete native build and original-Dot live recovery remain
 unqualified on this host. The available fDisBull binary is a different native
-revision and is not substituted for this overlay. The bounded next integration
-is one ordinary long walking leg plus one menu selection with a separately
-qualified memory restore and current ownership/observation checks.
+revision and is not substituted for this overlay. The recovered walking/menu
+work remains a controller reference. The user has now selected the concrete
+Police Quest controls and rewind trials below as the next live acceptance goals.
 
-### Memory-recovery verification
+### User-selected Police Quest trials: specified, not executed
+
+The controls endpoint is changing in the locker room, closing the locker and
+walking to the usable showers. Water activation is an optional separate action.
+The recovery endpoint is missing the first briefing, restoring a predeadline
+memory checkpoint while preserving newer disk files, and successfully attending.
+Use the separate starting states and predicates in
+[Police Quest acceptance](POLICE_QUEST_ACCEPTANCE.md), also installed as
+`dotbox guide --topic policequest`.
+
+Fresh read-only inspection of the supplied EGA 2.0G/AGI 2.917 files established
+the two timer mechanisms: late arrival tests engine minutes on entry from the
+lobby, while newspaper return accelerates a separate event countdown. Recent
+key activity can affect the countdown without resetting the clock. The shower
+approach stays in room 5; called LOGIC 39 is not a destination. These are static
+findings and candidate observation predicates, not qualified live mappings.
+
+The retained census matched nine resource files and all 118 LOGIC payloads.
+The coordinator reran a private check of 34 operations and 16 conditions against
+the current bytes; hashes and mtimes remained unchanged. No game or native
+session was launched. The original interpreter's clock/pause behavior, live
+route and memory restore remain unverified. This follow-up changes operational
+resources and evidence only; runtime code and native patch are unchanged.
+The existing source kit suite passed 23 checks. An ordinary wheel and clean
+offline installation agree with the source on all 35 runtime modules and
+47 operational resources, with 17 topics. The installed `policequest` command,
+resource export and offline doctor passed; native qualification remains false.
+See the [acceptance investigation receipt](evidence/police-quest-acceptance-2026-11-17.json).
+
+### Initial memory-fence snapshot verification
 
 | Check | Result |
 | --- | --- |
