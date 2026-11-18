@@ -120,6 +120,17 @@ families, bindings and observed occurrences separately, reuse established common
 facts, and check live applicability before using a selected action. The analysis
 frontier grows with learned relationships as well as with the player's route.
 
+Use agents' coding knowledge to form [testable implementation hypotheses](BEHAVIOR_AND_ENTRY_POINTS.md):
+a direct callback, selector dispatcher, mode change, modal routine or deferred
+consumer predicts different useful evidence. One operation may have several
+qualified entry routes with different setup, continuation and effects. Helpers
+can progress from verified coordinates to coherent placement and original room
+initialization, or from menu input to a qualified original operation, to prepare
+scenes beyond normal progression. Record imposed research state and the scope
+of any equivalence claim. The visible player route retains original movement
+and events; a supported click need not animate unnecessary pointer travel.
+Deeper entry remains an integration capability to qualify, not a new shipped control.
+
 Include a bounded documentation pass: establish the broad goal and control
 conventions, then collate two or three compatible guides when useful and available.
 Their objects, exits and route dependencies become expected-scene checklists.

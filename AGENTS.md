@@ -31,6 +31,13 @@ Read docs/EVENT_TRANSITIONS.md for the common event/guard/effect contract across
 menus, screens, rooms and local changes. Separate families, bindings and observed
 occurrences. Reuse established patterns/schemas to enumerate siblings and unlock
 independent questions; retain evidence dependencies and current applicability.
+Read docs/BEHAVIOR_AND_ENTRY_POINTS.md for code-shaped hypotheses and several
+qualified invocation routes to one operation. Predict discriminating evidence
+from plausible implementations; imagined code is not recovered code. Preserve
+arguments, setup, continuation and the specific effects shared by each route.
+Observation hooks do not automatically become callable entry points. Develop
+position, same-room placement and original scene-entry capabilities incrementally
+in isolated helpers; keep original movement/events for the visible player route.
 For engine state, movement or recovery, read docs/ENGINE_AWARE_PREPARATION.md,
 docs/NAVIGATION.md and docs/RECOVERY_AND_SAVES.md. The packaged AGI V2 census and
 walking planner are offline candidates; live observations, movement execution

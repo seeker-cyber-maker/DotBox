@@ -3,7 +3,55 @@
 Updated 18 November 2026. This is a development continuation, not a release or
 proof of live desktop input through the ownership fence.
 
-## Latest continuation: generic transitions and analysis dependencies
+## Latest continuation: behavior hypotheses and alternative entry paths
+
+18 November 2026. Added [BEHAVIOR_AND_ENTRY_POINTS.md](BEHAVIOR_AND_ENTRY_POINTS.md),
+packaged as `dotbox guide --topic entrypoints`. Agents use plausible authored
+implementations to predict distinguishing code, state and execution evidence.
+Retain several routes to one operation with their arguments, skipped setup,
+continuation and scoped equivalence. Observation hooks and callable entries
+remain separate. Modal, tail-transfer and deferred behavior need their own
+contracts; an unknown outcome can still support a qualified attempt.
+
+[Navigation](NAVIGATION.md) now describes position discovery, ordinary-motion
+verification, controlled same-room perturbation, coherent placement, normal
+crossing observation, original room-entry reuse and constructed research states.
+Use already qualified capabilities without replaying earlier learning stages.
+Helpers can investigate beyond normal progression with explicit imposed-state
+provenance. Visible play retains original movement/events, including supported
+click delivery without unnecessary pointer travel. Direct original Save/Load
+retains its game/file effects and remains separate from memory-only rewind.
+
+Four fDisBull files were verified against audited source, offline 0.34.1 wheel
+contents and RECORD hashes, and pinned Git source at
+`ad1e9a3177cc8fda60b9c0c64e8a40f6fabb1edd`: `z_native.py`, `z_call_contract.py`,
+`assisted_travel.py` and `runtime-navigation.md`. Their limited call/return and
+placement-plus-original-portal contracts are reusable work, not new DotBox
+adapters. No runtime implementation or original-game execution was added here.
+
+The earlier blanket missing-menu-archive claim is corrected. The exact
+`fdisbull-menu-event-discovery-20261107.zip` was recovered again: 120,922 bytes,
+SHA-256 `cff20df90a2ac3db1589dfc83ca0c663150f92d6b885fb1f42ecc5773e60e1d7`.
+All 24 checksum entries and nine source-manifest outputs matched. Its private
+game companion was not recovered; later MR !119 equivalence and release/DotBox
+integration are not established. Historical evidence receipts remain unchanged.
+
+Fresh verification: 23 kit tests passed; the rebuilt wheel installed into a
+fresh target matched all 56 resources, 35 runtime modules and 26 topic functions.
+Nine affected CLI guides matched source; the installed offline doctor passed
+with native qualification false. Independent integrated-design/archive and
+native-source-contract reviews found no blockers. See [the current receipt](
+evidence/behavior-entry-guidance-2026-11-18.json). Current BBS work: project
+dotbox, ticket e-e618b6d6-8b8f-4269-9e4a-4248e3663682.
+
+The next runtime slice remains supported original-Dot ownership and bounded
+capture, then one qualified alternative route with retained normal fallback.
+An offline hypothesis/entry ledger can extend the proposed family/evidence
+store independently. Preserve the one functional Police Quest shower run;
+repeatable route/timing, live coordinates, assisted placement and missed-briefing
+memory rewind still require their actual qualification.
+
+## Previous continuation: generic transitions and analysis dependencies
 
 18 November 2026. The user generalizes menus, screen changes and room entry as
 event-conditioned state transitions. Added [EVENT_TRANSITIONS.md](EVENT_TRANSITIONS.md),
@@ -21,7 +69,8 @@ budget. The knowledge frontier is distinct from player reachability.
 
 The recovered XCOM selector rule and inspected serializer candidate extractor
 are concrete precedents. Their documented bounds remain: no automatic induction
-from one click, no all-button count, and no recovered XCOM add-on source archive.
+from one click or all-button count. That pass did not reconcile the XCOM add-on
+source archive; the latest continuation above corrects its recovery status.
 This slice implements no family ledger, general structural scanner, scheduler
 or live capture. The existing Police Quest controls/rewind acceptance is unchanged.
 
@@ -52,8 +101,9 @@ discovery. A later UFO cold-context run reached Geoscape at 171.355 seconds but
 its full save/money goal remained incomplete after 91.060 minutes. Prepared
 route timings and earlier assisted runs have different scopes. No universal
 ten-minute minimum or complete XCOM loop qualification follows from them.
-The source-only 7 November add-on is described by a public note; its archive
-was not recovered and must not be assumed present in the current release.
+That XCOM-specific pass recovered the public note for the source-only 7 November
+add-on without reconciling its archive. See the latest continuation above for
+the corrected recovery status; selected-release integration remains separate.
 
 The inspected DinoPark provider already has sparse pixel witnesses, targeted
 two/four-boundary original transaction checks, retained attempts and guest-phase

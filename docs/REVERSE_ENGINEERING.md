@@ -38,6 +38,23 @@ knowledge with its source and edition bindings. Investigate a missing consumer,
 contradictory observation or unsupported context; do not repeat settled
 economics or infer live readiness from an old successful run.
 
+## Use coding knowledge to predict the mechanism
+
+Sketch a few plausible implementations of the observed behavior, then ask what
+would distinguish them. A direct callback predicts a target per control; a
+shared handler predicts a selector argument or table entry; a mode write predicts
+a later dispatcher; a modal routine or tail transfer predicts a different return
+or continuation boundary. Deferred work predicts a producer and later consumer.
+These sketches are hypotheses, not recovered source. Refine them against traces,
+callers, tables and contrasts rather than rewarding a plausible story alone.
+
+The [entry-point guide](BEHAVIOR_AND_ENTRY_POINTS.md) connects those hypotheses
+to useful operations. Several hooks can observe one effect, and several qualified
+routes may invoke it with different prerequisites. An address hit establishes
+neither an ABI nor a safe continuation. Recover only the setup and witnesses
+needed for the selected experiment; retain the ordinary route while exploring
+cheaper alternatives in an isolated guest.
+
 ## Connect investigation to the world model
 
 1. **Identify the unresolved claim.** Bind it to the relevant entities, source

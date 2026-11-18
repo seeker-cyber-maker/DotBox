@@ -57,6 +57,14 @@ claim; unknown effects or guards stay explicit. A family can explain many
 bindings, and several routes can invoke the same semantic operation. Shared
 code can also serve different operations selected by arguments and state.
 
+Use [behavior hypotheses and entry bindings](BEHAVIOR_AND_ENTRY_POINTS.md) to
+recover those alternatives. An agent's plausible implementation sketch predicts
+which callers, selectors, mode writes or continuations to inspect. Several
+routes may converge on one operation while omitting different setup or effects.
+Retain a graph of qualified entries with scoped equivalence claims; an observed
+hook alone does not authorize invoking that address. Deeper original operations
+and coherent research states complement the working visible-play route.
+
 ## Learn one mechanism, enumerate its instances
 
 A qualified example, supported decoder or recovered schema can expose the
@@ -167,8 +175,10 @@ also invalidates its affected dependent claims, regardless of game progression.
   describes a shared pattern comprising a scalar comparison, its conditional
   arm, and the first call, write or return.
   It found 481 UFO and 556 TFTD source-arm candidates. They are candidate arms,
-  not button counts or complete transition semantics. The source-only add-on
-  archive remains unrecovered; see [the exact reuse scope](XCOM_REUSE.md).
+  not button counts or complete transition semantics. The exact source-only
+  add-on archive has since been recovered and its checksums verified; see
+  [the corrected recovery scope](XCOM_REUSE.md). Its separate private profiles
+  and raw game evidence remain outside that recovery.
   This demonstrates applying an implemented generic rule across programs;
   automatic induction of that rule from one click was not established.
 - Inspected fDisBull [event-search guidance](https://github.com/seeker-cyber-maker/fDisBull/blob/ad1e9a3177cc8fda60b9c0c64e8a40f6fabb1edd/src/fdisbull/skills/fdisbull-investigate/references/execution-event-search.md)

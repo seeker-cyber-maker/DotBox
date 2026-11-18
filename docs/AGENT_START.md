@@ -65,6 +65,13 @@ menu, delayed operation, simulation phase or timer. Helpers can compare isolated
 save/state variants while Dot follows the player's route; their findings are
 knowledge, not live progression.
 
+Use `dotbox guide --topic entrypoints` to reason from plausible code toward a
+discriminating probe and a qualified alternative invocation. Preserve arguments,
+setup, continuation and the exact effects shared with the original route.
+An observation hook is not automatically callable. Isolated research can grow
+from normally verified coordinates to coherent placement, original room entry
+or direct menu operations; retain imposed-state provenance and normal fallbacks.
+
 For a confirmed compatible AGI V2/2.917 edition, `dotbox agi inspect` supplies
 ordered logic conditions, state writers and resource candidates without general
 x86 analysis. Cache a bounded whole-resource outline or resolve pass when its
@@ -83,8 +90,9 @@ primitives are not yet a general owned live capture workflow in this package.
 For supplied qualified geometry, `dotbox route` proposes shortest walking routes
 with fewer turns and long straight legs. Execute through an applicable monitored
 control only; a plan does not move the actor. Approach an exit before a separate
-selected crossing, and rebind after transitions. Never use coordinate placement
-or an uninterruptible hold to simulate normal travel.
+selected crossing, and rebind after transitions. Visible ordinary travel uses
+original monitored movement. Coordinate placement is a separate research
+capability, not evidence of having walked that route. Keep holds interruptible.
 
 Optional improvements cause no intentional gameplay wait when a working route
 exists. The 180-second initial-control profile is a ceiling for that job, never
@@ -139,6 +147,7 @@ guide before adapting the native primitive.
 - `dotbox guide --topic world`: internal model, relational knowledge, semantic retrieval and scene projections.
 - `dotbox guide --topic loops`: main-menu bootstrap, isolated state experiments, event phases and clocks.
 - `dotbox guide --topic transitions`: shared event/guard/effect families, sibling discovery and newly enabled analysis tasks.
+- `dotbox guide --topic entrypoints`: code-shaped hypotheses, alternative invocation contracts and progressive research entry.
 - `dotbox guide --topic reversing`: ongoing ambiguity, dependency discovery and native-analysis integration.
 - `dotbox guide --topic dinopark`: recovered mechanics, existing provider and bounded integration path.
 - `dotbox guide --topic xcom`: recovered startup, serializer and event-discovery work with timing scope.

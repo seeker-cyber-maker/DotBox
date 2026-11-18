@@ -50,6 +50,14 @@ still missing; do not automatically click Load or submit a transaction again.
 The proposed DotBox process model needs these distinctions without importing the
 entire UDL/UIL/UDC stack.
 
+For [alternative entry routes](BEHAVIOR_AND_ENTRY_POINTS.md), name the boundary
+actually invoked. A low-level file reader, a bulk loader and the wrapper that
+selects a slot, adopts state and continues the interface have different contracts.
+Recover original setup and continuation instead of assuming a call to the reader
+is equivalent to selecting Load. Deeper routes can accelerate isolated research
+once their selected effects and required context are established; the ordinary
+menu route remains a usable fallback.
+
 Source identity also matters: a strategic slot, mission handoff, live tactical
 screen and numbered tactical save are different artifacts. The reported 250
 soldier positions are record positions, not proof of 250 active soldiers.
@@ -90,8 +98,20 @@ The source-only add-on was delivered through its originating conversation as
 `cff20df90a2ac3db1589dfc83ca0c663150f92d6b885fb1f42ecc5773e60e1d7`.
 It was based on candidate `c80bff03e4cd2b946a93e7aecab61e5ff9281f81` plus an earlier
 structural contribution. The note explicitly says no remote source commit was
-made for that add-on. This pass recovered the note, not the archive or its private
-profiles/traces. Locate and reconcile the source before treating it as shipped.
+made at that delivery. The initial XCOM-specific pass recovered the note without
+cross-linking the source already recorded in the 17 November [AITD recovery](AITD_REUSE.md).
+On 18 November the exact standalone archive was recovered again: 120,922 bytes,
+matching the published SHA-256 above. All 24 `SHA256SUMS` entries and all nine
+`SOURCE_MANIFEST.json` source outputs matched; the ZIP has 25 members in total.
+
+The archive contains generic `structure_events.py`, structural-discovery support,
+method documentation, a bounded one-input probe, a qualified-profile replay
+example, authored tests and historical receipts. Its separate private companion
+with raw game frames, detailed findings and tested profiles was not recovered
+in this pass. The source manifest pins file identities; it does not establish
+the relationship to the later MR !119 head recorded in the AITD guide. Recovery
+does not prove release integration or DotBox qualification, and no archived test
+or game trial was rerun for this verification.
 
 ## Timing evidence does not define one XCOM preparation time
 

@@ -73,6 +73,7 @@ The foundation should preserve:
 | Evidence and notes | Bytecode/resource locations, guide references, experimental results and Dot's semantic explanations |
 | Processes, phases and triggers | Context-bound event/clock relationships, pending operations and partial ordering needed by the current goal |
 | Transition families and bindings | Shared event/guard/effect rules, concrete code/data/input bindings and separately observed occurrences |
+| Alternative entry bindings | Several routes to one operation, with arguments, setup, transfer/continuation contracts, effect scope and intended use |
 | Analysis dependencies | Claims and artifacts that enable further questions, with source/revision scope and invalidation links |
 
 Keep booleans, integers, enum values, entity references and explicitly unknown
@@ -106,6 +107,27 @@ establish many facts at once; it does not turn every candidate into an enabled
 live action. A new finding can satisfy prerequisites for multiple independent
 analyses without changing the player's state or reachability. Retain those
 dependencies so revised evidence invalidates the affected interpretations.
+
+### Several entry routes can realize one operation
+
+Retain [implementation hypotheses and alternative entry bindings](BEHAVIOR_AND_ENTRY_POINTS.md)
+without forcing them into a universal sequence of layers. A key and a click may
+converge on a shared dispatcher, while a qualified direct call joins later and
+omits interface setup. Preserve which effects are equivalent, which differences
+are deliberate, and which remain unknown. A shared destination image or callee
+address does not establish equivalent state, timing, files or continuation.
+
+Keep an observation site separate from authority to invoke it. Bind a callable
+route to the relevant source/mapping, arguments, context, setup and completion
+or transfer contract. These records support cheaper isolated experiments while
+retaining the working original route. An unknown result can still be a useful
+attempt when invocation is qualified.
+
+Constructed helper states also need provenance: which values or entry arguments
+were imposed, which original initialization ran, and what was subsequently
+observed. A coherent room reached by a research shortcut may be unreachable at
+that point in normal story progression. Its findings can enrich the model; they
+cannot assert that the player's branch has reached the room or earned its flags.
 
 ### Model how the game advances
 

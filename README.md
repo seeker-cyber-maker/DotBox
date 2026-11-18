@@ -39,6 +39,14 @@ Learned code patterns or table schemas can expose sibling bindings and unlock
 independent analyses. The guide separates reusable rules, concrete bindings
 and observed occurrences; family storage and automatic expansion remain planned.
 
+[Behavior and entry-point guidance](docs/BEHAVIOR_AND_ENTRY_POINTS.md), topic
+`entrypoints`, uses agents' coding knowledge to propose testable implementations
+and recover several ways to invoke one operation. Movement grows from verified
+position through coherent placement to original room entry; menus can similarly
+reuse a qualified handler or loader. Isolated research and the visible player's
+original route retain separate purposes. Existing fDisBull helpers are concrete
+reuse candidates; this guide does not add native invocation or teleportation to DotBox.
+
 The primary experience is [Dot as the game's conversational interface](docs/CONVERSATIONAL_PLAY.md):
 describe the current scene, offer useful choices, interpret the player's intent
 and carry it out. Autonomous play uses the same scene/action model. A small
