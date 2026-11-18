@@ -131,7 +131,7 @@ def _preflight(mode, environment, run):
         if not Path(compiler).is_file() or not os.access(compiler, os.X_OK):
             raise ValueError('Xcode Command Line Tools are unavailable; run: xcode-select --install')
         compilers[language] = compiler
-    environment.update(compilers, OBJC=compilers['CC'], OBJCXX=compilers['CXX'])
+    environment.update(compilers, OBJC=compilers['CC'], OBJCXX=compilers['CXX'], SDKROOT=sdk)
     prefixes = {}
     for formula, header, library in (('libpng', 'png.h', 'png'),
                                      ('zstd', 'zstd.h', 'zstd'),

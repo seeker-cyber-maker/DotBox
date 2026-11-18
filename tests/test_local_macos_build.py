@@ -87,7 +87,9 @@ def test_missing_native_brew_reports_exact_install_command(tmp_path, monkeypatch
                           lambda *args, **kwargs: pytest.fail('must not install anything'))
 
 
-def test_mocked_preflight_preserves_user_flags_and_resolves_keg_only_libraries(tmp_path, monkeypatch):
+@pytest.mark.parametrize('inherited_sdk', [None, '/authored/previous-sdk'])
+def test_mocked_preflight_selects_sdk_preserves_flags_and_resolves_keg_only_libraries(
+        tmp_path, monkeypatch, inherited_sdk):
     helper = _helper()
     monkeypatch.setattr(helper.platform, 'system', lambda: 'Darwin')
     monkeypatch.setattr(helper.platform, 'machine', lambda: 'arm64')
@@ -96,6 +98,9 @@ def test_mocked_preflight_preserves_user_flags_and_resolves_keg_only_libraries(t
     executable.chmod(0o700)
     monkeypatch.setattr(helper, 'BREW', executable)
     monkeypatch.setattr(helper.shutil, 'which', lambda *args, **kwargs: str(executable))
+    sdk = tmp_path / 'Selected SDK.sdk'
+    sdk.mkdir()
+    monkeypatch.setenv('SDKROOT', '/authored/parent-process-sdk')
     prefixes = {}
     for formula, header, library in [('libpng', 'png.h', 'png'),
                                      ('zstd', 'zstd.h', 'zstd'),
@@ -116,6 +121,8 @@ def test_mocked_preflight_preserves_user_flags_and_resolves_keg_only_libraries(t
             value = str(prefixes[command[2]])
         elif command[1:2] == ['--find']:
             value = str(executable)
+        elif command[1:] == ['--show-sdk-path']:
+            value = str(sdk)
         else:
             value = 'GNU Make authored tool identity'
         log = tmp_path / (stage + '.log')
@@ -124,6 +131,8 @@ def test_mocked_preflight_preserves_user_flags_and_resolves_keg_only_libraries(t
 
     environment = {'PATH': '/usr/bin', 'CPPFLAGS': '-DMY_FLAG=1', 'LDFLAGS': '-Wl,my-flag',
                    'SDL_VIDEODRIVER': 'dummy', 'SDL_AUDIODRIVER': 'dummy'}
+    if inherited_sdk is not None:
+        environment['SDKROOT'] = inherited_sdk
     result = helper._preflight('headless', environment, run)
     assert str(prefixes['ncurses']) == result['dependency_prefixes']['ncurses']
     assert '-I' + str(prefixes['ncurses'] / 'include') in environment['CPPFLAGS']
@@ -132,6 +141,12 @@ def test_mocked_preflight_preserves_user_flags_and_resolves_keg_only_libraries(t
     assert environment['SDL_VIDEODRIVER'] == environment['SDL_AUDIODRIVER'] == 'dummy'
     assert ['pkg-config', '--exists', 'libpng', 'libzstd', 'ncurses'] in commands
     assert all('install' not in command for command in commands)
+    assert os.environ['SDKROOT'] == '/authored/parent-process-sdk'
+    (tmp_path / 'logs').mkdir()
+    probe = helper._run(tmp_path, {'steps': []}, 'child-sdk-probe',
+                        [sys.executable, '-I', '-c', 'import os; print(os.environ["SDKROOT"])'],
+                        cwd=tmp_path, environment=environment, timeout=10)
+    assert probe.read_text().strip() == result['sdk'] == str(sdk)
 
 
 def _mock_commands(helper, monkeypatch, *, doctor_layout='installed', accept=True,
