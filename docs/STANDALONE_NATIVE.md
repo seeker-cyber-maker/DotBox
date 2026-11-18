@@ -62,8 +62,14 @@ fields are not claims about a newly prepared or built DotBox delivery.
 
 ## Build
 
-Install the host's normal DOSBox-X development prerequisites: a C/C++ toolchain,
-autoconf, automake, libtool, pkg-config, SDL2 development files, ncurses,
+For an Apple Silicon Mac, the [local build-and-test helper](LOCAL_MACOS_BUILD.md)
+sets up a private build, uses the bundled pinned SDL2 and runs the strict native
+fixture gate. It requires a full DotBox source checkout, including tests;
+`dotbox kit-export` alone is not that checkout. The helper has not yet qualified
+the Mac Studio.
+
+For a manual build, install the host's normal DOSBox-X development prerequisites:
+a C/C++14 toolchain, autoconf, automake, pkg-config, SDL2 development files, ncurses,
 libpng/zlib and Zstandard development files. Upstream configure may detect
 additional optional system libraries. NASM and Python Pillow are needed only
 for upstream assembly-fixture acceptance, not to prepare this source.
@@ -100,8 +106,19 @@ The earlier local arm64 executable is historical evidence; this source recipe
 does not silently substitute it for a newly built delivery.
 
 For each intended host, build and identify a fresh executable, then run the
-DotBox native protocol and full-service acceptance tests with
-`DOTBOX_DOSBOX_EXECUTABLE=/absolute/path/to/src/dosbox-x`. Native acceptance must
+DotBox native protocol and full-service acceptance tests from a source checkout:
+
+```sh
+python scripts/test_native.py \
+  --executable /absolute/path/to/src/dosbox-x \
+  --report-dir /absolute/path/to/new/native-report
+```
+
+This requires exactly eight executed native fixtures, no skips and an unchanged
+executable hash. Ordinary pytest may skip these fixtures when
+`DOTBOX_DOSBOX_EXECUTABLE` is absent; its exit status alone is not native
+acceptance. The helper's `--mode headless` runs four fixtures and explicitly
+leaves the visible portion unqualified. Native acceptance must
 exercise actual startup, screenshot/state access, agent-to-host ownership,
 return to agent, held-input cleanup, rejection of stale input, continued play
 and process cleanup. Dot's supported takeover event source and visible

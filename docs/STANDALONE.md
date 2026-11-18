@@ -7,6 +7,8 @@ DotBox owns its Python runtime and SQLite control store. No fDisBull package or
 source checkout is required. Python 3.12+, Pillow and pinned iced-x86 1.22.0 are the declared Python
 requirements; a compatible native DOSBox-X executable and its platform libraries
 are required to run a guest. See [native preparation](STANDALONE_NATIVE.md).
+For a developer build on the Mac Studio, see the
+[local macOS build and test procedure](LOCAL_MACOS_BUILD.md).
 
 The current wheel includes [the learning kit](LEARNING_KIT.md): bounded offline
 inspection, a saved learning focus, play instructions and native source/build

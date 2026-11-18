@@ -77,3 +77,6 @@ that fDisBull package qualification also qualifies DotBox or an untested host.
 Read docs/REPOSITORIES.md before publication. Preserve both account repositories
 and their independent histories. Do not force-push, install synchronization,
 publish packages or create scheduled work merely to complete a coding slice.
+For a local Mac build, read docs/LOCAL_MACOS_BUILD.md. Build helpers and authored
+runner tests do not qualify macOS execution; the native gate must execute its
+selected fixtures with no skips, and gameplay/rewind remain separate checks.

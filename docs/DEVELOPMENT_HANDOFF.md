@@ -46,6 +46,11 @@ proof of live desktop input through the ownership fence.
   `727babb122f2bc09bbfe311635e0c9b38e423c5c`, and shared tree
   `9d88e87fb4990f47a74da9f8f1c6c1609c8eb810`. The Police Quest acceptance
   specification continues on that draft branch, preserving both histories.
+- Local-build continuation: `codex/local-macos-build-20261117`, based on primary
+  memory-recovery head `2b61471a5159825e466ab8c201aa6e3c7cd306a2` and independent
+  mirror head `d12764adc1feccfd1361af45a67c1f36ce651adf`. Their shared input tree
+  is `f63ffc7cc7bddadf80db6c8355f238be146c1d90`. Use this implementation branch
+  for the local build; do not assume the draft stack is merged into `main`.
 - At inspection, `main` was the design baseline at
   `10fa86d8a91bb75e0ccf3da346bc9f72eab91d03`; it did not contain the implementation.
 
@@ -79,7 +84,43 @@ files or shell. A status response never grants input. The receipt reports that
 the publisher was stopped and connection processes were left running; their
 current live state was not rechecked here.
 
-## Current continuation: memory-only recovery and recovered AITD work
+## Current continuation: local Mac build and strict native tests
+
+Version `0.1.0.dev7` adds `scripts/build_local_macos.py` for a fresh, private
+Apple Silicon build with two compiler jobs, the pinned bundled SDL2, an ordinary
+Python wheel/isolated installation and retained stage logs. Required system
+dependencies remain an explicit Terminal setup step. The procedure is packaged
+as `dotbox guide --topic macos`; the executable helper requires the full source
+checkout, not only an exported operational kit.
+
+`scripts/test_native.py` requires the explicit native executable and exact
+JUnit identities/counts. All eight selected fixtures must execute without skips;
+four headless or four visible tests can instead be selected and are reported as
+that limited scope. The executable must have the same SHA-256 before and after
+the run. A source receipt is metadata, not an independent binary attestation.
+Installed-wheel doctor evidence remains separate from fixtures importing the
+checkout's source. Runner unit tests use authored reports and do not run DOSBox-X.
+
+No connection to the Mac Studio or fresh macOS native build was established in
+this continuation. The selected cloud executor is Linux; its SSH client failed
+before a connection attempt. This does not diagnose the Studio or require an AI
+agent to run the local compiler. Start with the logged-in Mac Terminal command
+in [LOCAL_MACOS_BUILD.md](LOCAL_MACOS_BUILD.md), inspect the saved result and
+continue from any actual compiler/runtime failure. A headless pass alone cannot
+qualify visible execution. Full original-Dot input and the two Police Quest
+trials remain later integration gates; this continuation adds no rewind API.
+
+Final source verification passed **802 tests**, with exactly **eight native
+executable skips**. The supplied pinned base enabled the real overlay application
+and repeat-application check. The new build helper has 38 focused checks and the
+strict runner has 28; these include authored process cleanup and read-only pip
+configuration probes, not emulator acceptance. An ordinary wheel and clean
+offline installation match all 35 runtime modules, 48 resources and 18 topics;
+the installed `macos` guide, export and doctor pass. Independent review found
+no remaining blocker after the cancellation and pip-probe fixes. See the
+[sanitized helper verification](evidence/local-macos-build-2026-11-17.json).
+
+## Retained continuation: memory-only recovery and recovered AITD work
 
 Version `0.1.0.dev6` corrects the recovery contract and adds a native source-level
 restore admission fence. Revert restores memory and necessary machine/device

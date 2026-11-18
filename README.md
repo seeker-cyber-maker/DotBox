@@ -29,6 +29,10 @@ A compatible DOSBox-X native build is a separate explicit runtime input.
 Start with [standalone installation](docs/STANDALONE.md), the
 [native source/build recipe](docs/STANDALONE_NATIVE.md), and
 [persistent controls](docs/PERSISTENT_CONTROLS.md).
+For a local Apple Silicon build, use the
+[Mac build-and-test helper](docs/LOCAL_MACOS_BUILD.md). It builds the pinned
+native source and requires eight actual native fixture passes, with no skips.
+The helper is implemented; execution on the Mac Studio remains unverified.
 
 For the current development slice, read [incremental play](docs/INCREMENTAL_PLAY.md)
 and the [installed learning kit](docs/LEARNING_KIT.md). `dotbox guide` gives Dot a
