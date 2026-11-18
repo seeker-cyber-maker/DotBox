@@ -31,6 +31,13 @@ save contrasts, string references, native code and runtime access observations
 can complement one another. An engine reader may leave ambiguities that require
 native analysis even when the game's engine is otherwise supported.
 
+Check existing recovered work before starting a new investigation. The
+[DinoPark reuse map](DINOPARK_REUSE.md) identifies mechanics reports, native
+state readers, qualified routes and specific remaining questions. Reuse that
+knowledge with its source and edition bindings. Investigate a missing consumer,
+contradictory observation or unsupported context; do not repeat settled
+economics or infer live readiness from an old successful run.
+
 ## Connect investigation to the world model
 
 1. **Identify the unresolved claim.** Bind it to the relevant entities, source

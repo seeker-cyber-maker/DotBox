@@ -39,6 +39,10 @@ small enough to demonstrate through the visible original game.
    into a fresh project and skip rediscovery. Adapt one nearby edition using
    only the included operational notes and bounded validation. Exercise updates,
    conflicts, incompatible editions and interrupted actions.
+   For native menu/state machinery, first consult the
+   [DinoPark reuse map](DINOPARK_REUSE.md): preserve its recovered mechanics,
+   transaction phases and existing control evidence, then bind the smallest
+   needed route to DotBox. A complete new DinoPark playthrough is not a gate.
 6. **Run the next Dune transfer test.** Freeze the general mechanisms and AGI
    work before Dune-specific adaptation. Record the earlier assisted CD opening
    trial and other exposure; this is not an untouched or blind holdout. Follow

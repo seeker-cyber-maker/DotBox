@@ -54,6 +54,12 @@ These tools do not touch a live guest. Do not hold a game paused while reasoning
 reading files, authoring metadata or waiting for a worker. Qualified live capture
 must resume the guest before analysis; no general live capture facade ships yet.
 
+For native/menu-driven work, consult `dotbox guide --topic dinopark` before
+rediscovering state meanings or transaction behavior. Its prior mechanics
+research and fDisBull provider supply reusable contracts. Rebind to the actual
+edition and current observation; an old rule, supported verb or completion
+receipt does not itself enable an action now.
+
 For a confirmed compatible AGI V2/2.917 edition, `dotbox agi inspect` supplies
 ordered logic conditions, state writers and resource candidates without general
 x86 analysis. Cache a bounded whole-resource outline or resolve pass when its
@@ -124,6 +130,7 @@ guide before adapting the native primitive.
 - `dotbox guide --topic state`: game flags, async consequences, readiness and useful suggestions.
 - `dotbox guide --topic world`: internal model, relational knowledge, semantic retrieval and scene projections.
 - `dotbox guide --topic reversing`: ongoing ambiguity, dependency discovery and native-analysis integration.
+- `dotbox guide --topic dinopark`: recovered mechanics, existing provider and bounded integration path.
 - `dotbox guide --topic dune`: next non-AGI baseline, earlier CD exposure and menu/strategy acceptance slices.
 - `dotbox guide --topic agi`: small engine-aware logic census and state hypotheses.
 - `dotbox guide --topic navigation`: straight legs, collision scope and monitored execution.

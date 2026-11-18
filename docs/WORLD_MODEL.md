@@ -35,6 +35,23 @@ Changing a model hypothesis is not a game-state transition. An expected effect
 is not an observation. A scene's knowledge of a supported verb is not proof
 that the input route is enabled and ready now.
 
+## Start from recovered game knowledge
+
+[DinoPark's prior research and native provider](DINOPARK_REUSE.md) are concrete
+inputs to this model design. Import scoped existing entities, state meanings,
+conditional rules and evidence before repeating analysis. Its recovered
+transactions distinguish committed park state, working drafts, continuing
+session state, interface/selection state and presentation state. Preserve
+those owners and lifetimes instead of flattening them into one current value.
+
+Retain pending actions as attempts with observed phases and confirmed effects.
+Input acceptance, semantic change, usable controls, displayed content and
+persistence need independent evidence; they are not a universal ordered
+pipeline. A confirmed purchase with a failed display readback remains a
+confirmed purchase. Reconcile that attempt rather than issue it again.
+These are requirements for the proposed store/adapter, not newly implemented
+world records or a ported DinoPark harness.
+
 ## A typed graph with relational storage
 
 Use a small typed foundation that can represent many games, with SQLite as the

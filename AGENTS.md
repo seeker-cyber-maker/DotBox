@@ -15,6 +15,11 @@ discovery, including shared variables and reused storage. Native disassembly
 remains required alongside engine readers; a decoder alone is not a def-use
 analyzer or a qualified live capture workflow. Read docs/DUNE_VALIDATION.md for
 the next original-Cryo-Dune transfer test and the earlier Dune CD exposure.
+Read docs/DINOPARK_REUSE.md before designing native menu/state adapters: the
+E55 mechanics research and later fDisBull provider are existing reuse material.
+Recover their contracts and qualified controls before repeating discovery;
+Dune remains the next target. Keep recovered knowledge, current observations
+and live harness coverage separate, including pending transactions and readiness.
 For engine state, movement or recovery, read docs/ENGINE_AWARE_PREPARATION.md,
 docs/NAVIGATION.md and docs/RECOVERY_AND_SAVES.md. The packaged AGI V2 census and
 walking planner are offline candidates; live observations, movement execution

@@ -17,6 +17,12 @@ selected entities and strategic orders after a frozen generic baseline. The
 new `reversing` and `dune` guide topics document required work and prior evidence;
 they do not claim a newly implemented live analyzer or Dune harness.
 
+The [DinoPark reuse guide](docs/DINOPARK_REUSE.md), available through
+`dotbox guide --topic dinopark`, locates prior recovered mechanics and the
+existing fDisBull native scene provider. Use its state lifetimes, purchase
+phases and guarded recovery contracts to develop the shared model and menu
+machinery. This guidance does not yet port the provider into DotBox.
+
 The primary experience is [Dot as the game's conversational interface](docs/CONVERSATIONAL_PLAY.md):
 describe the current scene, offer useful choices, interpret the player's intent
 and carry it out. Autonomous play uses the same scene/action model. A small

@@ -9,6 +9,14 @@ Status: validation plan, not a new Dune adapter or a completed strategic-play
 test. No Dune assets or execution were inspected for this documentation pass.
 The game manual and the existing public trial receipt were consulted.
 
+Use [DinoPark's recovered mechanics and existing provider](DINOPARK_REUSE.md)
+as a reference for the shared state, menu and delayed-action machinery. Retain
+the already established distinctions between committed state, pending orders,
+interface selection and presentation readiness. Develop those general
+contracts before freezing the next Dune baseline, and record their origin.
+This does not require another DinoPark campaign or transfer its addresses,
+economic rules or timing assumptions into Dune.
+
 ## Preserve the earlier result and record exposure
 
 The [15 November Dune CD receipt](evidence/dune-local-terra-2026-11-15.json)

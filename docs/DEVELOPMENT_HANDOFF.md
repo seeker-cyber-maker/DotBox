@@ -3,6 +3,47 @@
 Updated 18 November 2026. This is a development continuation, not a release or
 proof of live desktop input through the ownership fence.
 
+## Latest continuation: reuse DinoPark's recovered work
+
+The user identified extensive prior DinoPark Tycoon research. The coordinator
+read the saved E55 handoff, behavioral report, 22-card game-story map and
+progress receipt, then inspected the existing fDisBull 0.34.1 provider and its
+later 3 November handoff. Read [DINOPARK_REUSE.md](DINOPARK_REUSE.md), packaged
+as `dotbox guide --topic dinopark`, before new menu/state discovery.
+
+The research already distinguishes committed state, pending transactions,
+continuing session values, interface selection and presentation. The later
+provider adds bounded original-game controls, retained attempts, native effect
+proofs and read-only reconciliation. Use these as inputs to the world model
+and a small DotBox-owned adapter. Dune remains the next selected target; another
+complete DinoPark playthrough is not required before proceeding.
+
+The inspected source is manifest commit
+`ad1e9a3177cc8fda60b9c0c64e8a40f6fabb1edd`. Its six DinoPark Python modules and
+nine data/provenance files match the wheel RECORD and pinned public source.
+The older UDC definition reconstructs original bytes with zero semantic blocks;
+it is separate from recovered rule knowledge. The later handoff still retains
+97 caller/producer questions, 13 asset candidates and a confirmed purchase with
+unqualified final presentation. Those are scoped investigation questions, not
+a reason to repeat settled mechanics or delay useful integration.
+
+This continuation adds a reuse guide and aligns the existing world-model,
+investigation and Dune plans. It imports no private reports, game material or
+fDisBull runtime code, executes no DinoPark session, and does not yet implement
+the world store or provider port. Do not copy the old provider's disk-change
+checkpoint restriction into DotBox's requested memory-only rewind.
+
+Fresh verification: **23 existing kit tests passed**. A new ordinary wheel
+installed into an isolated target matched all 52 packaged resources and 35
+runtime modules, registered 22 topics and returned the five checked guide
+texts exactly. The offline doctor passed while reporting native qualification
+false. Source integrity checks matched all 15 DinoPark files to the wheel and
+pinned public commit, plus the three bounded-helper provenance hashes.
+Independent source/documentation review was completed; its deadline wording
+and inventory-scope clarifications were applied. See the [verification receipt](
+evidence/dinopark-reuse-guidance-2026-11-18.json). Historical DinoPark test counts
+were not rerun or promoted to new gameplay qualification.
+
 ## Current architecture decision: Dot's internal game model
 
 Follow-up on 18 November: reverse engineering is an ongoing requirement for
@@ -52,8 +93,9 @@ driving or another rewind operation. Complete cheap static extraction and
 draft compilation are compatible with incremental live qualification.
 
 The next useful implementation is a private versioned world store with stable
-typed entities/relations, evidence and conditional rule references, then AGI
-draft import and observation linking. Exact neighborhood/dependency queries
+typed entities/relations, evidence and conditional rule references. Use the
+recovered DinoPark state/transaction contracts as reference inputs alongside
+AGI draft import and observation linking. Exact neighborhood/dependency queries
 should feed the existing scene/action admission path. Semantic indexing can
 follow a measured retrieval need. Do not insert new tables into SceneStore
 without a migration, or relabel its last-fact cache as a complete event history.
