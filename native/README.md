@@ -28,7 +28,7 @@ source or conflicting new files, and checks and verifies the ownership patch.
 Capabilities include:
 
 ```json
-{"input":{"cooperative_control":"dotbox-input-control-1"}}
+{"input":{"cooperative_control":"dotbox-input-control-1","restore_control":"dotbox-restore-control-1"}}
 ```
 
 `input.control` is session-scoped. Query with the normal `session_id` and no
@@ -65,6 +65,35 @@ Ownership starts at `agent`, generation zero for each new native target session.
 Desktop takeover telemetry is not inferred or implemented by this native patch;
 the broker must obtain that from a supported harness integration or use an
 explicitly identified handoff source.
+
+### Restore admission
+
+The `dotbox-restore-control-1` capability adds an ownership-generation fence to
+the existing raw `state.load` RPC. It is not a memory-only checkpoint capability
+or a qualified interactive rewind API. DotBox's Python service does not expose
+that raw operation.
+
+`state.load` now requires an integer `expected_generation`, in addition to the
+existing `session_id`, absolute `path` and optional explicit `frame_keys`.
+Missing or malformed generations are refused. On the emulation thread, a stale
+generation is refused before cleanup or loading. An admitted restore keeps the
+current owner and consumes one generation before cleanup and serializer effects.
+Successful responses add `owner`, `generation` and `input_reset:true`. Capture
+through `state.save` does not consume an ownership generation.
+
+Old generation-tagged input is refused even if the admitted restore later
+fails. A caller must not retry or resume after an unknown/partial load merely
+because `input.control` still answers. Failed admission and failed admitted
+restoration are different outcomes; the future recovery controller must handle
+the latter as incomplete and close the owned session when it cannot verify it.
+Do not fetch a new generation automatically to replay a rejected old request.
+
+The source change leaves the serializer and explicit saved-key policy intact.
+Pre-load cleanup does not prove that deserialized keyboard/device state is
+neutral. The serializer's existing historical disk backup/restore exclusion
+also does not establish all handle, pending-I/O and device behavior. Qualify
+those boundaries and fresh post-restore observations before exposing player
+recovery. See [memory-only recovery](../docs/RECOVERY_AND_SAVES.md).
 
 ## Build and checks
 

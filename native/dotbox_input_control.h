@@ -57,6 +57,25 @@ public:
         return true;
     }
 
+    // Restore keeps the live owner, but consumes its generation before any
+    // cleanup or serializer effects. Failure must never revive an old lease.
+    template<class Cleanup>
+    bool FenceRestore(std::uint64_t expected_generation, Cleanup cleanup,
+                      std::string* error)
+    {
+        if (expected_generation != state_.generation) {
+            if (error) *error = "Input control generation changed";
+            return false;
+        }
+        if (state_.generation == (std::numeric_limits<std::uint64_t>::max)()) {
+            if (error) *error = "Input control generation exhausted";
+            return false;
+        }
+        ++state_.generation;
+        cleanup();
+        return true;
+    }
+
 private:
     AgentInputControlState state_;
 };
@@ -64,6 +83,8 @@ private:
 AgentInputControlState AGENT_GetInputControlState();
 bool AGENT_ChangeInputControl(bool host, std::uint64_t expected_generation,
                              std::string* error);
+bool AGENT_FenceStateRestore(std::uint64_t expected_generation,
+                            std::string* error);
 bool AGENT_CanInjectInput(bool has_generation, std::uint64_t generation,
                           std::string* error);
 void AGENT_ResetInputControl();

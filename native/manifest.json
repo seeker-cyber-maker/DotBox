@@ -9,9 +9,9 @@
     "src/gui/sdlmain.cpp": "489d0bffd31e0c194e756a7411c6313babbe6c50d2f236a78f4f94dbc8d6263b"
   },
   "result_files": {
-    "src/agent/server/agent_server.cpp": "13237927a391e2f819e01a1e11c376234ec90a24d87127d49c46b721d2ee7b35",
-    "src/gui/sdlmain.cpp": "78b311925a9a3f2e39e42976847a24f3da3bc11297aef43da8eb04449d6b2235",
-    "include/agent/dotbox_input_control.h": "732b0b77848b51a0bf0e5273166ab559ae1550790a2252d8e5469bdf08d7b398"
+    "src/agent/server/agent_server.cpp": "f815ac0adb1fc194ec553f51bdc2a30f6c05b70eab8c8706e0c5a9f2cf8f0504",
+    "src/gui/sdlmain.cpp": "309527776b174259a04d55a17a8343889d5f906d1e24b78c0ebe5cb4e48a4500",
+    "include/agent/dotbox_input_control.h": "93f36359698a332849dc3be9d7d066d21eab97733e6c3caa0be165d87414e838"
   },
-  "overlay_sha256": "4bb0c1f6e908f0e52be291ddc97c4456e3d9ddd6bbf0bf5ba5a1a8fb454dd58d"
+  "overlay_sha256": "e8b762631b4484c78fa149fba9e1854a9df051001c17197df019eda02c969dec"
 }

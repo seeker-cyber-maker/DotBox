@@ -9,6 +9,14 @@ For engine state, movement or recovery, read docs/ENGINE_AWARE_PREPARATION.md,
 docs/NAVIGATION.md and docs/RECOVERY_AND_SAVES.md. The packaged AGI V2 census and
 walking planner are offline candidates; live observations, movement execution
 and generation-fenced full-state restore remain separate integration gates.
+Revert restores in-memory machine state, preserving current disk versions.
+Do not implement a matching filesystem rollback or reject every changed autosave.
+Read docs/AITD_REUSE.md before repeating movement/menu discovery: prior source
+has been recovered, but its save-slot replacement policy is excluded from rewind.
+The user's next live acceptance goals are Police Quest's locker-to-shower
+controls and late-briefing memory rewind. Read docs/POLICE_QUEST_ACCEPTANCE.md
+for the edition-bound starting states and timer findings; neither trial has
+been run or qualified. Do not replace guest-clock evidence with a host wait.
 Build and test the offline
 inspection kit, saved short frontier and installed play instructions while the
 original-Dot ownership/input qualification remains a separate gate. DotBox must

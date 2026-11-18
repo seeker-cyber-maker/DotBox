@@ -32,6 +32,8 @@ observations and restoration. Prefer [long straight walking legs](NAVIGATION.md)
 with bounded feedback over repeated stops and turns. [Rewind](RECOVERY_AND_SAVES.md)
 should recover from a stuck route or collision through a qualified checkpoint,
 with a new timeline and invalidated old choices, routes and worker candidates.
+Recovery restores in-memory machine state; files on disk keep their current
+versions. A newer closed autosave is not rolled back or itself a reason to refuse rewind.
 See [the method](INCREMENTAL_PLAY.md) and [package boundary](LEARNING_KIT.md).
 The [conversation contract](CONVERSATIONAL_PLAY.md) and
 [guide-assisted reconstruction](GUIDE_RECONSTRUCTION.md) define the current scene slice.
@@ -133,7 +135,8 @@ it cannot infer current state merely from a script or guide. Compare repeated
 baseline saves before a one-action save contrast, and use a qualified load to
 check restored state and derived presentation. Save-format offsets and meanings
 remain edition-specific. An emulator checkpoint and a game's own save cover
-different state and file scopes.
+different state scopes. Memory revert does not restore older save-file bytes;
+loading through the game's own menu reads the current disk file.
 
 Movement must use the game's controls while monitoring appropriate debugger
 x/y or equivalent observations. Plan with the actual collision footprint and

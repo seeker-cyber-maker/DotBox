@@ -100,7 +100,8 @@ Keep original games, captures, stores and saves private.
 
 Recovery from being stuck or a collision should use a qualified checkpoint or
 game save. Restoring creates a new timeline and invalidates old choices, routes,
-held input and worker candidates. Preserve the player's actual progress after
+held input and worker candidates. Memory revert keeps current files on disk;
+do not replace a save with an older copy to implement it. Preserve the player's actual progress after
 takeover; rewind is a recovery action, not a way to make old assumptions fit.
 DotBox has not yet exposed a fenced live restore command; consult the recovery
 guide before adapting the native primitive.
@@ -113,6 +114,7 @@ guide before adapting the native primitive.
 - `dotbox guide --topic agi`: small engine-aware logic census and state hypotheses.
 - `dotbox guide --topic navigation`: straight legs, collision scope and monitored execution.
 - `dotbox guide --topic recovery`: rewind transaction and controlled saved-game evidence.
+- `dotbox guide --topic aitd`: recovered walking/menu adapters and their reuse limits.
 - `dotbox guide --topic guides`: guide-assisted goals and reconstruction checklists.
 - `dotbox guide --topic inspection`: inspection/journal commands and package scope.
 - `dotbox guide --topic play`: full play skill.

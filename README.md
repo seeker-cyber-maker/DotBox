@@ -90,9 +90,19 @@ are offline and send no input.
 [Recovery and saved-game evidence](docs/RECOVERY_AND_SAVES.md) specifies how to
 reuse native checkpoints to recover from a stall or crash, invalidate the old
 timeline and learn from controlled save contrasts. The existing raw restore
-primitive still needs a native control-generation fence and matching mutable
-file policy before DotBox can offer live rewind. Selected long legs likewise
+primitive still needs a qualified restore transaction before DotBox can offer
+live rewind. Revert restores memory; mounted files keep their current versions,
+with no matching filesystem rollback. Selected long legs likewise
 need integration with the existing monitored x/y and TAS control machinery.
+The [recovered AITD work](docs/AITD_REUSE.md), available through
+`dotbox guide --topic aitd`, supplies prior walking feedback, manipulation
+planning and reference-backed menu methods. Its research helper that replaces
+save files is explicitly excluded from memory revert.
+The next user-selected [Police Quest acceptance tests](docs/POLICE_QUEST_ACCEPTANCE.md)
+are changing in the locker room and reaching the showers, then recovering from
+late arrival at the first briefing. `dotbox guide --topic policequest` supplies
+the EGA-specific test conditions and static timer findings. Both live trials
+remain unqualified; this guide adds no game-control or recovery operation.
 Additional engines, game-specific routes, HUD and audio transport remain later
 work. There is no published release or qualified Dot cloud installation yet.
 
