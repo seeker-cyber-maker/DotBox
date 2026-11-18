@@ -13,10 +13,12 @@ Revert restores in-memory machine state, preserving current disk versions.
 Do not implement a matching filesystem rollback or reject every changed autosave.
 Read docs/AITD_REUSE.md before repeating movement/menu discovery: prior source
 has been recovered, but its save-slot replacement policy is excluded from rewind.
-The user's next live acceptance goals are Police Quest's locker-to-shower
-controls and late-briefing memory rewind. Read docs/POLICE_QUEST_ACCEPTANCE.md
-for the edition-bound starting states and timer findings; neither trial has
-been run or qualified. Do not replace guest-clock evidence with a host wait.
+The user's live acceptance goals are Police Quest's locker-to-shower controls
+and late-briefing memory rewind. One ordinary-input functional controls run
+passed on the cloud Linux computer; repeatable harness/timing qualification and
+memory rewind remain open. Read docs/POLICE_QUEST_ACCEPTANCE.md for the measured
+scope, edition-bound starting states and timer findings. Do not replace
+guest-clock evidence with a host wait.
 Build and test the offline
 inspection kit, saved short frontier and installed play instructions while the
 original-Dot ownership/input qualification remains a separate gate. DotBox must
@@ -77,3 +79,6 @@ that fDisBull package qualification also qualifies DotBox or an untested host.
 Read docs/REPOSITORIES.md before publication. Preserve both account repositories
 and their independent histories. Do not force-push, install synchronization,
 publish packages or create scheduled work merely to complete a coding slice.
+For a local Mac build, read docs/LOCAL_MACOS_BUILD.md. Build helpers and authored
+runner tests do not qualify macOS execution; the native gate must execute its
+selected fixtures with no skips, and gameplay/rewind remain separate checks.

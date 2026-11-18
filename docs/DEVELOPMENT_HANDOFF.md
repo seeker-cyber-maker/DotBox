@@ -46,6 +46,16 @@ proof of live desktop input through the ownership fence.
   `727babb122f2bc09bbfe311635e0c9b38e423c5c`, and shared tree
   `9d88e87fb4990f47a74da9f8f1c6c1609c8eb810`. The Police Quest acceptance
   specification continues on that draft branch, preserving both histories.
+- Local-build continuation: `codex/local-macos-build-20261117`, based on primary
+  memory-recovery head `2b61471a5159825e466ab8c201aa6e3c7cd306a2` and independent
+  mirror head `d12764adc1feccfd1361af45a67c1f36ce651adf`. Their shared input tree
+  is `f63ffc7cc7bddadf80db6c8355f238be146c1d90`. Use this implementation branch
+  for the local build; do not assume the draft stack is merged into `main`.
+- The local build's SDK fix is published in [draft PR #10](https://github.com/seeker-cyber-maker/DotBox/pull/10).
+  Its publication snapshot is primary `18d374d395471ef0ef741187a955c8ad66773b70`,
+  independent mirror `238b5a1bc3c9a35612bc93f7a0b9c6d74f000f23`, and shared tree
+  `45d39466a994b488ed1faf767beff5f3abbcf587`. The measured Mac worktree identity
+  is recorded separately below; it was not a rebuild of these later commits.
 - At inspection, `main` was the design baseline at
   `10fa86d8a91bb75e0ccf3da346bc9f72eab91d03`; it did not contain the implementation.
 
@@ -77,9 +87,98 @@ run on the previous host and are not results from this continuation.
 The connector is status-only: no turn claims/checks/releases, input, frames,
 files or shell. A status response never grants input. The receipt reports that
 the publisher was stopped and connection processes were left running; their
-current live state was not rechecked here.
+continued availability cannot be inferred from that historical receipt.
 
-## Current continuation: memory-only recovery and recovered AITD work
+## Current continuation: cloud Linux native and functional game test
+
+The coordinator compiled the pinned native source on its own Linux x86_64
+computer and executed the full gate: **8 passed in 3.59 seconds**, four headless
+and four visible, with no skips, failures or errors. The build input was local
+commit `dee1213f1701917fd523911c3a477645c5bd2054`, shared tree
+`1911d22aceeb546712e90f7bcc2894f4389c8315`. Missing official Debian development
+packages were extracted into a private prefix; no elevated execution or Studio
+connection was needed. See [the Linux test record](LOCAL_LINUX_TEST.md).
+
+The same native executable completed one Police Quest EGA functional controls
+run through ordinary desktop input: lobby, assigned locker, change to towel,
+close locker, usable shower, successful activation and turn-off cleanup. All
+27 recorded original and copied game input hashes were unchanged. The route
+encountered latched movement, NPC dialogs and a shower collision barrier; the
+game's response confirmed the final arrival. The
+[controls receipt](evidence/police-quest-local-controls-2026-11-17.json) separates
+this result from a reusable harness, cold preparation, latency measurement,
+original-Dot ownership integration and memory rewind. Those remain open.
+
+## Earlier local Mac native qualification
+
+Version `0.1.0.dev7` adds `scripts/build_local_macos.py` for a fresh, private
+Apple Silicon build with two compiler jobs, the pinned bundled SDL2, an ordinary
+Python wheel/isolated installation and retained stage logs. Required system
+dependencies remain an explicit Terminal setup step. The procedure is packaged
+as `dotbox guide --topic macos`; the executable helper requires the full source
+checkout, not only an exported operational kit.
+
+`scripts/test_native.py` requires the explicit native executable and exact
+JUnit identities/counts. All eight selected fixtures must execute without skips;
+four headless or four visible tests can instead be selected and are reported as
+that limited scope. The executable must have the same SHA-256 before and after
+the run. A source receipt is metadata, not an independent binary attestation.
+Installed-wheel doctor evidence remains separate from fixtures importing the
+checkout's source. Runner unit tests use authored reports and do not run DOSBox-X.
+
+The Browser plugin established command access to a logged-in Studio Terminal.
+That existing connection was used for the local build. Direct SSH from the
+cloud executor still fails before contacting Studio, and the platform forbids
+the elevated execution path requested to diagnose that client. No Tailscale
+configuration change was part of the native build.
+
+The full `all` build succeeded on Darwin 27.2.0 arm64 with Python 3.12.16 in
+**4 minutes 22 seconds**. The native gate executed exactly **eight fixtures:
+four headless and four visible**, with pytest exit zero and no skipped, failed
+or errored test. The executable SHA-256 stayed unchanged across the run. The
+separate installed-wheel doctor reported the offline learning kit ready.
+
+The first attempt failed at SDL2 configuration with `ld: library 'System' not
+found`. The helper had resolved the SDK and direct Command Line Tools compiler
+paths but had not passed the SDK root to its child processes. A minimal C probe
+failed with the inherited environment and succeeded when only `SDKROOT` was set
+to the selected SDK. The helper now includes `SDKROOT=sdk` in its existing
+compiler-environment binding; the fresh retry passed the full build and gate.
+
+The measured Mac checkout was primary
+`6573cb5fb1c135629bac5d5ebcd1738fd91ab44c` plus that exact one-line SDK fix. Its
+build-helper SHA-256 was
+`bfb462f0f57e337df9e3e805185cf0b14f3232cc6cc4ef8ed1b19cc21d82a155`.
+The fix was subsequently committed locally as `b25346a` and published in the
+SDK-fix snapshot listed above. Do not attribute the measured binary to a later
+documentation or publication commit. See the
+[sanitized native-build receipt](evidence/local-macos-native-2026-11-17.json)
+for the complete bounded evidence.
+
+The focused helper suite was rerun after the fix: **39 passed**. It covers
+unset and stale inherited SDK roots, propagation to a real child process and
+preservation of the parent process environment. This is separate from the
+eight real native fixtures. The output is a developer executable and isolated
+Python environment, not a signed application or portable offline release.
+The Mac result did not qualify original-Dot takeover/input integration or either
+Police Quest trial. The later Linux controls pass is separate. A complete
+player-facing memory-rewind API is still absent.
+
+### Historical helper/source verification
+
+Before the Mac run, source verification passed **802 tests**, with exactly
+**eight native executable skips**. That complete source suite was not rerun for
+the SDK fix. The supplied pinned base enabled the real overlay application and
+repeat-application check. At that snapshot the build helper had 38 focused
+checks and the strict runner had 28, including authored process cleanup and
+read-only pip configuration probes. The ordinary wheel and clean offline
+installation matched all 35 runtime modules, 48 resources and 18 topics;
+the installed `macos` guide, export and doctor passed. Independent review found
+no remaining blocker after the cancellation and pip-probe fixes. Preserve the
+[earlier sanitized helper verification](evidence/local-macos-build-2026-11-17.json)
+as historical evidence rather than treating its native skips as the new Mac result.
+
+## Retained continuation: memory-only recovery and recovered AITD work
 
 Version `0.1.0.dev6` corrects the recovery contract and adds a native source-level
 restore admission fence. Revert restores memory and necessary machine/device
@@ -126,14 +225,16 @@ the ownership boundary automatically. A future complete recovery controller must
 handle admitted failure, fresh branch/store and coherent post-restore observations;
 offline SceneStores and worker candidates do not invalidate themselves.
 
-Matching upstream source is available and both patch stages can be verified.
-A compatible complete native build and original-Dot live recovery remain
-unqualified on this host. The available fDisBull binary is a different native
-revision and is not substituted for this overlay. The recovered walking/menu
-work remains a controller reference. The user has now selected the concrete
-Police Quest controls and rewind trials below as the next live acceptance goals.
+Matching upstream source was available and both patch stages could be verified
+at that memory-fence continuation, but it had not built a matching complete
+native executable. The Mac native qualification above is a later result;
+original-Dot live recovery remains unqualified. The historical fDisBull binary
+was a different native revision and was not substituted for this overlay. The
+recovered walking/menu work remains a controller reference. The user selected
+the concrete Police Quest controls and rewind trials below. The later Linux
+functional controls pass is recorded above; memory rewind remains open.
 
-### User-selected Police Quest trials: specified, not executed
+### Initial Police Quest specification and static investigation
 
 The controls endpoint is changing in the locker room, closing the locker and
 walking to the usable showers. Water activation is an optional separate action.
@@ -152,14 +253,16 @@ findings and candidate observation predicates, not qualified live mappings.
 
 The retained census matched nine resource files and all 118 LOGIC payloads.
 The coordinator reran a private check of 34 operations and 16 conditions against
-the current bytes; hashes and mtimes remained unchanged. No game or native
-session was launched. The original interpreter's clock/pause behavior, live
-route and memory restore remain unverified. This follow-up changes operational
-resources and evidence only; runtime code and native patch are unchanged.
+the current bytes; hashes and mtimes remained unchanged. That initial static
+investigation launched no game or native session. The later Linux run adds one
+functional route pass, while the original interpreter's clock/pause behavior
+and memory restore remain unverified. The initial follow-up changed operational
+resources and evidence only; runtime code and native patch were unchanged.
 The existing source kit suite passed 23 checks. An ordinary wheel and clean
 offline installation agree with the source on all 35 runtime modules and
 47 operational resources, with 17 topics. The installed `policequest` command,
-resource export and offline doctor passed; native qualification remains false.
+resource export and offline doctor passed; that documentation-only follow-up
+did not perform native qualification.
 See the [acceptance investigation receipt](evidence/police-quest-acceptance-2026-11-17.json).
 
 ### Initial memory-fence snapshot verification
@@ -575,5 +678,6 @@ The live gates remain separate:
 
 These are sampled cooperation checks, not an atomic capture lock. A transition
 entirely between samples can be missed; the outer harness still owns capture
-and input already in flight. No live ownership probe, desktop input, environment
-switch, tunnel change, game launch or release publication was performed here.
+and input already in flight. The local Mac build and authored native fixtures
+recorded above do not qualify these original-Dot desktop gates or commercial-game
+play. Full memory rewind and release publication remain separate work.

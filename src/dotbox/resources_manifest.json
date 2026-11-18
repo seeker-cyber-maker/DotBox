@@ -17,7 +17,8 @@
     "continuous": "skills/dotbox-play/references/continuous-play.md",
     "lookahead": "skills/dotbox-play/references/continuous-play.md",
     "runtime": "docs/STANDALONE.md",
-    "native": "docs/STANDALONE_NATIVE.md"
+    "native": "docs/STANDALONE_NATIVE.md",
+    "macos": "docs/LOCAL_MACOS_BUILD.md"
   },
   "files": [
     "AGENTS.md",
@@ -38,6 +39,7 @@
     "docs/PERSISTENT_CONTROLS.md",
     "docs/STANDALONE.md",
     "docs/STANDALONE_NATIVE.md",
+    "docs/LOCAL_MACOS_BUILD.md",
     "docs/OWNERSHIP_BRIDGE.md",
     "docs/OWNERSHIP_CONNECTOR.md",
     "docs/REPOSITORIES.md",
