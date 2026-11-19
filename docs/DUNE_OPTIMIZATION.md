@@ -11,6 +11,12 @@ eight paired trials and continued ordinary-input play. Defaults remain the
 existing full-reader, single-frame path; optimized modes must be selected
 explicitly.
 
+**Continuation added 19 November 2026 (UTC):** the
+[travel-map selector guide](DUNE_MAP_SELECTOR.md), topic `dunemap`, documents the
+subsequent prepared-choice adapter and its own validation scope. The paired
+measurements, runtime qualification and single map trial below remain the
+historical optimization slice; the continuation does not expand those results.
+
 ## What changed
 
 ### Sparse stopped observations
@@ -258,6 +264,14 @@ dependencies. Retain negative cases for changed callback/gate/mode/viewport,
 missing or moved points, ineligible or tied candidates, active rectangle overlap,
 wrong accepted destination, exhausted bounds, foreign stops and uncertain replies.
 None should trigger an automatic second click.
+
+**Subsequent implementation, 19 November 2026 (UTC):**
+[`MapSelector`](DUNE_MAP_SELECTOR.md) now supplies that bounded travel-menu
+adapter with read-only preparation, a single-use selected intent, the complete
+pinned callback vector, and separate acceptance/readiness reports. Its 124
+authored protocol tests and final live evidence have a separate record in the
+new guide. The single trial described in this section is preserved as earlier
+route qualification and is not substituted for the new adapter's validation.
 
 ## Remaining boundaries
 

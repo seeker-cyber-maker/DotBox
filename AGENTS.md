@@ -19,7 +19,12 @@ Read docs/DUNE_PROGRESS.md and docs/DUNE_OPTIMIZATION.md before repeating the
 isolated DOS-edition work: sparse observation, native bounded waits, checkpoint
 recovery and the Gurney frontier have recorded qualification. Use explicit
 capabilities and current ownership/readiness. Map callbacks follow a separate
-observed route from rectangle dispatch; the general map adapter is still open.
+observed route from rectangle dispatch. Read docs/DUNE_MAP_SELECTOR.md before
+using the narrow travel-menu adapter: it requires the complete pinned callback
+vector, a fresh ready observation, an explicit selected site and a single-use
+prepared token. Keep target acceptance, input readiness and arrival separate;
+retain refusals and reconcile only qualified accepted-target timeouts without
+replaying input. General strategic-map support remains outside this profile.
 Read docs/DINOPARK_REUSE.md before designing native menu/state adapters: the
 E55 mechanics research and later fDisBull provider are existing reuse material.
 Recover their contracts and qualified controls before repeating discovery;

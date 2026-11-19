@@ -64,6 +64,17 @@ measured images/state while reducing a conversation-entry action from 227 to
 runtime and Gurney checkpoint are qualified within the recorded research scope;
 original-Dot desktop integration remains a separate gate.
 
+The [travel-map selector](docs/DUNE_MAP_SELECTOR.md), available through
+`dotbox guide --topic dunemap`, adds read-only destination preparation and a
+single-use original-click action for the recorded travel-menu profile. It binds
+the complete callback vector and current rendered point, proves destination
+acceptance before continuing, and reports input readiness separately from
+arrival. Both full and sparse readers are supported with explicit native
+bounded waiting; 124 authored protocol tests cover the action and refusal paths.
+Four final-source live trials reached Harg and Timin through separate original
+travel actions; stale-revision and exhausted-budget checks preserved refusal
+without replay. The guide records exact identities and the limits of those results.
+
 The primary experience is [Dot as the game's conversational interface](docs/CONVERSATIONAL_PLAY.md):
 describe the current scene, offer useful choices, interpret the player's intent
 and carry it out. Autonomous play uses the same scene/action model. A small
