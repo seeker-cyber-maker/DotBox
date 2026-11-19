@@ -6,7 +6,11 @@ project evidence identify this game, rather than Dune II. Confirm the exact
 platform, language, release and resource hashes before executing a new trial.
 
 Status: validation plan plus a completed, isolated
-[RIP-edition probe/rewind batch](DUNE_BATCH_PROBE.md). The initial documentation
+[RIP-edition probe/rewind batch](DUNE_BATCH_PROBE.md) and a
+[continued-play/workload experiment](DUNE_PROGRESS.md). The continuation reached
+a Fremen sietch, recruited a troop and obtained its report of spice mining.
+It adds bounded UI readers and continuation mechanics; complete strategic-loop
+and original-Dot acceptance remain open. The initial documentation
 pass consulted the manual and existing public trial; the later 18 November batch
 actually executed the newly supplied DOS edition. Its menu/navigation dispatch
 and memory-repeatability findings do not complete strategic-play acceptance or

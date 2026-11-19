@@ -159,6 +159,15 @@ witnesses matched before the new batch was prepared. The one-shot process was
 closed and reaped after recording a clean final probe inventory. This recovery
 is recorded separately from the warm timing.
 
+Later [continued play](DUNE_PROGRESS.md) exposed a narrower restore limit:
+restoring this graphics checkpoint into a process still in DOS text mode can
+match those CPU/RAM witnesses while preserving incorrect VGA memory handlers.
+The initial restored image appears, but subsequent guest graphics writes do not
+render correctly. Normally initializing Dune graphics before that restore passed
+a later visible-action check. The native repair remains unimplemented. Treat
+the comparisons above as the recorded CPU/RAM/clock evidence, not arbitrary
+cross-process graphical-continuation qualification.
+
 ## Timing and failure limits
 
 | Measurement | Host duration | Coverage |
