@@ -199,6 +199,67 @@ head. Malformed or unavailable read-only admission is a pre-dispatch refusal;
 it does not imply that input was sent. A provider-call exception still latches
 uncertainty because the provider's runtime state is unresolved.
 
+## Observe through short bounded steps
+
+The callback helper `dotbox.bounded_wait.bounded_wait` composes one observation
+budget from short native steps. It accepts an already-fenced synchronous `step`
+callback; it opens no runtime or input connection and supplies no new ownership
+or observation authority.
+
+An original Dune II test requested 25,000 guest milliseconds with a 1,900-frame
+ceiling. That single native operation reached its 15,000-millisecond host
+timeout despite a separate 30,000-millisecond enclosing request budget. The
+owner stopped further native calls and closed the process; the partial guest
+outcome remains unknown. The [bounded-wait receipt](evidence/bounded-wait-2026-11-19.json)
+records that failure, the offline checks and one subsequent live observation.
+
+```python
+from dotbox.bounded_wait import bounded_wait
+
+# The caller has already qualified this callback and one outer host deadline.
+result = bounded_wait(
+    fenced_step,
+    max_frames=1900,
+    max_guest_ms=25000,
+    slice_guest_ms=5000,
+)
+```
+
+Each call receives the remaining aggregate frame allowance and at most the
+remaining guest-time allowance or `slice_guest_ms`, whichever is smaller.
+The slice limit is an integer from 1 through 5,000 guest milliseconds; aggregate
+limits are 1 through 10,000 frames and 1 through 30,000 guest milliseconds.
+Reaching the frame ceiling ends the entire observation even when time remains.
+Slicing changes neither aggregate ceiling and never renews the enclosing host
+deadline. The callback must enforce that same deadline and recheck its native
+ownership, capability, stopped context and receipt provenance on every call.
+Short guest slices do not guarantee a particular host execution speed.
+
+The result uses the separate `dotbox-bounded-wait-1` aggregate schema. It records
+the original limits, each slice's request and unmodified receipt, total completed
+frames and guest milliseconds, and the aggregate stop cause. Receipts are copied
+before a later callback can reuse its data. A frame limit takes precedence when
+both aggregate ceilings are reached; the raw receipt retains the native cause.
+The aggregate is not a native frame receipt or proof that construction, arrival
+or another gameplay goal completed.
+
+Malformed accounting, unknown or contradictory stop causes, and zero progress
+raise an error before another callback. Callback exceptions propagate without
+retry or cleanup calls. Earlier slices may already have advanced the guest;
+the caller's journal must retain partial evidence and apply its terminal failure
+policy. An error never authorizes replay of the observation or preceding input.
+
+Forty-one authored helper cases and a 199-case integrated offline suite passed;
+the smaller suite is included in the larger count. In a fresh original Dune II
+run, the same 25,000-millisecond observation completed as five 5,000-millisecond
+slices, totaling 1,753 frames within the unchanged 1,900-frame ceiling. All five
+raw receipts matched the native journal, and no input or save/restore was sent
+during that observation. The caller retained its original 30,000-millisecond
+host deadline. This qualifies the accounting contract and this single live
+observation; it does not establish a Dune II provider, native ownership, current
+visibility or a universal host-time guarantee. The separate prepared-opening
+readiness attempt still missed its 180-second profile, taking 285.051 seconds.
+
 ## Offline commands
 
 Export the kit into a new directory and use its authored example:
