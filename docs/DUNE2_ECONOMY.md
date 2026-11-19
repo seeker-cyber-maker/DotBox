@@ -7,7 +7,10 @@ success modal. The run then completed the result presentation, statistics and
 local Hall of Fame entry, and reached the campaign's next-region selection map.
 This is an authored operational knowledge slice backed by private
 captures and original-code analysis. The [evidence receipt](evidence/dune2-economy-2026-11-19.json)
-records provenance and the scope of each check.
+records provenance and the scope of each check. A subsequent separate slice
+verified production Hold/Resume, bare-rock Windtrap placement, limited Repair
+and ordinary same-process Save/Load. Its [repair and save/load receipt][next-checks]
+keeps those tests distinct from the earlier complete-foundation mission win.
 
 The public [RTS primitives](RTS_PRIMITIVES.md) remain generic contracts. This
 contribution adds no public Dune II provider, memory reader, live input route or
@@ -127,14 +130,120 @@ Own concrete counts for placement adjacency. Original validation returns zero
 for invalid placement and can return a negative missing-foundation count for
 otherwise valid ordinary buildings. Bare-rock placement can therefore be legal
 with reduced starting HP. A generic building adapter must interpret that
-condition, rather than treating every negative result as rejection. The tested
-buildings used complete foundations; damaged or incomplete-foundation production
-has source support but was not a separate live trial here. [structure.c][structure]
-provides the reference correlate.
+condition, rather than treating every negative result as rejection. The earlier
+mission-winning run used complete foundations. The subsequent Windtrap test
+below directly verifies a legal bare-rock placement and reduced initial HP;
+other footprints and partial-foundation arrangements remain separate tests.
+[structure.c][structure] provides the reference correlate.
 
 Storage, actual credits, displayed credits and the scenario's initial
 no-storage allowance have distinct roles. The observed capacity is scenario
 state, not a promise about every Refinery or Silo in every edition.
+
+## Further original checks: Hold, Repair and ordinary Save/Load
+
+These checks cover one Windtrap in Atreides mission one, across two isolated
+original processes. Hold/Resume was observed in the first process before its
+later terminal timeout. Bare placement, Repair and Save/Load were observed in
+the fresh sliced-wait process; no uncertain operation was replayed. The
+[bounded-wait report](evidence/bounded-wait-2026-11-19.json) records that runtime
+boundary. The [new evidence receipt][next-checks] records each test's scope.
+
+### Hold and Resume have separately observed effects
+
+The producer's Hold flag, production countdown and actual credits establish
+whether production stopped. The product's own record is a different object.
+The same production panel can offer Hold, Resume or placement according to
+current state; it is not a fixed-action button.
+
+| Observation | Producer countdown | Actual credits | Producer Hold |
+| --- | ---: | ---: | --- |
+| Hold accepted and observed | 11264 | 974 | On |
+| After a separate 3,000 guest-ms observation, with 180 game ticks elapsed | 11264 | 974 | On |
+| After an independently selected Resume and 2,000 guest-ms observation | 10496 | 956 | Off |
+
+The countdown and credits changed while the initial Hold input was being
+consumed, then remained stable during the independent held interval. This does
+not establish instantaneous delivery or a universal production rate. Displayed
+credits also lagged the ledger: the held capture's displayed-credit memory field
+was 979 while actual credits were 974, and that field later caught up. These
+last-completed frames are 1–15 guest ms older than stopped RAM, so sampled
+displayed-credit fields need not equal the exact frame digits. [Test receipt][next-checks].
+
+### Bare placement and a bounded repair
+
+The separate preview selected a 2-by-2 Windtrap footprint with four missing
+concrete cells and matching stored/rendered position. Original validity was
+`-4`; one subsequent placement committed the building at **100/200 HP**, with
+raw house power production **50**. Placement and the ensuing construction and
+Windtrap tutorials were distinct events, each inspected before the next action.
+One preview tile retained a partial-fog overlay despite its unveiled flag. The
+successful original placement therefore does not qualify current-visible
+admission for all four cells. [Test receipt][next-checks].
+
+After the tutorials, a separately selected Repair action set both Repair and
+Hold on the Windtrap. A bounded observation increased HP from **100 to 105** and
+reduced actual credits from **699 to 685**. An independently selected repair-off
+action cleared both flags. During a further **2,000 guest ms**, HP and credits
+remained at 105 and 685. The displayed-credit memory field was still 694 after
+the debit, illustrating why accounting needs the actual ledger.
+
+Original instruction analysis explains the observed repair price. For positive
+values in this tested case, its fixed-point calculation is:
+
+```text
+fraction = floor(10 * 256 / nominal_HP)
+credits_per_step = floor((fraction * build_price + 128) / 256)
+```
+
+With nominal HP 200 and build price 300, the original result is **14 credits per
+paid +5 HP step**. The pinned OpenDUNE [structure.c][structure] uses factor **2**
+instead of the original **10**; its repair price cannot be substituted. A later
+separate repair interval added 10 HP for 28 credits. Neither interval tested
+full repair. The original strict-greater-than completion comparison and the
+insufficient-credit branch remain source findings, not live qualifications.
+Original analysis and executable hashes are pinned in the [test receipt][next-checks].
+
+The visible Windtrap panel showed output **52** at 105 HP while the raw house
+power field still read **50**. After the later interval it showed **57** at
+115 HP, with the house field still 50. Ordinary loading subsequently restored
+105 HP and the house field read **52**. Keep displayed output, building HP and
+stored house totals separate; this test does not establish their general refresh
+schedule. [Test receipt][next-checks].
+
+### Ordinary Save/Load restores state and creates an observation boundary
+
+The original Options menu, Save This Game entry, empty slot, description field
+and Save confirmation were inspected as separate operations. Saving description
+`r1` created a **3,884-byte** `_SAVE000.DAT`; its retained digest and description
+anchor the tested file. Menu closure alone was not the success criterion.
+
+The saved state had **105 HP**, **685 credits**, and Repair/Hold off. A deliberate
+ordinary repair after saving changed it to **115 HP**, **657 credits**, with both
+flags on. Selecting `r1` through the original Load A Game menu restored **105 HP**,
+**685 credits**, and both flags off. A further independent observation reached
+the completed gameplay frame with those restored facts. This is **same-process
+ordinary game Save/Load**. Cross-process loading, other save formats and native
+`state.load` remain unqualified. [Test receipt][next-checks]; reference context:
+[save.c][save] and [load.c][load].
+
+The initial load capture already held the restored ledger but still reported
+displayed credits **65535** and timer mask 1. That displayed value was a transition
+sentinel, not spendable funds or a victory balance. The later completed capture
+reported actual/displayed credits 685 and timer mask 3. A timer bit or credit
+counter alone does not establish current input readiness.
+
+Loading did not rewind the native or game clocks. At the initial restored
+capture, the game clock was 2290 and the scenario-start value became 98,
+retaining the saved elapsed mission time of **2192**. The reference's
+[scenario-time serialization][save-info] offers a correlate; byte-identical
+memory or a rewound runtime clock is not the acceptance condition.
+
+Treat the load as a new observation boundary: discard old object keys, selection
+intents, targets and placement previews, then inspect fresh rendering and state
+before choosing another action. The test records this boundary explicitly. The
+sliced-run reader still reports entity candidates, current visibility false and
+action admission false; these results install no public Dune II provider.
 
 ## Harvester commands and the observed economy loop
 
@@ -283,3 +392,8 @@ while reusing these learned conditions.
 [map]: https://github.com/OpenDUNE/OpenDUNE/blob/ebea79aeba025be2fe9004570e9255044aacc0be/src/map.c
 [sprites]: https://github.com/OpenDUNE/OpenDUNE/blob/ebea79aeba025be2fe9004570e9255044aacc0be/src/sprites.c
 [game]: https://github.com/OpenDUNE/OpenDUNE/blob/ebea79aeba025be2fe9004570e9255044aacc0be/src/opendune.c
+
+[next-checks]: evidence/dune2-repair-save-load-2026-11-19.json
+[save]: https://github.com/OpenDUNE/OpenDUNE/blob/ebea79aeba025be2fe9004570e9255044aacc0be/src/save.c
+[load]: https://github.com/OpenDUNE/OpenDUNE/blob/ebea79aeba025be2fe9004570e9255044aacc0be/src/load.c
+[save-info]: https://github.com/OpenDUNE/OpenDUNE/blob/ebea79aeba025be2fe9004570e9255044aacc0be/src/saveload/info.c
