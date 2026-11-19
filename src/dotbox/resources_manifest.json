@@ -31,7 +31,8 @@
     "duneoptimization": "docs/DUNE_OPTIMIZATION.md",
     "dunemap": "docs/DUNE_MAP_SELECTOR.md",
     "rts": "docs/RTS_PRIMITIVES.md",
-    "dune2economy": "docs/DUNE2_ECONOMY.md"
+    "dune2economy": "docs/DUNE2_ECONOMY.md",
+    "dune2attacks": "docs/DUNE2_ATTACKS.md"
   },
   "files": [
     "AGENTS.md",
@@ -54,6 +55,8 @@
     "docs/DUNE_MAP_SELECTOR.md",
     "docs/RTS_PRIMITIVES.md",
     "docs/DUNE2_ECONOMY.md",
+    "docs/DUNE2_ATTACKS.md",
+    "docs/evidence/dune2-attacks-2026-11-19.json",
     "docs/evidence/dune2-economy-2026-11-19.json",
     "docs/evidence/dune2-next-tests-baseline-2026-11-19.json",
     "docs/evidence/dune2-observation-qualification-2026-11-19.json",

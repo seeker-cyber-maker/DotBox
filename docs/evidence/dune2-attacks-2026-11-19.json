@@ -1,0 +1,104 @@
+{
+  "schema": "dotbox-authored-dune2-attacks-evidence-1",
+  "date": "2026-11-19",
+  "scope": "Original mission-two reactive defense and controlled-worm preparation; private diagnostic workflow, not public provider qualification",
+  "original_exe_sha256": "d49f45729babd298fd72d0f623cc3cfaa4c3d144ab38e53f24355f2208b4e5a0",
+  "native_executable_sha256": "af4d353c128dbb58fa433a0f8601cb92d8fb93acc907e25827c038d6dea77e8e",
+  "opendune_reference_commit": "ebea79aeba025be2fe9004570e9255044aacc0be",
+  "ordinary_m2_save_sha256": "b7f26127914504933a4deda8f6f273c31aa28096b115b622745bc6727d7b8fcf",
+  "enemy_encounter": {
+    "process_epoch": "dune2-attack-baseline-deac78711fff4e8ea2950f4a8fb525f2",
+    "final_observation": "baseline-defense-guarded",
+    "final_revision": 82,
+    "reviewed_captures": 37,
+    "own_status_replay_samples": 36,
+    "first_quad_harm_interval_guest_ms": {
+      "after": 62205,
+      "by": 67205
+    },
+    "explicit_root_recognition_guest_ms": 69505,
+    "quad_initial_hp": 130,
+    "quad_before_retreat_hp": 109,
+    "quad_final_hp": 74,
+    "quad_final_action": "Guard",
+    "quad_final_tile": [
+      31,
+      38
+    ],
+    "quad_last_hp_decrease_observed_guest_ms": 93105,
+    "final_guest_ms": 110805,
+    "subsequent_sampled_stable_span_guest_ms": 17700,
+    "selected_raider_hp_before_after": [
+      80,
+      66
+    ],
+    "own_units_remaining_allocated": 7,
+    "other_own_units_hp_unchanged": true,
+    "construction_yard_hp": 400,
+    "own_slot_release_observed": false,
+    "enemy_defeated": false,
+    "permanent_safety_established": false,
+    "pre_harm_warning_established": false,
+    "source_text_signal_at_sampled_fences": false,
+    "resource_identity_checks": {
+      "original_resources": 21,
+      "all_unchanged": true,
+      "m2_unchanged": true
+    },
+    "report_json_sha256": "4059c52db3dfe7f820962dfa99d02117d11c580bf1c76bf513cdeeee989b4457",
+    "report_md_sha256": "36d4445347e391ff9b8a799d8853774e89bd015118761ebe1ccdc385d720a2e5",
+    "own_observer_replay_sha256": "337d399351acd6c587ab7e7d8ad0b57d438f38268078e78451099e4d0a4f8cf4",
+    "separate_combat_audit_sha256": "b9013465721e39a6766fb5e67feec1c2232533f0ded6214bccebec08541d8344"
+  },
+  "private_observer": {
+    "sha256": "766f60ce877cedc7588870a57c1a76f201f2cb84839bdd9de449bae1a6cb83b9",
+    "focused_tests": 15,
+    "independently_passed": true,
+    "automatic_inputs": false,
+    "delivered_warning_established": false,
+    "pre_harm_warning_established": false,
+    "current_visibility_established": false,
+    "action_admission": false,
+    "requires_new_enrollment_after_load_or_restart": true
+  },
+  "worm_trial": {
+    "status": "constructed_hidden_start_verified_batch_interface_failure_before_advance",
+    "authored_fixture_sha256": "f42515a693e0a181739f2cadbecc3a37747d0b4e7cec7b7c2ec0245d8892c68b",
+    "added_scenario_rows": 1,
+    "owner": "Fremen",
+    "original_resources_and_m2_unchanged": true,
+    "loose_override_verified_via_original_restart": true,
+    "briefing_observed": true,
+    "hidden_start_visual_warning": false,
+    "initial_own_units_full_hp": 7,
+    "worm_harm_observed": false,
+    "pre_harm_detection_established": false,
+    "response_trial_completed": false,
+    "first_batch_request_executed": false,
+    "batch_failure": "Generated name lacked the original runner's required numeric prefix; terminal closure before execution; pending reservation retained",
+    "prior_static_compatibility_review_withdrawn": true,
+    "initial_tactical_observation": "w2-entry-s019",
+    "initial_tactical_revision": 165,
+    "initial_tactical_guest_ms": 25814,
+    "initial_tactical_frame_sha256": "166266b6a86dfac8c509d41749f4d3d2d868f5915cc424d34e51d8f62cfa2555",
+    "corrected_batch_helper_sha256": "0562e29ecdb4854733b0cb6f07e7a416d0fa21add9a00627ce1c97f45edef252",
+    "actual_runner_filename_contract_tests": 4,
+    "filename_contract_tests_independently_passed": true,
+    "corrected_live_batch_completed": false
+  },
+  "source_research": {
+    "original_trigger_report_md_sha256": "46c0b0f75d4bcb8779fe2e6c5672212ec70cfc0734ae672d78fa55b8e733958d",
+    "render_script_addendum_md_sha256": "5c6d06c1796138c8e8ebc2ee7a8fd6ade25977e8766fe346cb0c5c38626359a8",
+    "warning_alliance_check_precedes_worm_branch": true,
+    "swallow_release_can_retain_positive_hp": true,
+    "hidden_coordinates_are_not_detector_inputs": true
+  },
+  "limits": [
+    "Guest is paused during model evaluation; no continuous real-time performance claim.",
+    "Source UI state and private projections do not establish delivered warnings or current visibility.",
+    "Own-status events are sampled and unattributed; same-signature reuse between samples can be missed.",
+    "Enemy withdrawal is bounded survival, not defeat of the enemy force or permanent safety.",
+    "Worm construction and a hidden-start negative do not establish a dangerous event, early detection or successful evacuation.",
+    "No new campaign victory or native saved-state restoration is claimed."
+  ]
+}
