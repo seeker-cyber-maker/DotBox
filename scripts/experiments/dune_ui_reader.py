@@ -3,6 +3,10 @@
 ``describe(ram, ds=DS)`` consumes a coherent frozen 640 KiB conventional-RAM
 image starting at linear address zero. It has no emulator, filesystem, network,
 input, restore or disassembler dependency, and changes neither RAM nor state.
+``describe_sparse(read, ds=DS)`` returns the same observation using a synchronous
+``read(linear_address, length)`` callback, together with the raw control stability
+witness and a receipt for every range actually read. The caller must keep the
+guest at one coherent confirmed stop for the entire call. No cache survives it.
 
 Entry conditions belong to the caller: verify SOURCE_SHA256/SOURCE_SIZE against
 the actual executable and selected resources, CS=0824/DS=16F3 in real-mode,
@@ -31,6 +35,8 @@ from __future__ import annotations
 import hashlib
 import json
 import struct
+from collections.abc import Callable
+from copy import deepcopy
 
 
 SOURCE_SHA256 = "32439602abe95e0ff778653ad58052bfed56a73e103b92f079455daa2ee886e7"
@@ -40,6 +46,14 @@ RAM_BYTES, SEGMENT_BYTES = 0xA0000, 0x10000
 MAX_CONTROLS, MAX_LABEL_BYTES, TEXT_WINDOW_BYTES = 64, 1024, 400
 MAX_MAP_POINTS, MAX_SITE_RECORDS = 40, 128
 ROW_CALLBACKS = (0xCE85, 0xCE80, 0xCE7B, 0xCE76, 0xCE71)
+# Coalesce nearby dependencies to save RPCs as well as bytes. The first range
+# includes bounded site records, controls, menus and current text-pool pointers.
+# Unusual but valid menu/text pointers are still read on demand, never padded.
+SPARSE_CORE_RANGE = (0x0004, 0x431D - 0x0004)
+SPARSE_PAGING_RANGE = (0xFED4, 5)
+SPARSE_TEXT_RANGE = (0xA107, MAX_MAP_POINTS * 6 + TEXT_WINDOW_BYTES)
+SPARSE_POOL_BYTES = 4096
+SPARSE_MAX_BYTES, SPARSE_MAX_READS = 128 * 1024, 256
 
 
 class SnapshotError(ValueError):
@@ -60,6 +74,122 @@ def _controls_in(payload: bytes) -> list[int]:
     return sorted({value for value in payload if value != 13 and not 32 <= value <= 126})
 
 
+def _binding(ds: int) -> None:
+    if type(ds) is not int or ds != DS:
+        raise SnapshotError("The observed data-segment binding must remain 16F3")
+
+
+def _range(address: int, count: int) -> None:
+    if (type(address) is not int or type(count) is not int or count < 0
+            or not 0 <= address <= RAM_BYTES - count):
+        raise SnapshotError(f"Snapshot does not cover {address!r}+{count!r}")
+
+
+def _merged_ranges(ranges: list[tuple[int, int]]) -> list[tuple[int, int]]:
+    merged = []
+    for address, length in sorted(ranges):
+        if not length:
+            continue
+        end = address + length
+        if merged and address <= merged[-1][0] + merged[-1][1]:
+            start, count = merged[-1]
+            merged[-1] = (start, max(start + count, end) - start)
+        else:
+            merged.append((address, length))
+    return merged
+
+
+def _ranges_sha(blocks: list[tuple[int, bytes]]) -> str:
+    digest = hashlib.sha256(b"dune-sparse-ranges-1\0")
+    for address, block in blocks:
+        digest.update(struct.pack("<II", address, len(block)))
+        digest.update(block)
+    return digest.hexdigest()
+
+
+class _SparseMemory:
+    """One observation's real returned ranges; an absent byte stays absent."""
+
+    def __init__(self, read: Callable[[int, int], bytes]):
+        if not callable(read):
+            raise SnapshotError("Sparse memory needs a callable read(address, length)")
+        self._read = read
+        self._blocks: list[tuple[int, bytes]] = []
+        self._dependencies: list[tuple[int, int]] = []
+        self._receipts: list[dict] = []
+        self._bytes = 0
+
+    def _fetch(self, address: int, count: int) -> bytes:
+        _range(address, count)
+        if (self._bytes + count > SPARSE_MAX_BYTES
+                or len(self._receipts) >= SPARSE_MAX_READS):
+            raise SnapshotError("Sparse memory read budget exceeded")
+        block = self._read(address, count)
+        if not isinstance(block, (bytes, bytearray)) or len(block) != count:
+            raise SnapshotError(f"Sparse read at {address:05X} must return exactly {count} bytes")
+        block = bytes(block)
+        self._blocks.append((address, block))
+        self._bytes += count
+        self._receipts.append({"address": address, "length": count, "sha256": _sha(block)})
+        return block
+
+    def __call__(self, address: int, count: int) -> bytes:
+        self._dependencies.append((address, count))
+        return self.prefetch(address, count)
+
+    def prefetch(self, address: int, count: int) -> bytes:
+        _range(address, count)
+        cursor, end, pieces = address, address + count, []
+        # Existing blocks never overlap: only gaps in their actual coverage
+        # reach the callback. A failed/short read is never installed in cache.
+        for start, block in sorted(self._blocks):
+            stop = start + len(block)
+            if stop <= cursor:
+                continue
+            if start >= end:
+                break
+            if start > cursor:
+                pieces.append(self._fetch(cursor, start - cursor))
+                cursor = start
+            stop = min(stop, end)
+            pieces.append(block[cursor - start:stop - start])
+            cursor = stop
+            if cursor == end:
+                break
+        if cursor < end:
+            pieces.append(self._fetch(cursor, end - cursor))
+        return b"".join(pieces)
+
+    def prepare_pool(self, segment: int, offset: int) -> None:
+        address = segment * 16 + offset
+        count = min(SPARSE_POOL_BYTES, SEGMENT_BYTES - offset, RAM_BYTES - address)
+        if count > 0:
+            self.prefetch(address, count)
+
+    def report(self) -> dict:
+        return {"ranges": list(self._receipts), "calls": len(self._receipts), "bytes": self._bytes}
+
+    def capture(self) -> dict:
+        """Retain actual bytes and exact parser requests, excluding prefetch gaps."""
+        def cached(address: int, length: int) -> bytes:
+            end = address + length
+            block = b"".join(data[max(address, start) - start:min(end, start + len(data)) - start]
+                             for start, data in sorted(self._blocks)
+                             if start < end and start + len(data) > address)
+            if len(block) != length:
+                raise SnapshotError("Sparse capture is missing a requested dependency")
+            return block
+
+        ranges = _merged_ranges([(address, len(block)) for address, block in self._blocks])
+        blocks = [(address, cached(address, length)) for address, length in ranges]
+        dependencies = _merged_ranges(self._dependencies)
+        dependency_blocks = [(address, cached(address, length)) for address, length in dependencies]
+        return {"schema": "dune-sparse-memory-1",
+                "ranges": [{"address": address, "data_hex": block.hex()} for address, block in blocks],
+                "dependencies": [{"address": address, "length": length} for address, length in dependencies],
+                "sha256": _ranges_sha(blocks), "dependency_sha256": _ranges_sha(dependency_blocks)}
+
+
 def describe(ram: bytes, *, ds: int = DS) -> dict:
     """Return bounded observations; raise SnapshotError on unsupported layout.
 
@@ -69,15 +199,94 @@ def describe(ram: bytes, *, ds: int = DS) -> dict:
     """
     if not isinstance(ram, (bytes, bytearray)) or len(ram) != RAM_BYTES:
         raise SnapshotError("Expected exactly 640 KiB of conventional RAM from linear zero")
-    if type(ds) is not int or ds != DS:
-        raise SnapshotError("The observed data-segment binding must remain 16F3")
+    _binding(ds)
     ram = bytes(ram)
 
     def data(address: int, count: int) -> bytes:
-        if count < 0 or not 0 <= address <= RAM_BYTES - count:
-            raise SnapshotError(f"Snapshot does not cover {address:05X}+{count}")
+        _range(address, count)
         return ram[address:address + count]
 
+    return _describe(data, ds=ds)
+
+
+def _sparse(read: Callable[[int, int], bytes], ds: int, *, text: bool) -> _SparseMemory:
+    _binding(ds)
+    memory = _SparseMemory(read)
+    ranges = (SPARSE_CORE_RANGE, SPARSE_PAGING_RANGE)
+    if text:
+        ranges += (SPARSE_TEXT_RANGE,)
+    for offset, length in ranges:
+        memory.prefetch(ds * 16 + offset, length)
+    return memory
+
+
+def describe_sparse(read: Callable[[int, int], bytes], *, ds: int = DS) -> dict:
+    """Read one coherent stopped UI without a full conventional-RAM transfer.
+
+    ``read`` must return exactly the requested bytes or raise; callback errors
+    propagate. The caller owns stopping, mapping checks and before/after stop
+    revision checks. Neither a read receipt nor a successful parse grants input
+    readiness or proves that pixels agree with the state. Returned ``reads``
+    lists the actual callback ranges, their hashes, call count and total bytes;
+    it is not a full-RAM hash or a restorable snapshot. ``structure_witness``
+    retains the raw paging entries used by the controller's stability check.
+    ``capture`` retains real returned ranges for private evidence. Its separate
+    dependency digest binds only merged parser/structure requests, excluding
+    unused prefetched bytes. All hashes are observation identities, not proof
+    of admission, freshness or complete game-state equality.
+    """
+    memory = _sparse(read, ds, text=True)
+    observation = _describe(memory, ds=ds, prepare_pool=memory.prepare_pool)
+    structure = _structure(memory, ds=ds)
+    return {"observation": observation, "structure_witness": structure,
+            "reads": memory.report(), "capture": memory.capture()}
+
+
+def read_structure_sparse(read: Callable[[int, int], bytes], *, ds: int = DS) -> dict:
+    """Read the existing raw control-stability witness at one stopped boundary.
+
+    This intentionally omits text, map-point and site-name decoding. Equality
+    is the same narrow stability witness as the controller's full-DS check;
+    it is not complete state equality, readiness or an input admission token.
+    """
+    memory = _sparse(read, ds, text=False)
+    return {"structure_witness": _structure(memory, ds=ds),
+            "reads": memory.report(), "capture": memory.capture()}
+
+
+def _structure(data: Callable[[int, int], bytes], *, ds: int) -> dict:
+    def segment(offset: int, count: int) -> bytes:
+        if not 0 <= offset <= SEGMENT_BYTES - count:
+            raise SnapshotError("Control witness read would wrap its 16-bit segment")
+        return data(ds * 16 + offset, count)
+
+    def word(offset: int) -> int:
+        return struct.unpack("<H", segment(offset, 2))[0]
+
+    count, rows = word(0x2184), segment(0xFED8, 1)[0]
+    if not 1 <= count <= MAX_CONTROLS or rows > 5:
+        raise SnapshotError("Control/row count leaves the bounded edition schema")
+    controls = []
+    for index in range(count):
+        offset = 0x2186 + index * 14
+        values = struct.unpack("<4H2B2H", segment(offset, 14))
+        controls.append([offset, *values[:4], bool(values[4] & 0x80), values[7]])
+    slot = word(0x2840)
+    menu = word(slot)
+    if menu > SEGMENT_BYTES - 2:
+        raise SnapshotError("Menu header leaves the data segment")
+    skip = struct.unpack("<b", segment(menu + 1, 1))[0]
+    entries = [[word(menu + 2 + skip + 4 * row), word(menu + 4 + skip + 4 * row)]
+               for row in range(rows)]
+    return {"controls": controls, "slot": slot, "menu": menu, "skip": skip,
+            "entries": entries, "rows": rows, "special": list(segment(0xFED4, 2)),
+            "location": [word(4), word(6)], "ui_mode": segment(0x4247, 1)[0],
+            "subject": word(0x431B),
+            "dialogue": [word(0x4311), word(0x4315), segment(0x4319, 1)[0]] if menu == 0x2608 else None}
+
+
+def _describe(data: Callable[[int, int], bytes], *, ds: int,
+              prepare_pool: Callable[[int, int], None] | None = None) -> dict:
     def segmented(segment: int, offset: int, count: int) -> bytes:
         if not 0 <= offset <= SEGMENT_BYTES - count:
             raise SnapshotError("Read would wrap its 16-bit segment")
@@ -101,6 +310,8 @@ def describe(ram: bytes, *, ds: int = DS) -> dict:
             index &= 0x07FF
         table = far(slot)
         table_entry = table["offset"] + index * 2
+        if prepare_pool is not None:
+            prepare_pool(table["segment"], table["offset"])
         pointer = struct.unpack("<H", segmented(table["segment"], table_entry, 2))[0]
         start = table["segment"] * 16 + pointer
         limit = min(MAX_LABEL_BYTES, SEGMENT_BYTES - pointer, RAM_BYTES - start)
@@ -356,3 +567,30 @@ def compact(observation: dict) -> dict:
         "menu_admission_sha256": observation["menu_admission_sha256"],
         "dialogue_witness_sha256": observation["dialogue_witness_sha256"],
     }
+
+
+def changed_compact(before: dict | None, after: dict) -> dict:
+    """Return a complete initial compact packet or complete changed fields.
+
+    Both hashes cover the entire corresponding ``compact`` packet, serialized
+    with JSON sorted keys, compact separators and the default ASCII escaping.
+    A consumer applies a delta only to a cached packet matching ``base_sha256``,
+    replaces each listed top-level field, then checks ``current_sha256`` against
+    the complete result. An initial ``full`` packet replaces the whole cache.
+    Empty delta fields mean equal compact observations, not a fresh input grant.
+
+    This carries compact's candidate-only presentation semantics. It neither
+    exposes raw witnesses nor creates admission tokens; the controller must
+    separately supply any newly qualified token at its actual input boundary.
+    """
+    current = deepcopy(compact(after))
+    previous = None if before is None else compact(before)
+
+    def digest(packet: dict) -> str:
+        return _sha(json.dumps(packet, sort_keys=True, separators=(",", ":")).encode())
+
+    return {"schema": "dune-compact-delta-1", "kind": "full" if before is None else "delta",
+            "base_sha256": None if previous is None else digest(previous),
+            "current_sha256": digest(current),
+            "fields": current if previous is None else
+                      {key: value for key, value in current.items() if previous[key] != value}}

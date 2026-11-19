@@ -80,12 +80,12 @@ def _address(value):
     return int(value["segment"], 16), int(value["offset"], 16)
 
 
-def _context(registers):
+def _context(registers, *, require_mapping=True):
     if (registers.get("cpu_mode") != "real" or registers.get("code_bits") != 16
             or registers.get("stack_bits") != 16
             or registers.get("address_context", {}).get("paging_enabled") is not False
-            or int(registers.get("segments", {}).get("cs", "0"), 16) != CS
-            or int(registers.get("segments", {}).get("ds", "0"), 16) != DS):
+            or (require_mapping and (int(registers.get("segments", {}).get("cs", "0"), 16) != CS
+                                     or int(registers.get("segments", {}).get("ds", "0"), 16) != DS))):
         raise ProgressError("The qualified real-mode Dune code/data mapping changed")
 
 
@@ -116,7 +116,7 @@ def _structure(data):
         controls.append([offset, *values[:4], bool(values[4] & 0x80), values[7]])
     slot = word(0x2840)
     menu = word(slot)
-    if menu > 65533:
+    if menu > 65534:
         raise ProgressError("Menu header leaves the data segment")
     skip = struct.unpack_from("<b", data, menu + 1)[0]
     entries = [[word(menu + 2 + skip + 4 * row), word(menu + 4 + skip + 4 * row)]
@@ -139,7 +139,23 @@ class ProgressController:
     that all game contexts are covered by this experimental continuation.
     """
 
-    def __init__(self, call, reader, evidence_root, *, session_id, source_path):
+    def __init__(self, call, reader, evidence_root, *, session_id, source_path,
+                 wait_strategy="frame", read_strategy="full", capabilities=None,
+                 sparse_reader=None, structure_reader=None):
+        if wait_strategy not in ("frame", "native") or read_strategy not in ("full", "sparse"):
+            raise ValueError("Select explicit frame/native waiting and full/sparse reading")
+        self.wait_strategy, self.read_strategy = wait_strategy, read_strategy
+        self.sparse_reader, self.structure_reader = sparse_reader, structure_reader
+        if read_strategy == "sparse" and (not callable(sparse_reader) or not callable(structure_reader)):
+            raise ValueError("Sparse mode requires explicit scene and structure readers")
+        self.native_limits = None
+        if wait_strategy == "native":
+            limits = (capabilities or {}).get("execution", {}).get("bounded_frame_step", {})
+            if (limits.get("schema") != "dotbox-bounded-frame-step-1"
+                    or type(limits.get("max_frames")) is not int or not 1 <= limits["max_frames"] <= 10000
+                    or type(limits.get("max_guest_ms")) is not int or not 1 <= limits["max_guest_ms"] <= 30000):
+                raise ProgressError("Native bounded frame-step capability is absent or incompatible; no fallback is implicit")
+            self.native_limits = deepcopy(limits)
         self.call_adapter, self.reader = call, reader
         self.implementation_sha256 = _MODULE_SOURCE_SHA256
         self.source_path = Path(source_path).resolve(strict=True)
@@ -221,6 +237,40 @@ class ProgressController:
             raise ProgressError("Live hook bytes no longer match the qualified executable")
         return _sha(live)
 
+    def _scene_capture(self, folder, name):
+        if self.read_strategy == "full":
+            ram = self._memory(0, RAM_BYTES)
+            scene = self.reader(ram, ds=DS)
+            ds = ram[DS * 16:DS * 16 + 65536]
+            _write(folder / (name + ".bin"), ram)
+            identity = {"memory_mode": "full", "ram_sha256": _sha(ram),
+                        "ram_path": str(folder / (name + ".bin")), "ds_sha256": _sha(ds),
+                        "structure_sha256": _digest(_structure(ds))}
+        else:
+            result = self.sparse_reader(self._memory, ds=DS)
+            scene, capture = result["observation"], result["capture"]
+            if (capture.get("schema") != "dune-sparse-memory-1"
+                    or not capture.get("ranges") or not capture.get("dependencies")
+                    or any(not isinstance(capture.get(key), str) or len(capture[key]) != 64
+                           for key in ("sha256", "dependency_sha256"))):
+                raise ProgressError("Sparse reader omitted its exact dependency/capture identity")
+            path = folder / (name + ".sparse.json")
+            _write(path, capture)
+            identity = {"memory_mode": "sparse", "memory_capture": {
+                "schema": capture["schema"], "path": str(path), "sha256": capture["sha256"],
+                "dependency_sha256": capture["dependency_sha256"],
+                "dependencies": capture["dependencies"], "reads": result["reads"]},
+                "structure_sha256": _digest(result["structure_witness"])}
+        if not isinstance(scene, dict) or not isinstance(scene.get("menu_admission_sha256"), str):
+            raise ProgressError("Reader did not supply the qualified UI-witness contract")
+        return scene, identity
+
+    def _structure_digest(self):
+        if self.read_strategy == "full":
+            return _digest(_structure(self._memory(DS * 16, 65536)))
+        result = self.structure_reader(self._memory, ds=DS)
+        return _digest(result["structure_witness"])
+
     def _snapshot(self, folder, name, *, readiness=None):
         before = self._status()
         registers = self._rpc("state.get_registers")
@@ -229,10 +279,7 @@ class ProgressController:
         if readiness is not None and (not inputs["neutral"] or int(registers["instruction_pointer"], 16) != INPUT_LOOP):
             raise ProgressError("The qualified input-loop observation no longer matches current input/PC")
         timing = self._rpc("execution.timing")
-        ram = self._memory(0, RAM_BYTES)
-        scene = self.reader(ram, ds=DS)
-        if not isinstance(scene, dict) or not isinstance(scene.get("menu_admission_sha256"), str):
-            raise ProgressError("Reader did not supply the qualified UI-witness contract")
+        scene, memory_identity = self._scene_capture(folder, name)
         frame = self._rpc("video.screenshot")
         png = base64.b64decode(frame.get("data_base64") or frame["png_base64"], validate=True)
         if not png.startswith(b"\x89PNG\r\n\x1a\n"):
@@ -241,23 +288,20 @@ class ProgressController:
         if (before.get("state_revision") != after.get("state_revision")
                 or before.get("last_stop") != after.get("last_stop")):
             raise UnexpectedStop("Observation changed while capturing stopped evidence", {"before": before, "after": after})
-        ds = ram[DS * 16:DS * 16 + 65536]
         packet = {"schema": "dune-progress-observation-1", "process_epoch": self.epoch,
                   "session_id": self.session_id, "state_revision": after["state_revision"],
                   "source_sha256": SOURCE_SHA256, "stop": after.get("last_stop"),
                   "registers": registers, "timing": timing, "input": inputs, "scene": scene,
-                  "ram_sha256": _sha(ram), "ds_sha256": _sha(ds),
-                  "structure_sha256": _digest(_structure(ds)),
+                  **memory_identity,
                   "frame": {**{k: v for k, v in frame.items() if not k.endswith("base64")},
                             "path": str(folder / (name + ".png")), "sha256": _sha(png)},
-                  "ram_path": str(folder / (name + ".bin")),
                   "input_boundary": readiness,
                   "presentation_semantics": "Captured image; agreement with state/text is a separate qualification"}
         packet["scene_token"] = _digest({"epoch": self.epoch, "revision": packet["state_revision"],
-                                         "ram": packet["ram_sha256"], "menu": scene["menu_admission_sha256"],
+                                         "memory": packet.get("ram_sha256") or packet["memory_capture"]["sha256"],
+                                         "menu": scene["menu_admission_sha256"],
                                          "input_boundary": readiness})
         _write(folder / (name + ".png"), png)
-        _write(folder / (name + ".bin"), ram)
         _write(folder / (name + ".json"), packet)
         return packet
 
@@ -328,14 +372,47 @@ class ProgressController:
         if reply.get("kind") != "execution" or reply.get("once") is not True or _address(reply.get("address")) != (CS, offset):
             raise ProgressError("Probe receipt differs from the requested definition")
 
-    def _step(self):
+    def _step(self, *, max_frames=1, max_guest_ms=None):
         if self.deadline is not None and time.monotonic() >= self.deadline:
             raise BudgetExpired("Cooperative host admission budget expired")
         self.stopped = False
-        reply = self._rpc("frame.step")
+        params = ({"max_frames": max_frames, "max_guest_ms": max_guest_ms}
+                  if self.wait_strategy == "native" else None)
+        reply = self._rpc("frame.step", params)
         status = self._status(reply)
         reason = reply.get("stop_reason", {})
-        if reply.get("completed") is True and reason.get("kind") == "frame":
+        if self.wait_strategy == "native":
+            budget = reply.get("bounded", {})
+            names = ("max_frames", "max_guest_ms", "frames_completed", "guest_tick_bits",
+                     "guest_ticks_before", "guest_ticks_after", "guest_elapsed_ms")
+            valid = (all(type(budget.get(key)) is int for key in names)
+                     and budget.get("max_frames") == max_frames and budget.get("max_guest_ms") == max_guest_ms
+                     and 0 <= budget.get("frames_completed", -1) <= max_frames
+                     and budget.get("guest_tick_bits") in (32, 64))
+            if valid:
+                modulus = 1 << budget["guest_tick_bits"]
+                valid = (0 <= budget["guest_ticks_before"] < modulus and 0 <= budget["guest_ticks_after"] < modulus
+                         and budget["guest_elapsed_ms"] == (budget["guest_ticks_after"] - budget["guest_ticks_before"]) % modulus
+                         and 0 <= budget["guest_elapsed_ms"] <= max_guest_ms
+                         and reply.get("guest_ticks") == budget["guest_ticks_after"]
+                         and (budget["frames_completed"] == 0 or reply.get("frame_available") is True))
+            cause = budget.get("stop_cause")
+            if cause == "frame_limit":
+                valid = valid and reason.get("kind") == "frame" and reply.get("completed") is True and budget.get("frames_completed") == max_frames
+            elif cause == "guest_time_limit":
+                valid = valid and reason.get("kind") == "budget" and reply.get("completed") is False and budget.get("guest_elapsed_ms") == max_guest_ms
+            elif cause == "breakpoint":
+                valid = valid and reason.get("kind") == "breakpoint" and reply.get("completed") is False
+            else:
+                valid = False
+            if not valid:
+                raise UnexpectedStop("Native bounded step returned inconsistent counters/cause", {"reply": reply, "status": status})
+            if cause in ("frame_limit", "guest_time_limit"):
+                # A budget is resumable only for the controller that validated
+                # this exact stopped response. It is not a generic pause.
+                self.last_owned_stop = {"state_revision": reply["state_revision"], "reason": deepcopy(reason)}
+                return reply, None
+        elif reply.get("completed") is True and reason.get("kind") == "frame":
             return reply, None
         probe = self.owned.get(reason.get("breakpoint_id"))
         registers = reply.get("registers", {})
@@ -361,9 +438,22 @@ class ProgressController:
             for entry in self._rpc("breakpoints.list")["breakpoints"]:
                 identifier = entry["breakpoint_id"]
                 if identifier in self.owned:
+                    before = self._status()
+                    retained_stop = self.last_owned_stop == {
+                        "state_revision": before["state_revision"], "reason": before.get("last_stop")}
                     reply = self._rpc("breakpoints.delete", {"breakpoint_id": identifier})
                     if reply.get("deleted") is not True or reply.get("breakpoint_id") != identifier:
                         raise ProgressError("Owned probe cleanup was not acknowledged")
+                    after = self._status(reply)
+                    expected_revisions = ((before["state_revision"] + 1,) if self.wait_strategy == "native"
+                                          else (before["state_revision"], before["state_revision"] + 1))
+                    if (after.get("last_stop") != before.get("last_stop")
+                            or after["state_revision"] not in expected_revisions):
+                        raise UnexpectedStop("Probe cleanup changed more than its acknowledged observer revision",
+                                             {"before": before, "reply": reply, "after": after})
+                    if retained_stop:
+                        self.last_owned_stop = {"state_revision": after["state_revision"],
+                                                "reason": deepcopy(after.get("last_stop"))}
                     removed.append(identifier)
             remaining = self._rpc("breakpoints.list")["breakpoints"]
             if any(entry["breakpoint_id"] in self.owned for entry in remaining):
@@ -379,11 +469,37 @@ class ProgressController:
                 "input_retired": False, "stable_control_frames": 0,
                 "fresh_frame_since_dispatch": False, "fresh_frame_after_input_loop": False}
 
-    def _advance_ready(self, report, folder, *, max_frames, max_stops, stable_frames, selected=None):
+    def _advance_ready(self, report, folder, *, max_frames, max_stops, stable_frames,
+                       max_guest_ms=None, selected=None):
         phase = "dispatch" if selected is not None else "first_loop"
         previous_structure, stable = None, 0
+        previous_ticks = (report.get("timing_before") or report["before"]["timing"])["guest_ticks"]
         while report["frames_completed"] < max_frames and len(report["hits"]) < max_stops:
-            reply, site = self._step()
+            if self.wait_strategy == "native":
+                remaining_guest = max_guest_ms - report["bounded_guest_elapsed_ms"]
+                if remaining_guest <= 0:
+                    break
+                frames = 1 if phase == "settle" else max_frames - report["frames_completed"]
+                reply, site = self._step(max_frames=min(frames, self.native_limits["max_frames"]),
+                                         max_guest_ms=min(remaining_guest, self.native_limits["max_guest_ms"]))
+                budget = reply["bounded"]
+                if budget["guest_ticks_before"] != previous_ticks:
+                    raise UnexpectedStop("Native guest clock advanced outside the owned wait", {"reply": reply, "previous_ticks": previous_ticks})
+                previous_ticks = budget["guest_ticks_after"]
+                report["bounded_guest_elapsed_ms"] += budget["guest_elapsed_ms"]
+                report["native_waits"].append(deepcopy(budget))
+                completed = budget["frames_completed"]
+            else:
+                reply, site = self._step()
+                completed = 1 if site is None else 0
+            report["frames_completed"] += completed
+            if completed:
+                report["last_completed_frame"] = {k: v for k, v in reply.items() if k not in ("registers",)}
+                if report["readiness"]["matched_control_dispatch"]:
+                    report["readiness"]["fresh_frame_since_dispatch"] = reply.get("frame_id", -1) > report["before"]["frame"]["frame_id"]
+            if self.wait_strategy == "native" and reply["bounded"]["stop_cause"] == "guest_time_limit":
+                report["timeout_cause"] = "guest_time_limit"
+                break
             if site is not None:
                 report["hits"].append({"site": f"{CS:04X}:{site:04X}", "guest_ticks": reply.get("guest_ticks"),
                                        "stop_reason": reply["stop_reason"], "registers": reply["registers"]})
@@ -393,11 +509,8 @@ class ProgressController:
                         raise UnexpectedStop("The click selected a different control record", {"observed_record": record, "reply": reply})
                     # A stable record pointer/CE85 wrapper can acquire another
                     # row meaning while input is queued. Re-resolve BEFORE call.
-                    ram = self._memory(0, RAM_BYTES)
-                    _write(folder / "dispatch.bin", ram)
-                    current_scene = self.reader(ram, ds=DS)
-                    report["dispatch_context"] = {"ram_sha256": _sha(ram), "ram_path": str(folder / "dispatch.bin"),
-                                                   "scene": current_scene}
+                    current_scene, identity = self._scene_capture(folder, "dispatch")
+                    report["dispatch_context"] = {**identity, "scene": current_scene}
                     try:
                         current_selected = self._selection(current_scene, record, None)
                     except ProgressError as error:
@@ -414,7 +527,7 @@ class ProgressController:
                     phase = "settle"
                 elif site == INPUT_LOOP and phase == "final_loop":
                     inputs = self._inputs()
-                    current = _digest(_structure(self._memory(DS * 16, 65536)))
+                    current = self._structure_digest()
                     if inputs["neutral"] and current == previous_structure:
                         report["readiness"]["input_retired"] = True
                         report["readiness"]["stable_control_frames"] = stable
@@ -424,10 +537,6 @@ class ProgressController:
                 else:
                     raise UnexpectedStop("Owned boundary arrived in an unexpected phase", {"phase": phase, "reply": reply})
             else:
-                report["frames_completed"] += 1
-                report["last_completed_frame"] = {k: v for k, v in reply.items() if k not in ("registers",)}
-                if report["readiness"]["matched_control_dispatch"]:
-                    report["readiness"]["fresh_frame_since_dispatch"] = reply.get("frame_id", -1) > report["before"]["frame"]["frame_id"]
                 if phase == "settle":
                     # At least two completed frames after the first owned loop
                     # witness; don't use an unchanged source-cache hash as proof.
@@ -436,7 +545,7 @@ class ProgressController:
                     if not inputs["neutral"]:
                         stable, previous_structure = 0, None
                         continue
-                    current = _digest(_structure(self._memory(DS * 16, 65536)))
+                    current = self._structure_digest()
                     stable = stable + 1 if current == previous_structure else 1
                     previous_structure = current
                     if stable >= stable_frames:
@@ -445,7 +554,7 @@ class ProgressController:
         report["outcome"] = "timeout"
 
     def await_ready(self, *, max_frames=1800, max_stops=12, host_budget_ms=30000,
-                    stable_frames=2, reconcile_partial=False):
+                    stable_frames=2, reconcile_partial=False, max_guest_ms=30000):
         """Wait without input; return a token qualified at the observed loop.
 
         A flight/animation can leave the prior menu's rectangles in memory.
@@ -457,7 +566,8 @@ class ProgressController:
         if (type(max_frames) is not int or not 1 <= max_frames <= 10000
                 or type(max_stops) is not int or not 2 <= max_stops <= 32
                 or type(stable_frames) is not int or not 2 <= stable_frames <= 10
-                or not 1 <= host_budget_ms <= 30000 or type(reconcile_partial) is not bool):
+                or not 1 <= host_budget_ms <= 30000 or type(reconcile_partial) is not bool
+                or type(max_guest_ms) is not int or not 1 <= max_guest_ms <= 30000):
             raise ValueError("Readiness budgets are outside the bounded wait profile")
         if self.uncertain:
             raise ProgressError("Readiness cannot continue after uncertain dispatch")
@@ -477,28 +587,39 @@ class ProgressController:
                   "controller_source_sha256": self.implementation_sha256,
                   "input_attempted": False, "input_sent": False, "story_commit": "unknown",
                   "outcome": "declined", "hits": [], "frames_completed": 0,
+                  "strategies": {"wait": self.wait_strategy, "read": self.read_strategy},
+                  "bounded_guest_elapsed_ms": 0 if self.wait_strategy == "native" else None,
+                  "native_waits": [], "native_limits": self.native_limits,
                   "before": self.latest, "after": None, "readiness": self._readiness(),
                   "reconcile_partial_requested": reconcile_partial,
                   "bounds": {"max_frames": max_frames, "max_stops": max_stops,
-                             "host_admission_ms": host_budget_ms, "stable_frames": stable_frames}}
+                             "host_admission_ms": host_budget_ms, "stable_frames": stable_frames,
+                             "native_guest_ms": max_guest_ms if self.wait_strategy == "native" else None}}
         try:
             status = self._status()
             reason = status.get("last_stop", {})
-            if (reason.get("kind") == "breakpoint"
+            if (reason.get("kind") in ("breakpoint", "budget")
                     and self.last_owned_stop != {"state_revision": status["state_revision"], "reason": reason}):
-                raise UnexpectedStop("Readiness cannot resume a breakpoint this controller did not qualify", {"status": status})
-            if reason.get("kind") not in ("frame", "pause", "entry", "breakpoint"):
+                raise UnexpectedStop("Readiness cannot resume a breakpoint/budget this controller did not qualify", {"status": status})
+            if reason.get("kind") not in ("frame", "pause", "entry", "breakpoint", "budget"):
                 raise UnexpectedStop("Readiness cannot resume an unknown stop kind", {"status": status})
-            _context(self._rpc("state.get_registers"))
+            # A verified own guest deadline can stop inside a drawing overlay
+            # or interrupt, away from Dune's UI CS/DS. Resume only input-free;
+            # hook bytes stay checked and the eventual owned D214 stop must
+            # again satisfy the full mapping before any actionable snapshot.
+            _context(self._rpc("state.get_registers"),
+                     require_mapping=not (self.wait_strategy == "native" and reason.get("kind") == "budget"))
             if self._rpc("breakpoints.list")["breakpoints"]:
                 raise ProgressError("Existing probes prevent this private wait's admission")
             report["timing_before"] = self._rpc("execution.timing")
             report["code_bindings"] = {f"{INPUT_LOOP:04X}": self._code(INPUT_LOOP)}
             self._arm(INPUT_LOOP)
-            self._advance_ready(report, folder, max_frames=max_frames, max_stops=max_stops, stable_frames=stable_frames)
+            self._advance_ready(report, folder, max_frames=max_frames, max_stops=max_stops,
+                                stable_frames=stable_frames, max_guest_ms=max_guest_ms)
             if report["outcome"] == "input_boundary":
                 report["after"] = self._snapshot(folder, "after", readiness=report["readiness"])
-                report["guest_elapsed_ms"] = report["after"]["timing"]["guest_ticks"] - report["timing_before"]["guest_ticks"]
+                report["guest_elapsed_ms"] = (report["bounded_guest_elapsed_ms"] if self.wait_strategy == "native"
+                                              else report["after"]["timing"]["guest_ticks"] - report["timing_before"]["guest_ticks"])
                 self.latest = deepcopy(report["after"])
                 self.ready_token = self.latest["scene_token"]
         except BaseException as error:
@@ -531,7 +652,7 @@ class ProgressController:
         return report
 
     def perform(self, scene_token, *, control_record=None, label=None, max_frames=120,
-                max_stops=12, host_budget_ms=15000, hold_ms=80, stable_frames=2):
+                max_stops=12, host_budget_ms=15000, hold_ms=80, stable_frames=2, max_guest_ms=5000):
         """Attempt one selected control; return evidence without another model poll.
 
         A successful ``input_boundary``/``context_changed`` result concerns only
@@ -542,7 +663,8 @@ class ProgressController:
         if (type(max_frames) is not int or not 1 <= max_frames <= 600
                 or type(max_stops) is not int or not 3 <= max_stops <= 32
                 or type(stable_frames) is not int or not 2 <= stable_frames <= 10
-                or not 1 <= host_budget_ms <= 60000 or type(hold_ms) is not int or not 1 <= hold_ms <= 1000):
+                or not 1 <= host_budget_ms <= 60000 or type(hold_ms) is not int or not 1 <= hold_ms <= 1000
+                or type(max_guest_ms) is not int or not 1 <= max_guest_ms <= 30000):
             raise ValueError("Action budgets are outside the bounded experiment profile")
         if self.uncertain or self.blocked:
             raise ProgressError("A partial/uncertain attempt must be reconciled before further input")
@@ -557,8 +679,12 @@ class ProgressController:
                   "selected_from_token": scene_token, "input_attempted": False, "input_sent": False,
                   "story_commit": "unknown", "outcome": "declined", "hits": [],
                   "frames_completed": 0, "before": self.latest, "after": None,
+                  "strategies": {"wait": self.wait_strategy, "read": self.read_strategy},
+                  "bounded_guest_elapsed_ms": 0 if self.wait_strategy == "native" else None,
+                  "native_waits": [], "native_limits": self.native_limits,
                   "bounds": {"max_frames": max_frames, "max_stops": max_stops,
-                             "host_admission_ms": host_budget_ms, "stable_frames": stable_frames},
+                             "host_admission_ms": host_budget_ms, "stable_frames": stable_frames,
+                             "native_guest_ms": max_guest_ms if self.wait_strategy == "native" else None},
                   "readiness": self._readiness()}
         try:
             if self.latest is None or scene_token != self.latest["scene_token"]:
@@ -571,8 +697,18 @@ class ProgressController:
             if status["state_revision"] != self.latest["state_revision"] or status.get("last_stop") != self.latest["stop"]:
                 raise ProgressError("Native state advanced since the selected observation")
             _context(self._rpc("state.get_registers"))
-            if _sha(self._memory(DS * 16, 65536)) != self.latest["ds_sha256"]:
-                raise ProgressError("Dune data changed since the selected observation")
+            if self.read_strategy == "full":
+                if _sha(self._memory(DS * 16, 65536)) != self.latest["ds_sha256"]:
+                    raise ProgressError("Dune data changed since the selected observation")
+            else:
+                _, admission = self._scene_capture(folder, "admission")
+                report["admission_capture"] = admission
+                after_admission = self._status()
+                if (status["state_revision"] != after_admission["state_revision"]
+                        or status.get("last_stop") != after_admission.get("last_stop")):
+                    raise UnexpectedStop("Sparse admission changed while reading dependencies")
+                if admission["memory_capture"]["dependency_sha256"] != self.latest["memory_capture"]["dependency_sha256"]:
+                    raise ProgressError("Parsed Dune dependencies changed since the selected observation")
             if not self._inputs()["neutral"]:
                 raise ProgressError("Action admission requires neutral input")
             if self._rpc("breakpoints.list")["breakpoints"]:
@@ -592,7 +728,7 @@ class ProgressController:
             if receipt.get("accepted") is not True or receipt.get("delivery") != "queued":
                 raise ProgressError("Input receipt does not establish the expected queued click")
             self._advance_ready(report, folder, max_frames=max_frames, max_stops=max_stops,
-                                stable_frames=stable_frames, selected=selected)
+                                stable_frames=stable_frames, max_guest_ms=max_guest_ms, selected=selected)
             if report["outcome"] == "input_boundary":
                 if not report["readiness"]["fresh_frame_since_dispatch"]:
                     raise ProgressError("No new completed frame was witnessed after dispatch")
@@ -603,7 +739,8 @@ class ProgressController:
                                       if before_scene.get(key) != after_scene.get(key)}
                 if before_scene["menu_admission_sha256"] != after_scene["menu_admission_sha256"]:
                     report["outcome"] = "context_changed"
-                report["guest_elapsed_ms"] = report["after"]["timing"]["guest_ticks"] - self.latest["timing"]["guest_ticks"]
+                report["guest_elapsed_ms"] = (report["bounded_guest_elapsed_ms"] if self.wait_strategy == "native"
+                                              else report["after"]["timing"]["guest_ticks"] - self.latest["timing"]["guest_ticks"])
                 self.latest = deepcopy(report["after"])
                 self.ready_token = self.latest["scene_token"]
         except BaseException as error:

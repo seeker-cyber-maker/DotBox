@@ -55,6 +55,15 @@ pass observed the visible effects and repeated a map action with matching
 measured outcomes. Both used the retained fDisBull native runtime;
 packaged original-Dot orchestration and player-facing rewind remain separate work.
 
+The [continued Dune run](docs/DUNE_PROGRESS.md) recruits a Fremen troop and
+assigns spice work through original input. Its [optimization continuation](docs/DUNE_OPTIMIZATION.md),
+`dotbox guide --topic duneoptimization`, adds explicit sparse observations and
+capability-gated native bounded waits. Eight paired trials retain matching
+measured images/state while reducing a conversation-entry action from 227 to
+56 RPCs and from 1,572,879 to 117,315 bytes read. The rebuilt headless Linux
+runtime and Gurney checkpoint are qualified within the recorded research scope;
+original-Dot desktop integration remains a separate gate.
+
 The primary experience is [Dot as the game's conversational interface](docs/CONVERSATIONAL_PLAY.md):
 describe the current scene, offer useful choices, interpret the player's intent
 and carry it out. Autonomous play uses the same scene/action model. A small

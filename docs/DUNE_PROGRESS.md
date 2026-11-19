@@ -2,6 +2,11 @@
 
 Measured 18 November 2026 (America/New_York; raw receipts use UTC).
 
+**Continuation:** [Sparse observations and bounded native waits](DUNE_OPTIMIZATION.md)
+implements the overhead reductions identified here, records paired measurements
+on a rebuilt DotBox native backend, and saves a later checkpoint after meeting
+Gurney. The measurements and limitations below retain this earlier run's scope.
+
 This continuation asks which work belongs in a deterministic tool and which
 still needs Dot's interpretation. It uses the same supplied English DOS RIP
 edition and retained Linux native backend as [the Dune probe batch](DUNE_BATCH_PROBE.md).

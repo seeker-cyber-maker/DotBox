@@ -15,6 +15,11 @@ discovery, including shared variables and reused storage. Native disassembly
 remains required alongside engine readers; a decoder alone is not a def-use
 analyzer or a qualified live capture workflow. Read docs/DUNE_VALIDATION.md for
 the next original-Cryo-Dune transfer test and the earlier Dune CD exposure.
+Read docs/DUNE_PROGRESS.md and docs/DUNE_OPTIMIZATION.md before repeating the
+isolated DOS-edition work: sparse observation, native bounded waits, checkpoint
+recovery and the Gurney frontier have recorded qualification. Use explicit
+capabilities and current ownership/readiness. Map callbacks follow a separate
+observed route from rectangle dispatch; the general map adapter is still open.
 Read docs/DINOPARK_REUSE.md before designing native menu/state adapters: the
 E55 mechanics research and later fDisBull provider are existing reuse material.
 Recover their contracts and qualified controls before repeating discovery;
