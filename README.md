@@ -48,7 +48,12 @@ original route retain separate purposes. Existing fDisBull helpers are concrete
 reuse candidates; this guide does not add native invocation or teleportation to DotBox.
 Its multi-probe survey method uses the debugger to retain transient dispatch
 evidence across comparable per-control trials, producing a useful map before
-every handler is explained. Live survey orchestration remains implementation work.
+every handler is explained. An isolated [Dune batch](docs/DUNE_BATCH_PROBE.md)
+now executes restore, probe setup, input, capture and timeout mechanically.
+The reviewed nine-trial dispatch pass took 3.233 seconds; a separate 18.080-second
+pass observed the visible effects and repeated a map action with matching
+measured outcomes. Both used the retained fDisBull native runtime;
+packaged original-Dot orchestration and player-facing rewind remain separate work.
 
 The primary experience is [Dot as the game's conversational interface](docs/CONVERSATIONAL_PLAY.md):
 describe the current scene, offer useful choices, interpret the player's intent

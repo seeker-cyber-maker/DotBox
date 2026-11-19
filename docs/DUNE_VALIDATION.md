@@ -5,9 +5,12 @@ as the next non-AGI target. The user's menu-driven description and the existing
 project evidence identify this game, rather than Dune II. Confirm the exact
 platform, language, release and resource hashes before executing a new trial.
 
-Status: validation plan, not a new Dune adapter or a completed strategic-play
-test. No Dune assets or execution were inspected for this documentation pass.
-The game manual and the existing public trial receipt were consulted.
+Status: validation plan plus a completed, isolated
+[RIP-edition probe/rewind batch](DUNE_BATCH_PROBE.md). The initial documentation
+pass consulted the manual and existing public trial; the later 18 November batch
+actually executed the newly supplied DOS edition. Its menu/navigation dispatch
+and memory-repeatability findings do not complete strategic-play acceptance or
+original-Dot integration.
 
 Use [DinoPark's recovered mechanics and existing provider](DINOPARK_REUSE.md)
 as a reference for the shared state, menu and delayed-action machinery. Retain

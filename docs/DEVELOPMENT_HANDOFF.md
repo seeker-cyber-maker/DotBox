@@ -3,7 +3,40 @@
 Updated 18 November 2026. This is a development continuation, not a release or
 proof of live desktop input through the ownership fence.
 
-## Latest continuation: record transient dispatch across controls
+## Latest continuation: execute the deterministic Dune batch
+
+18 November 2026. The user supplied the original English DOS RIP edition and
+requested actual deterministic setup/input/probe/rewind trials, including a
+no-hit timeout. [DUNE_BATCH_PROBE.md](DUNE_BATCH_PROBE.md) records the local
+experiment and links its sanitized receipt and reusable experimental runner.
+The initial nine-trial full-observation batch took 18.080 seconds, covering six
+visible controls, an empty row, idle and a repeated map choice. All ten memory
+restores matched CPU registers and 640 KiB RAM; the map repeat matched dispatch,
+final RAM, registers and screenshot. A changed authored mounted-file canary
+kept its newer contents. Actual game files were unchanged during the measured
+trials/restores. `DUNE21S0.SAV` had already changed during pre-checkpoint startup;
+that difference from the unchanged supplied archive is retained in the receipt.
+The reviewed reusable runner then completed the same nine-row dispatch profile
+in 3.233 seconds, plus 0.418 seconds for checkpoint preparation. It used DotBox's
+own Python transport with the retained native executable. All destination/fallback
+entries were reached after one guest millisecond; idle exhausted 30 frames/428
+guest milliseconds. Stops occur before instruction execution, so the first full
+pass remains the evidence for visible effects. The second batch also passed
+all ten restore checks and retired pending clicks through restore.
+
+The map and conversation rows expose different resolved handlers. Arrow controls
+reach original navigation callbacks; the down arrow is intercepted by Leto's
+dialogue in the tested starting state. The center control opens the floorplan.
+This is a retained dispatch map and observed opening outcomes, not full game
+semantics, a callable deep-entry contract or strategic-loop qualification.
+
+The run used the existing fDisBull offline 0.34.1 native executable, not the
+newer DotBox-owned native binary. Its original protocol and the later
+generation-fenced ownership protocol remain distinct. Preparation time is
+reported separately from the warm batch. Original-Dot ownership/capture,
+repeatable Police Quest controls and missed-briefing rewind remain open.
+
+## Previous continuation: record transient dispatch across controls
 
 18 November 2026. The user treats the debugger as an active experimental
 instrument: arm candidate exits/destinations together, trigger one control,

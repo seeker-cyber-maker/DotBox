@@ -309,6 +309,14 @@ qualification. Capture the clean baseline before arming and explicitly reconcile
 probes around restore; do not assume these distinct helpers already share a
 checkpoint lifecycle or a general record-and-continue operation.
 
+The subsequent [Dune experiment](DUNE_BATCH_PROBE.md) exercised this composition
+in an isolated real-mode guest using the retained native runtime. A fixed script
+restored memory, armed several candidates, clicked each declared control,
+recorded selected targets and exhausted an idle no-hit window. Its full
+nine-trial batch took 18.080 seconds, with preparation reported separately.
+The target-specific experimental runner is retained for reuse; qualification
+through DotBox's current ownership protocol and visible player flow remains open.
+
 ## Bounded implementation and acceptance
 
 First retain hypotheses and alternative entry contracts with the existing
