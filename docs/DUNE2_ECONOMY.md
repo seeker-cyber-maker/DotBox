@@ -1,6 +1,6 @@
-# Dune II economy, construction and mission-one validation
+# Dune II economy, campaign progression and recovery
 
-Status: 19 November 2026. An original Dune II v1.0 run built a Windtrap and
+Status: 19 November 2026. An earlier original Dune II v1.0 run built a Windtrap and
 Refinery, completed a full field-harvesting and refining cycle, exercised
 separate Harvest and Return commands, and reached the original first-mission
 success modal. The run then completed the result presentation, statistics and
@@ -13,14 +13,17 @@ and ordinary same-process Save/Load. Its [repair and save/load receipt][next-che
 keeps those tests distinct from the earlier complete-foundation mission win.
 A later [Refinery and camera receipt][refinery-camera] covers bare Refinery
 placement, one paid repair increment and a specific unit-mode right-click
-outcome. That follow-up records no additional victory or load qualification.
+outcome. That receipt stops before the separately reviewed further win and
+recovery below. The [campaign and recovery receipt][campaign-recovery] records
+that later mission-one win, region choice, scenario-two entry and one fresh
+process ordinary Load of the new `m2` save.
 
 The public [RTS primitives](RTS_PRIMITIVES.md) remain generic contracts. This
 contribution adds no public Dune II provider, memory reader, live input route or
-desktop-ownership integration. The observed result covers Atreides mission one;
-full-campaign completion is unqualified. Post-success presentation and campaign
-progression are observed through that selection frontier. No next region was
-selected and no second mission was started within this validation.
+desktop-ownership integration. The observed scope now reaches Atreides scenario
+two and one fresh-process ordinary-load trial. The earlier complete-foundation
+run remains bounded at its campaign-map frontier; full-campaign completion and
+scenario-two victory remain unqualified.
 
 ## Source and edition boundary
 
@@ -226,9 +229,11 @@ The saved state had **105 HP**, **685 credits**, and Repair/Hold off. A delibera
 ordinary repair after saving changed it to **115 HP**, **657 credits**, with both
 flags on. Selecting `r1` through the original Load A Game menu restored **105 HP**,
 **685 credits**, and both flags off. A further independent observation reached
-the completed gameplay frame with those restored facts. This is **same-process
-ordinary game Save/Load**. Cross-process loading, other save formats and native
-`state.load` remain unqualified. [Test receipt][next-checks]; reference context:
+the completed gameplay frame with those restored facts. That trial established
+**same-process ordinary game Save/Load**. Its scope did not include cross-process
+loading; the later `m2` test below qualifies one fresh-process ordinary load.
+Other save formats and native `state.load` remain unqualified.
+[Test receipt][next-checks]; reference context:
 [save.c][save] and [load.c][load].
 
 The initial load capture already held the restored ledger but still reported
@@ -360,7 +365,7 @@ Original Harvest targeting uses the fresh clicked tile, unlike building
 placement's stored-preview argument. Reference: [actioninfo.c][actions],
 [widget_click.c][widget] and [viewport.c][viewport].
 
-The run established these separate outcomes:
+The earlier complete-foundation run established these separate outcomes:
 
 | Observation | Result and scope |
 | --- | --- |
@@ -455,10 +460,11 @@ objects, or broaden action admission from a screenshot alone. The public
 projector continues to consume provider-asserted visibility. See the
 [world model](WORLD_MODEL.md).
 
-## Result and remaining qualification
+## Earlier mission-one result
 
-The visible original success modal establishes mission-one success. The source
-also explains why a quota-like credit number alone was insufficient: original
+In the earlier complete-foundation run, the visible original success modal
+establishes mission-one success. The source also explains why a quota-like
+credit number alone was insufficient: original
 mission checks have an elapsed-game-time gate and periodic evaluation, and the
 quota predicate consumes displayed credits. No tick-rate conversion or win
 flag is inferred from a timeout. The private decoder continues to report an
@@ -472,15 +478,106 @@ show score 89, game-reported time 7 minutes, rank Desert Mongoose, spice totals
 identify the cause or attacker behind a particular earlier disappearance, and
 the game-reported time is not a cold-start or harness-performance measurement.
 After local Hall of Fame entry and Resume Game, bounded observation of the
-campaign narration reached the next-region selection prompt. The final frontier
-is ready for a future region choice; it does not establish that another mission
-has begun. Exact success, statistics and campaign-map screenshot hashes are
-retained in the [evidence receipt](evidence/dune2-economy-2026-11-19.json).
+campaign narration reached the next-region selection prompt. That earlier run
+stopped at this frontier and did not select a second scenario. The later reviewed
+continuation below has its own evidence. Exact success, statistics and campaign
+map screenshot hashes from the earlier run are retained in its
+[evidence receipt](evidence/dune2-economy-2026-11-19.json).
 
-Building review, later accounting checks, original-source findings and visible
-result inspection have separate evidence scopes in the receipt. Full campaign
-play, other houses/missions, broad combat/NPC behavior, automatic script recovery,
-current-visibility qualification, reusable provider integration and original-Dot
+## Further win and campaign continuation
+
+The [campaign and recovery receipt][campaign-recovery] covers a later mission-one
+win, a fresh region choice, scenario-two entry and a separately prepared ordinary
+save recovery trial. The earlier receipts keep their original boundaries.
+
+### A balance, a result screen and a battlefield are different boundaries
+
+In the later run, one full field load converted **100 cargo into 700 credits**.
+An independently chosen Return with a later eight-unit partial load added 56 to
+the processed-spice statistic but only 22 to the treasury, reaching the current
+1005 storage cap. The observed ledgers are `284 - 1 + 700 + 22 = 1005` and
+`7 + 700 + 56 = 763`. The one-credit decrease and Refinery HP falling 230 to 209
+have no established cause. The 34-credit gross/net gap supports the original
+storage-clamp interpretation; discarded credits were not traced individually.
+
+Request 0069 had the quota balance but still showed the battlefield. A separate
+3,000-guest-ms observation produced the original success modal at 0070. Later
+completed statistics showed score 89, game-reported time 6 minutes, Desert
+Mongoose, processed spice 763/0 and destruction totals 2/1 units and 0/0
+structures. Local Hall of Fame entry was accepted; restart persistence of that
+entry was not tested. These statistics belong to this later win.
+[Checkpoint receipt][campaign-recovery].
+
+Resource identity also remained separate from phase. The track-resource check
+failed during the congratulations presentation, then passed again on statistics
+and Hall of Fame screens. A passing resource check does not make a screen
+tactical or admit actions against retained entity candidates.
+
+The strategic choice used a fresh binding to the current map, original code,
+resources and offered rows. With the selection prompt visible, all 121 pixels
+around the inspected click at (92, 84) mapped to region 8; its current REG entry
+mapped to scenario 2. One click selected it. This qualifies that choice, not a
+general selector. The pictured Rocket Turret question then accepted the ordinary
+answer `rocket turret`; no hidden expected-answer buffer was used. The next
+briefing gave a **2,700-credit objective** and warned of an Ordos base. The warning
+disclosed no tactical enemy positions. [Checkpoint receipt][campaign-recovery].
+
+Scenario ID changed to 2 while prior-mission candidate pool data remained. The
+briefing later held the new **1,200-credit** state but still had selection mode 0,
+timer mask 1, a displayed-credit sentinel of 65535 and a tactical icon-table
+mismatch. After the observed Proceed choice at 0107, the frame showed the new
+battlefield: own Construction Yard at (31, 41), 400 HP, camera (24, 37), matching
+track/fog table identities, mode 4 and timer mask 3. Old mission keys and intents
+were discarded at this boundary; the private fields `current_visibility_established`
+and `action_admission` remained false.
+
+### An ordinary save crosses a process boundary
+
+After preserving the earlier `r1` bytes, the original Save menu selected that
+existing slot and renamed it `m2`. One Save produced a **4,506-byte** ordinary
+save, with 1,200 credits, scenario 2/campaign 1 and 69 elapsed game ticks. Root
+then deliberately closed the source host process; its terminal receipt confirms
+it was reaped with return code 0. This was host closure, not in-game Quit.
+The exact save and completion witness are pinned in the
+[checkpoint receipt][campaign-recovery].
+
+A separately prepared process staged those same save bytes and selected `m2`
+through the ordinary Load menu once. Startup/menu decoder refusals preserved
+raw frames and native receipts without fabricating world entities. Restored
+fields appeared at request 0006 while the frame was black; another two-second
+observation remained black.
+A separate five-second observation reached the tactical view at 0008. The
+earlier “tactical-ready” capture label did not establish readiness. Options
+then visibly opened, Continue closed it to a dim view, and a further one-second observation
+produced the normal final frame at 0011. Those durations are guest time. Mode 4
+persisted while Options was open, so mode alone did not establish UI context.
+Original instruction and stack evidence links the two black samples to voice and
+resource preparation; that finding adds no universal black-screen or phase rule.
+
+The first restored state had 1,200 credits and 69 elapsed game ticks. Its new
+absolute game clock was 0 and scenario-start value 4294967227: unsigned 32-bit
+subtraction still gives 69. The final observed state had 1,199 credits and
+325 elapsed ticks; the one-credit decrease has no established cause. The named
+saved fields restore while clocks, rendering and subsequent gameplay advance;
+loading does not rewind the previous process or reproduce byte-identical memory.
+Fresh object and control bindings must be observed again.
+[Checkpoint receipt][campaign-recovery].
+
+The separately declared **prepared-save recovery** profile measured
+**169.926726539 host seconds against a 180-second budget**, from before wrapper
+preflight and launch through root's final acceptance, including intervening
+observations and tool/coordination time. Earlier preparation and save import
+were outside this interval; its deadline was not renewed. The earlier prepared
+opening result remains **285.051091492 seconds against 180**, a miss. These are
+different trials and neither is a general cold-start or recovery-time promise.
+[Checkpoint receipt][campaign-recovery]; [earlier timing receipt][wait-evidence].
+
+## Remaining qualification
+
+Building, accounting, campaign and recovery reviews have separate evidence
+scopes in their receipts. Full-campaign play, scenario-two objective completion,
+other houses, broad combat/NPC behavior, automatic script recovery, current visibility
+qualification, reusable provider integration and original-Dot
 ownership qualification remain separate work. The next adapter should preserve
 independent primitives, current observation fences and explicit event responses
 while reusing these learned conditions.
@@ -501,6 +598,8 @@ while reusing these learned conditions.
 
 [next-checks]: evidence/dune2-repair-save-load-2026-11-19.json
 [refinery-camera]: evidence/dune2-refinery-camera-2026-11-19.json
+[campaign-recovery]: evidence/dune2-campaign-recovery-2026-11-19.json
+[wait-evidence]: evidence/bounded-wait-2026-11-19.json
 [save]: https://github.com/OpenDUNE/OpenDUNE/blob/ebea79aeba025be2fe9004570e9255044aacc0be/src/save.c
 [load]: https://github.com/OpenDUNE/OpenDUNE/blob/ebea79aeba025be2fe9004570e9255044aacc0be/src/load.c
 [save-info]: https://github.com/OpenDUNE/OpenDUNE/blob/ebea79aeba025be2fe9004570e9255044aacc0be/src/saveload/info.c
