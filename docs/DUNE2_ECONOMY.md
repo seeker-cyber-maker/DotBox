@@ -11,6 +11,9 @@ records provenance and the scope of each check. A subsequent separate slice
 verified production Hold/Resume, bare-rock Windtrap placement, limited Repair
 and ordinary same-process Save/Load. Its [repair and save/load receipt][next-checks]
 keeps those tests distinct from the earlier complete-foundation mission win.
+A later [Refinery and camera receipt][refinery-camera] covers bare Refinery
+placement, one paid repair increment and a specific unit-mode right-click
+outcome. That follow-up records no additional victory or load qualification.
 
 The public [RTS primitives](RTS_PRIMITIVES.md) remain generic contracts. This
 contribution adds no public Dune II provider, memory reader, live input route or
@@ -131,9 +134,10 @@ for invalid placement and can return a negative missing-foundation count for
 otherwise valid ordinary buildings. Bare-rock placement can therefore be legal
 with reduced starting HP. A generic building adapter must interpret that
 condition, rather than treating every negative result as rejection. The earlier
-mission-winning run used complete foundations. The subsequent Windtrap test
-below directly verifies a legal bare-rock placement and reduced initial HP;
-other footprints and partial-foundation arrangements remain separate tests.
+mission-winning run used complete foundations. The subsequent Windtrap and
+Refinery tests below directly verify legal bare-rock placements and reduced
+initial HP for those two footprints; other buildings and mixed-foundation
+arrangements remain separate tests.
 [structure.c][structure] provides the reference correlate.
 
 Storage, actual credits, displayed credits and the scenario's initial
@@ -244,6 +248,108 @@ intents, targets and placement previews, then inspect fresh rendering and state
 before choosing another action. The test records this boundary explicitly. The
 sliced-run reader still reports entity candidates, current visibility false and
 action admission false; these results install no public Dune II provider.
+
+## Bare Refinery and context-click follow-up
+
+This follow-up continues the same sliced-wait process after the ordinary load
+had returned to normal rendering. The construction and repair review covers
+requests 31–52. The later camera check covers requests 57–59, with request 56
+used only as its prior camera and selection baseline. These are bounded tests
+in the same Atreides first mission. The [Refinery and camera receipt][refinery-camera]
+keeps their hashes and scope separate from the earlier mission-winning run.
+All observation durations in this follow-up are native guest time.
+
+### Build, move units and place remain separate choices
+
+The fresh catalogue offered **Spice Refinery for 400 credits**, backed by
+original structure type 12. Choosing Build This was followed by active
+production: an allocated off-map product, a changing producer countdown and
+credits falling from 685 to 675. No separate warning acknowledgement or second
+Build input was required in this recorded interval. Completion later showed
+Place It, countdown zero and **285 credits**, reconciling the full 400-credit
+purchase. This does not establish a universal warning-repetition rule or exclude
+an uncaptured transient frame. [Test receipt][refinery-camera].
+
+Two Trike moves were independently chosen while production continued: select
+the unit, choose Move, then choose its destination. The southern Trike cleared
+the future footprint and reached tile (30, 29); the northern scout reached
+(34, 24), after which eastern spice-colored terrain was visibly rendered. Their
+destination samples before the commands were different: the southern tile was
+not unveiled and had full-fog overlay 123; the northern tile was unveiled but
+had partial-fog overlay 110. The successful ordinary coordinate moves establish
+no pre-command current-visible admission for either destination. Later rendered
+terrain supplies the new observed map knowledge. [Test receipt][refinery-camera].
+
+Placement was armed only after production completed. A separate pointer move
+then produced matching stored and rendered previews at tile **(30, 27)**,
+packed position 1758. The signed placement result was **−6** for the 3 by 2
+bare-rock footprint. All six coherent tile samples were unveiled, had clear
+overlay zero and had no unit or structure occupant. The next placement click
+committed the Refinery at **225/450 HP**, with all six cells naming its structure
+slot. House storage became **1005**, power production remained **52** and use
+became **30**. [Test receipt][refinery-camera].
+
+The placement capture still displayed the Refinery tutorial. A separate response
+returned to normal rendering. A later harvesting hint likewise required its own
+response, even though the timer mask already read 3. Those committed state
+changes do not promote the tutorial captures to gameplay-input readiness.
+
+### Starter cargo, storage and paid repair have distinct accounting
+
+The newly allocated Harvester began off-map with one cargo unit. Its later
+deployment changed cargo from 1 to 0, actual credits from **285 to 292**, and
+the allied processed-spice statistic from **0 to 7**. This records conversion
+of the initial cargo. The construction/repair slice itself contains no field
+cargo gain or completed harvesting-and-return cycle. [Test receipt][refinery-camera].
+
+Selecting the Refinery showed **MAX 1000** on the panel. The coherent house
+storage field and current original Refinery type field both read **1005**.
+Keep the panel label, storage fields, actual credits and displayed credits as
+separate observations; none supplies a universal capacity or refresh rule.
+
+| Repair milestone | Actual credits | Refinery HP | Repair / Hold |
+| --- | ---: | ---: | --- |
+| Before Repair | 292 | 225/450 | Off / Off |
+| After one paid increment | 284 | 230/450 | On / On |
+| After stopping, then 2 seconds of observation | 284 | 230/450 | Off / Off |
+
+The stopped interval covered 120 game ticks. The observed **8-credit cost for
+5 HP** agrees with the original repair factor 10, base HP 450 and price 400:
+`floor(2560 / 450) = 5`, then `floor((5 * 400 + 128) / 256) = 8`.
+This tests one paid increment and its stop, with no full repair or insufficient-
+credits branch. The ledger reconciles as **685 − 400 + 7 − 8 = 284**.
+At the final stable capture the displayed-credit memory sample was still 286;
+the ledger was stable before that display sample had caught up. Memory display
+samples also need not match the exact digits in the last completed frame.
+[Test receipt][refinery-camera].
+
+### One ordinary unit-mode right-click moved the camera
+
+With Harvester slot 39 selected in ordinary unit mode, moving the pointer to
+guest pixel **(239, 100)** and observing for one second left the camera at tile
+**(23, 21)**. That one edge-hover test supplies no general conclusion about
+other scroll inputs, edge positions or modes.
+
+A separately chosen right-click at **(224, 112)**, followed by one second of
+observation, changed both requested and rendered camera position to **(30, 20)**.
+The actual frames show the resulting view change. Harvester 39 remained
+selected; its sampled position **(9856, 6016)** in fixed-point units of 1/256
+tile, cargo **15**, and action **5 (Harvest)** were unchanged across that click
+interval. Its raw flags and record digest did change, so the claim is limited
+to those named fields. [Test receipt][refinery-camera].
+
+After a further 25 seconds without a new input, the view remained at (30, 20)
+and cargo reached **32**, with actual credits still 284. This supports continued
+field collection in that later interval, without a demonstrated return,
+unload or victory in this checkpoint. The rendered status banners read 13%
+and later 31%, whereas the stopped cargo samples were 15 and 32. A banner and
+a later memory sample are separate evidence.
+
+The observed context-click is one camera outcome in ordinary unit mode. It is
+not a universal right-click Move or Cancel binding, and no target-selection,
+placement or modal context was qualified by this test. All retained projections
+remain candidates with current visibility and action admission false. No public
+Dune II provider or runtime behavior is added. [Test receipt][refinery-camera].
 
 ## Harvester commands and the observed economy loop
 
@@ -394,6 +500,7 @@ while reusing these learned conditions.
 [game]: https://github.com/OpenDUNE/OpenDUNE/blob/ebea79aeba025be2fe9004570e9255044aacc0be/src/opendune.c
 
 [next-checks]: evidence/dune2-repair-save-load-2026-11-19.json
+[refinery-camera]: evidence/dune2-refinery-camera-2026-11-19.json
 [save]: https://github.com/OpenDUNE/OpenDUNE/blob/ebea79aeba025be2fe9004570e9255044aacc0be/src/save.c
 [load]: https://github.com/OpenDUNE/OpenDUNE/blob/ebea79aeba025be2fe9004570e9255044aacc0be/src/load.c
 [save-info]: https://github.com/OpenDUNE/OpenDUNE/blob/ebea79aeba025be2fe9004570e9255044aacc0be/src/saveload/info.c
