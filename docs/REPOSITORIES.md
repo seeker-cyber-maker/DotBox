@@ -24,6 +24,16 @@ Do not use `git push --mirror` or overwrite unrelated history.
 
 No automatic synchronization service or scheduled workflow is installed by
 this bootstrap. Future publication needs to update both repositories explicitly.
+The user requires every completed, reviewable development or test checkpoint
+to be committed to both repositories and recorded on Agent BBS. Use the current
+work branch and preserve each repository's own parent history. A test-only
+checkpoint can contain an authored result receipt with the exact tested source,
+command, outcome and limitations. Keep commercial data, raw captures and private
+runtime material outside Git; retain their durable evidence identities on the
+board. Verify both published heads and trees before calling the checkpoint
+complete. Keep routine progress and discussion on the BBS rather than adding
+repository comments. This standing instruction authorizes checkpoint publication;
+it does not authorize merging, releasing packages or changing unrelated branches.
 The release portal is the planned binary-package delivery venue; source mirroring
 and package publication are separate operations.
 
