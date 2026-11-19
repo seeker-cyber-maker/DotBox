@@ -43,6 +43,99 @@ does not become a recovered fact merely because the agent could write it.
 Conversely, a recovered mechanism can immediately enable the sibling searches
 and prerequisite-driven analyses in [the transition guide](EVENT_TRANSITIONS.md).
 
+## Record transient paths across controls
+
+Use the debugger as an experimental instrument. Arm a finite set of candidate
+exits, branch destinations, calls or state-write sites before triggering an
+event, so short-lived execution and selector values can be retained without
+the agent interpreting each site while the game runs. Coverage is concurrent:
+the same trial watches several alternatives. Recorded execution still has its
+actual order; several buttons or branches need not run simultaneously.
+
+A six-button screen can first yield a dispatch map: which observed control
+reached which site, with which selector or destination, under which baseline.
+Retain that useful relationship immediately. Explaining every handler, proving
+the final game effect or qualifying a direct invocation can follow separately.
+"Button B reached site X with selector 2" is already a useful future starting
+point, even when X has no semantic name.
+
+### Compare controls from a declared baseline
+
+1. **Prepare the isolated trial.** Identify the controls, source/mapping and
+   relevant context. Capture a qualified memory baseline with neutral input
+   before adding experimental probes. Record relevant file/environment state,
+   guest clocks and available RNG provenance. Establish the restore capability
+   rather than assuming the existing DotBox interface already provides it.
+2. **Arm the candidate set before input.** Cover the known exits or other useful
+   observation sites of a declared function/region. Retain coverage gaps at
+   indirect transfers, opaque calls or scan bounds. A shared return may require
+   an earlier selector/branch or a later mode consumer to distinguish controls.
+   Respect backend capacity; if batching is necessary, retain which sites were
+   armed in each trial rather than claiming simultaneous whole-region coverage.
+3. **Trigger one control and retain the transient evidence.** Use its qualified
+   input route once and retain the actual delivery receipt. Hits before delivery
+   remain baseline observations. Capture site identity, selected values and actual transfer
+   targets where observable, with ordering and small relevant state windows.
+   Bound guest execution, host time, events and retained bytes. Save records in
+   the evidence store outside the guest checkpoint so rewind cannot erase them.
+4. **Finish the declared observation window.** A first-hit stop establishes that
+   hit and censors the remaining path. To collect later hits, use an explicitly
+   supported bounded log/continue or trace mechanism; do not insert model
+   reasoning at every stop. Preserve foreign stops, takeover, session exit and
+   unexpected interruption. Remove only owned probes through known cleanup.
+5. **Restore, verify and re-arm for the next control.** Rewind memory through
+   the qualified owner, refresh branch/mapping/input bindings and validate the
+   comparable starting predicates. Reconcile observer state and re-arm current
+   probe IDs; an old live-owner token alone is not a restore-generation check.
+   Retain every input as a distinct trial with its stop/coverage record.
+6. **Keep the map and investigate selectively.** Compare rows, group supported
+   common behavior and choose the next useful question. Add an idle contrast,
+   repeat or contrasting input when it resolves an ambiguity. A first pass may
+   map all visible controls without fully explaining any of their handlers.
+
+Memory rewind leaves current disk files in place. If a trial changes a save or
+configuration file, later trials no longer share that original environment just
+because RAM was restored. Record the difference or use independently prepared
+helper guests with their own fixture copies. Do not add filesystem rollback to
+the player's rewind. Identical memory also does not guarantee identical input
+timing or external events; retain these differences rather than requiring full
+RNG recovery before any useful comparison. See [process experiments](BOOTSTRAP_AND_EVENT_LOOPS.md)
+and [recovery](RECOVERY_AND_SAVES.md).
+
+### Retain a dispatch map before a semantic explanation
+
+The minimum useful record is the control/attempt, baseline and branch identity,
+armed probe-set identity, ordered observed hits with relevant selector/target
+values, the ending condition and coverage, and any separately observed effect.
+Keep a code destination distinct from a game scene destination. Hitting an exit
+instruction does not by itself observe its eventual indirect or return target.
+
+These are authored illustrations, not measured game results:
+
+| Trial observation | Useful retained deduction | Still unresolved |
+| --- | --- | --- |
+| A and B reach the same site with different selectors | Candidate shared dispatcher; keep both argument bindings | Meaning and effects of each selector |
+| C reaches a distinct callee and returns | Observed route to a separate code region | Whether that region is the complete operation |
+| D writes a pending value before the capture ends | Candidate producer boundary for later work | Which consumer runs, and when |
+| E hits a common return and observation stops | The shared return was reached in this trial | Earlier distinctions and all later execution |
+| F has no recorded candidate hit before timeout | No hit was observed within this trial's coverage | Uncovered paths, later effects or ignored input |
+
+A hit matrix may use counts or ordered signatures. Distinguish an observed hit,
+no hit within a fully observed declared window, an unobserved/truncated interval,
+and a site that was not instrumented. A blank cell is not proof that a branch
+was untaken. Shared helpers,
+rendering loops and incidental timers can appear in several rows. Keep
+site-plus-selector/context distinctions rather than subtracting every shared
+site. The relationship can be many-to-many: one control can visit several sites,
+and several controls can share one handler or exit.
+
+This map feeds sibling discovery and later directed analysis. Static candidates,
+observed routes, interpreted effects and callable-entry qualification retain
+their separate evidence. An agent can now jump to the relevant code/evidence
+without repeating the UI experiment solely to rediscover where the click went.
+Run broad comparisons in bounded preparation or isolated helpers; keep existing
+foreground budgets and ordinary visible play moving.
+
 ## One operation can have several entry routes
 
 Bind alternative routes to the same operation when the relevant effects support
@@ -189,6 +282,33 @@ Do not generalize these flat32 call helpers into real-mode AGI or modal/tail-cal
 support. A successful source audit also does not establish an executed Police
 Quest teleportation or a supported original-Dot invocation interface.
 
+### Existing multi-probe and trace components
+
+At the same pinned fDisBull source:
+
+- [`z_capture_watch.py`](https://github.com/seeker-cyber-maker/fDisBull/blob/ad1e9a3177cc8fda60b9c0c64e8a40f6fabb1edd/src/fdisbull/z_capture_watch.py)
+  arms 1-16 explicit flat32 `E8` callsites together and retains the watch across
+  separate UI requests. Status does not run the guest. Finish consumes a currently
+  observed owned candidate, removes the owned probes and delegates to original
+  call capture. This is a first-hit watch, not an all-hit recorder or automatic
+  multi-button survey. It does not establish restore-generation compatibility.
+- [`execution_trace.py`](https://github.com/seeker-cyber-maker/fDisBull/blob/ad1e9a3177cc8fda60b9c0c64e8a40f6fabb1edd/src/fdisbull/execution_trace.py)
+  provides bounded predicate capture, including composed alternatives and an
+  optional single queued input. Its live trace-until workflow is qualified for
+  its stopped real-mode entry contract; it does not supply the same mechanism
+  for arbitrary flat32 targets. A matching stopped boundary does not prove that
+  its instruction executed; an initially true predicate can finish before input
+  is queued. Retain the actual delivery, observation and interruption limits.
+- [`event_search.py`](https://github.com/seeker-cyber-maker/fDisBull/blob/ad1e9a3177cc8fda60b9c0c64e8a40f6fabb1edd/src/fdisbull/event_search.py)
+  retrospectively retains/excludes candidates from collected evidence, including
+  site/register/value distinctions. It narrows a search without performing a
+  live sweep or establishing the semantic effect of a matching site.
+
+Their composition into a DotBox-owned survey still needs implementation and
+qualification. Capture the clean baseline before arming and explicitly reconcile
+probes around restore; do not assume these distinct helpers already share a
+checkpoint lifecycle or a general record-and-continue operation.
+
 ## Bounded implementation and acceptance
 
 First retain hypotheses and alternative entry contracts with the existing
@@ -203,3 +323,10 @@ room entry with required initialization, a successful callee with unfinished
 caller work, scoped equivalence with different timing/presentation, retained file
 effects, stale mappings after rewind, and helper construction that never becomes
 player progression. No such new runtime acceptance was executed by this guide.
+
+Survey acceptance should additionally cover six controls with shared exits and
+different selectors, one control reaching several probes, first-hit truncation,
+no-hit coverage, a transient value overwritten later, deferred work, trace/event
+limits, a foreign stop and stale observer bindings after rewind. Preserve the
+recordings across guest restore and distinguish changed disk/environment state
+from a comparable memory baseline. These are future runtime checks.

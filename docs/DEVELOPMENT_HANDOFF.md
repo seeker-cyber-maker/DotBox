@@ -3,7 +3,50 @@
 Updated 18 November 2026. This is a development continuation, not a release or
 proof of live desktop input through the ownership fence.
 
-## Latest continuation: behavior hypotheses and alternative entry paths
+## Latest continuation: record transient dispatch across controls
+
+18 November 2026. The user treats the debugger as an active experimental
+instrument: arm candidate exits/destinations together, trigger one control,
+record transient hits, then restore a comparable memory baseline and compare
+other controls. Added the protocol to [BEHAVIOR_AND_ENTRY_POINTS.md](BEHAVIOR_AND_ENTRY_POINTS.md#record-transient-paths-across-controls),
+available in the existing `entrypoints` topic, and aligned bootstrap, reversing,
+transition, model and agent-start guidance.
+
+Retain the cheap dispatch map before explaining every handler or qualifying a
+direct invocation. Record actual input delivery, ordered site/selector/target
+evidence, the armed set, stopping condition and coverage. First-hit stops censor
+later execution; missing or uninstrumented observations are not absent effects.
+Shared exits and selectors retain many-to-many relationships. Repeat/idle/
+contrast trials address concrete ambiguities rather than gating the first map.
+
+Recordings live outside the guest checkpoint and survive rewind. Each restored
+trial refreshes branch/mapping/input bindings and reconciles owned probes.
+Memory rewind preserves current files; separately prepared helper fixtures or
+explicitly recorded environment differences are needed when a trial writes disk.
+Helpers remain isolated from player progression and ordinary visible gameplay.
+
+Source reuse is concrete but composed survey execution remains unimplemented:
+`z_capture_watch.py` supplies a 1-16-candidate flat32 E8 first-hit watch,
+`execution_trace.py` supplies its bounded stopped-real-mode predicate workflow,
+and `event_search.py` retrospectively narrows retained evidence. These three
+files match audited source, the offline fDisBull 0.34.1 wheel/RECORD and pinned
+Git source at `ad1e9a3177cc8fda60b9c0c64e8a40f6fabb1edd`. They do not establish
+an automatic six-button sweep or a shared restore/probe lifecycle.
+
+Fresh verification: 23 kit tests passed. A rebuilt wheel installed into a fresh
+target matched all 56 resources, 35 runtime modules and 26 guide functions;
+six affected CLI guides matched source and the installed offline doctor passed
+with native qualification false. Independent protocol and source-contract
+reviews found no blockers. See [the verification receipt](
+evidence/breakpoint-survey-guidance-2026-11-18.json). BBS task:
+`e-86c5f116-b3da-49ec-a11e-c001c0ac2566` in project `dotbox`.
+
+The next implementation is a bounded action/probe trial coordinator and retained
+dispatch observations around qualified capture and memory restore. Preserve the
+existing original-Dot ownership/capture and Police Quest route/rewind gates.
+No new native build, game trial, survey runtime or release was performed here.
+
+## Previous continuation: behavior hypotheses and alternative entry paths
 
 18 November 2026. Added [BEHAVIOR_AND_ENTRY_POINTS.md](BEHAVIOR_AND_ENTRY_POINTS.md),
 packaged as `dotbox guide --topic entrypoints`. Agents use plausible authored

@@ -131,6 +131,12 @@ of any equivalence claim. The visible player route retains original movement
 and events; a supported click need not animate unnecessary pointer travel.
 Deeper entry remains an integration capability to qualify, not a new shipped control.
 
+Use the debugger to preserve transient evidence as well as inspect code. Helpers
+can arm a bounded set of candidate sites, compare controls from a declared memory
+baseline and retain observed dispatch maps before detailed handler analysis.
+Keep recording coverage, continuation and trial comparability explicit; later
+analysis should reuse the recorded destinations instead of rediscovering them.
+
 Include a bounded documentation pass: establish the broad goal and control
 conventions, then collate two or three compatible guides when useful and available.
 Their objects, exits and route dependencies become expected-scene checklists.

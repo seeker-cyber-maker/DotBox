@@ -200,3 +200,10 @@ events, bulk schema facts without blanket live admission, a finding enabling
 independent tasks, counterexample invalidation, stale dynamic bindings after
 rewind, and bounded cyclic expansion. No such new runtime gate was executed
 by this documentation change.
+
+The [multi-probe survey](BEHAVIOR_AND_ENTRY_POINTS.md#record-transient-paths-across-controls)
+adds a cheap source of observed bindings: arm several candidate sites and compare
+controls from a declared baseline. Retain control-to-site/selector/target records
+before complete effect interpretation. These relations can be many-to-many;
+shared exits and first-hit truncation must not produce invented one-button/one-
+handler mappings or negative evidence beyond the actual observation window.

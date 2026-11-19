@@ -108,6 +108,14 @@ live action. A new finding can satisfy prerequisites for multiple independent
 analyses without changing the player's state or reachability. Retain those
 dependencies so revised evidence invalidates the affected interpretations.
 
+Retain a [survey of observed dispatch](BEHAVIOR_AND_ENTRY_POINTS.md#record-transient-paths-across-controls)
+as useful partial knowledge. Each per-control trial records its baseline/branch,
+armed sites, observed hit sequence and selector/target values, ending condition
+and coverage. Several controls can share a site and one control can reach many
+sites. Code destinations, scene destinations and inferred semantic effects are
+separate claims. Preserve recordings outside guest rewind; newly observed routes
+can direct later analysis without granting callable-entry or live-action support.
+
 ### Several entry routes can realize one operation
 
 Retain [implementation hypotheses and alternative entry bindings](BEHAVIOR_AND_ENTRY_POINTS.md)

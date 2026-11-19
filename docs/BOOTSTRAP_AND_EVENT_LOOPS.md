@@ -163,9 +163,10 @@ A reusable experiment packet should contain:
 
 1. Baseline game/resources, code mapping, context/entity selection, branch,
    relevant state, capture profile and clock origins.
-2. Repeated selected-action trials A, a matched no-input window, and a contrasting
-   action B when it distinguishes competing explanations. Reset isolated state
-   deliberately between trials and retain RNG/environment differences.
+2. One selected-action trial A, with repeats, a matched no-input window or a
+   contrasting B when they resolve a concrete ambiguity. Retain the initial
+   observed relationship immediately. Reset isolated state deliberately between
+   comparisons and retain RNG/environment differences.
 3. A finite, declared set of candidate breakpoints/watchpoints or a bounded
    execution window, with byte/mapping checks, stop conditions and cleanup owner.
 4. One input attempt with an intent/attempt ID, dispatch receipt and timing.
@@ -176,11 +177,20 @@ A reusable experiment packet should contain:
    applicability predicate and next discriminating probe.
 
 A broad breakpoint spread is a finite search campaign, not a claim of complete
-downstream coverage. First narrow sites observed in repeated A against idle/B.
+downstream coverage. Retain each observed control/site/value association first;
+use repeated A, idle or B to narrow a concrete unresolved relationship.
 When choices share a dispatcher, preserve site-plus-argument/register/value
 candidates: deleting every site also visited by B can discard the correct shared
 handler. A hit proves observed execution at that site; it does not automatically
 identify the unique handler, a causal effect or every deferred consumer.
+
+For several visible controls, use [comparable multi-probe trials](BEHAVIOR_AND_ENTRY_POINTS.md#record-transient-paths-across-controls):
+arm candidate exits/destinations together, record one input's transient path,
+then memory-restore, verify and re-arm for another control. Retain useful
+control-to-site/selector relationships before detailed handler analysis. A
+first-hit watch and a bounded sequence recorder have different coverage; save
+the ending condition and keep recordings outside the guest rewind. File effects
+survive memory restore, so comparable trial setup must account for them explicitly.
 
 Use executable/address-space capability checks. The shipped fDisBull live
 `debug-trace-until` workflow's owned, stopped real-mode entry conditions do not

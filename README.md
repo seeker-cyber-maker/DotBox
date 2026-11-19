@@ -46,6 +46,9 @@ position through coherent placement to original room entry; menus can similarly
 reuse a qualified handler or loader. Isolated research and the visible player's
 original route retain separate purposes. Existing fDisBull helpers are concrete
 reuse candidates; this guide does not add native invocation or teleportation to DotBox.
+Its multi-probe survey method uses the debugger to retain transient dispatch
+evidence across comparable per-control trials, producing a useful map before
+every handler is explained. Live survey orchestration remains implementation work.
 
 The primary experience is [Dot as the game's conversational interface](docs/CONVERSATIONAL_PLAY.md):
 describe the current scene, offer useful choices, interpret the player's intent

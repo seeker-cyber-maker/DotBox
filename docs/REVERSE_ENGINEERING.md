@@ -138,6 +138,15 @@ Record instrumentation interference and remove only the experiment's probes.
 Use richer discovery captures to derive cheap qualified runtime predicates;
 unknown predicates return to bounded observation without weakening the guard.
 
+Use the [multi-probe control survey](BEHAVIOR_AND_ENTRY_POINTS.md#record-transient-paths-across-controls)
+to retain transient dispatch evidence before explaining every branch. Arm the
+declared candidate set, trigger one control, preserve observed site/selector/
+target records, then restore a comparable isolated memory baseline and re-arm
+for the next control. A cheap observed dispatch map is a useful finding even
+without semantic names or a direct-call contract. First-hit stops truncate later
+coverage; retain that boundary instead of interpreting missing hits as absence.
+Keep recordings outside the rewound guest and preserve actual disk effects.
+
 ## Generalize the relationship and search for siblings
 
 Use the [transition-family contract](EVENT_TRANSITIONS.md) to turn a useful

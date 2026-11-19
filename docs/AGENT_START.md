@@ -72,6 +72,12 @@ An observation hook is not automatically callable. Isolated research can grow
 from normally verified coordinates to coherent placement, original room entry
 or direct menu operations; retain imposed-state provenance and normal fallbacks.
 
+That guide also describes multi-probe control surveys: arm candidate sites,
+record one control's transient hits, then restore a comparable isolated memory
+baseline and re-arm for another. Retain the dispatch map before explaining every
+handler. A first-hit stop truncates the rest of the path; missing observations
+stay unknown. Preserve recordings across rewind and account for file effects.
+
 For a confirmed compatible AGI V2/2.917 edition, `dotbox agi inspect` supplies
 ordered logic conditions, state writers and resource candidates without general
 x86 analysis. Cache a bounded whole-resource outline or resolve pass when its
