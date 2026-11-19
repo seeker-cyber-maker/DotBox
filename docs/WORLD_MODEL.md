@@ -317,6 +317,11 @@ The existing responsibilities remain useful:
   provider assertions requiring the existing live checks before input.
 - `SceneStore` stores the latest packet and last reported facts for one provider
   session branch. It is not an append-only event journal or a full world model.
+- The bounded [RTS observation and primitive layer](RTS_PRIMITIVES.md) supplies
+  current entities with separate faction/control/visibility, logical groups and
+  observed mission events. Its projector uses the existing scene schema and
+  its controller dispatches one qualified provider action at a time. It does
+  not implement the broader persistent world graph or a game-specific live reader.
 - `ControlStore` retains immutable control recipes; model actions reference
   those qualified revisions rather than introduce another input executor.
 - `LearningStore` retains a bounded current investigation. Broad cached

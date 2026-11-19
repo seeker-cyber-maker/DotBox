@@ -1,9 +1,50 @@
 # DotBox development handoff
 
-Updated 18 November 2026. This is a development continuation, not a release or
+Updated 19 November 2026. This is a development continuation, not a release or
 proof of live desktop input through the ownership fence.
 
-## Latest continuation: execute the deterministic Dune batch
+## Latest continuation: composable RTS actions and dynamic entities
+
+19 November 2026. The user's RTS correction is implemented as separate action
+primitives, with no fixed select–Move–target continuation. See
+[RTS_PRIMITIVES.md](RTS_PRIMITIVES.md), the `rts` guide and `dotbox rts` CLI.
+The bounded world contract includes visible NPCs/allies/hazards, independent
+faction/control/commandability, observation-scoped or incarnation-scoped
+identity, logical groups and mission events. Its projection feeds the existing
+scene schema/store. The controller binds one single-use intent to the complete
+observation and provider admission, with sticky uncertainty after ambiguous
+delivery and no automatic event dismissal or per-member command fallback.
+
+The original Dune II study remains private evidence. Its captured worlds are
+reprocessed through the new public schema without promoting unknown control,
+entity lifetimes or current readiness. Source-level OpenDUNE findings inform
+the interface, but right-click semantics, original NPC behavior and story-event
+bindings require their own original-game qualification. No new native game is
+launched by this source slice. The service's ordinary desktop input boundary is
+unchanged; an actual live provider must enforce its current ownership/context
+fence inside every operation, including all held-gesture phases.
+
+The agent-board task and checkpoint writes were both rejected with
+`PILOT_CAPACITY`; the service reported that nothing was committed. The prior
+resolved RTS study and checkpoint remain authoritative board history. This
+source handoff records the continuation without deleting that history or
+changing board storage policy.
+
+Fresh [verification](evidence/rts-primitives-2026-11-19.json): 101 public RTS
+cases and an independent 113-case run passed. The full repository suite passed
+1,169 tests; 15 native fixtures were skipped because no native inputs were
+configured for this offline run. All 21 original captures were reprocessed
+against the final world module into four stores; 80 stale/cross-branch writes
+and three cross-restore diffs were refused. This does not add live gameplay
+qualification.
+
+Next: integrate the qualified original v1.0 reader and per-action input bindings
+through the new provider protocol, then exercise the independent primitives in
+a fresh owned original-game session. Native multi-selection remains unavailable
+unless a real supported route is demonstrated; logical groups already work
+without claiming native selection.
+
+## Previous continuation: execute the deterministic Dune batch
 
 18 November 2026. The user supplied the original English DOS RIP edition and
 requested actual deterministic setup/input/probe/rewind trials, including a

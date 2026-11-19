@@ -29,7 +29,8 @@
     "native": "docs/STANDALONE_NATIVE.md",
     "macos": "docs/LOCAL_MACOS_BUILD.md",
     "duneoptimization": "docs/DUNE_OPTIMIZATION.md",
-    "dunemap": "docs/DUNE_MAP_SELECTOR.md"
+    "dunemap": "docs/DUNE_MAP_SELECTOR.md",
+    "rts": "docs/RTS_PRIMITIVES.md"
   },
   "files": [
     "AGENTS.md",
@@ -50,6 +51,8 @@
     "docs/DUNE_PROGRESS.md",
     "docs/DUNE_OPTIMIZATION.md",
     "docs/DUNE_MAP_SELECTOR.md",
+    "docs/RTS_PRIMITIVES.md",
+    "docs/evidence/rts-primitives-2026-11-19.json",
     "docs/evidence/dune-map-selector-2026-11-19.json",
     "docs/evidence/dune-optimization-2026-11-19.json",
     "docs/evidence/dune-batch-probe-2026-11-18.json",
@@ -80,6 +83,7 @@
     "examples/scene_window_closed.json",
     "examples/scene_window_open.json",
     "examples/navigation_room.json",
+    "examples/rts_world.json",
     "native/README.md",
     "native/apply_overlay.py",
     "native/build-recipe.json",

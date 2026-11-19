@@ -75,6 +75,16 @@ Four final-source live trials reached Harg and Timin through separate original
 travel actions; stale-revision and exhausted-budget checks preserved refusal
 without replay. The guide records exact identities and the limits of those results.
 
+The [RTS primitives](docs/RTS_PRIMITIVES.md), available through
+`dotbox guide --topic rts`, separate camera movement, entity/group selection,
+command choice, target submission, context click and held gestures. A bounded
+world observation includes NPCs, allies, distinct ownership/control, logical
+groups and mission events. It projects into the existing scene/store path.
+The public controller admits and dispatches one provider primitive at a time;
+stale contexts and uncertain outcomes cannot silently replay input. The offline
+`dotbox rts` tools and authored example ship with the kit. Game-specific live
+bindings and the original Dune II held-gesture adapter remain separate work.
+
 The primary experience is [Dot as the game's conversational interface](docs/CONVERSATIONAL_PLAY.md):
 describe the current scene, offer useful choices, interpret the player's intent
 and carry it out. Autonomous play uses the same scene/action model. A small
