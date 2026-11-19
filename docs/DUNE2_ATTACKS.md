@@ -4,7 +4,8 @@ This continues the [economy and campaign work](DUNE2_ECONOMY.md) with the origin
 Dune II v1.0 executable. The completed enemy encounter demonstrates a reactive
 defense: the scout returned fire, withdrew, and joined two fresh defenders with
 all seven own units still allocated. It does not demonstrate a pre-damage alert.
-The separate worm experiment is in progress at this checkpoint.
+The controlled worm run now establishes a dangerous encounter and an earlier,
+uncertain visual hazard cue. A completed evacuation remains the next test.
 
 ## Original enemy encounter
 
@@ -102,31 +103,91 @@ PNG. With sampled evidence, report intervals rather than an invented exact hit
 or swallow timestamp. Model evaluation while the guest is paused does not
 establish continuous real-time performance.
 
-## Current worm frontier and retained failures
+## Controlled worm loss and earlier visual cue
 
-The exact loose scenario override has been verified through original Restart:
-one Fremen Sandworm was constructed, and a fresh tactical sample contained all
-seven own units at their original full HP. An independent screenshot-only
-observer reported no visible danger in that hidden-start frame. Hidden presence
-is not a successful detection.
+The exact loose scenario override was activated through original Restart.
+A fresh tactical enrollment contained all seven own units at full HP and the
+400-HP Yard. The screenshot-only observer found no danger in the hidden-start
+frame. The root-selected no-response control then audited own status and source
+text every 50 guest ms; initial endpoint image reviews occurred every 500 ms.
 
-The first batch attempt then exposed a private client/runner interface error:
-the batch generated a nonnumeric request-name prefix, while the existing runner
-requires a numeric prefix. The runner closed and reaped cleanly before executing
-that request. The batch journal correctly retained its pending reservation.
-The helper's earlier static review missed this cross-file contract; compatibility
-is not qualified by that review. The corrected helper now emits a numeric prefix. Four focused offline tests
-against the actual runner grammar independently passed; the corrected live batch
-is still pending at this checkpoint.
+| Control milestone | Observed result |
+| --- | --- |
+| Tactical enrollment | Guest 25,207 ms, revision 49 |
+| First recognized candidate cue | Sample 90, stopped at 29,707 ms, revision 139; all own assets intact |
+| Original visual confidence | New curved/speckled sand patch; possible environmental hazard, identity uncertain |
+| Last intact Trike sample | Sample 155, 32,957 ms, revision 204; used/allocated, 100 HP |
+| First recorded release | Sample 156, 33,007 ms, revision 205; unused/unallocated, residual 100 HP |
+| Candidate-to-release lead | More than 3,250 and at most 3,300 guest ms |
+| Other assets at release | Six units and Yard retained full HP and allocation |
+| Later visible effect | Separate 250-ms observation showed a mouth-like effect replacing the Trike sprite |
 
-Earlier attempts also retain an unsupported uppercase key token rejected at the
-logo, and loss of access to a paused process before Restart. Neither is a worm
-outcome. The original m2 save remains the recovery source. No uncertain request
-is replayed in a consumed epoch, and no native saved-state restore is qualified.
+The first loss is bounded to `(32,957, 33,007]` guest ms. The sample-156 PNG was
+2 ms older than stopped RAM and byte-identical to sample 155's PNG: the unit
+still appeared in that image after its allocation had been released. Neither
+an older sprite nor positive HP in freed storage establishes continued survival.
 
-Next: run the corrected short-cadence no-response control, then restart into a
-fresh response trial. Publish actual visible-warning, first-harm, and evacuation
-outcomes separately, including failures.
+The separate unrestricted audit attributes this release to the original worm
+swallow path: the victim's script marker changes, the worm's remaining-swallow
+count decreases, its target clears, and the post-swallow delay appears. This is
+more specific evidence than an unattributed HP change or an omitted scene entity.
+
+That audit also supports the earlier patch as a worm-rendered cue. The relevant
+pixels were unchanged through sample 88, changed at sample 89, and persisted in
+sample 90. All sampled map fog/unveiled fields stayed unchanged, while the worm
+entered its source renderer's unveiled gate. This is strong post-hoc attribution,
+not a recovered per-pixel draw receipt. The actual live recognition remains
+sample 90, with its original uncertainty; it must not be backdated to sample 89
+or relabeled as confirmed worm classification at recognition.
+
+All 157 enrollment/control source-text samples had an inactive counter and no
+signal. This does not establish that no audio occurred between captures. The
+control used 7,800 guest ms and 547 completed frames. After the candidate warning
+was recorded, a prospective decision at sample 140 permitted up to 2,500 guest ms
+between endpoint image reviews while retaining the 50-ms own/source checks;
+only 800 guest ms elapsed before the first loss stopped the helper.
+
+### Response frontier and retained failures
+
+A separately selected original Restart restored all seven units. At 5,000 guest
+ms after its fresh enrollment, the image-only observer recognized a new patch
+resembling the earlier cue, again with no observed own harm. Root selected the
+visible Trike through the original UI. The next Move request failed before input:
+root supplied `selected_unit_index` in `require_controls`, but that helper checks
+fields of `economy_controls`, where this field is absent. The runner terminated
+and exited cleanly. No Move, evacuation, or prevention result is established by
+this attempt. The correction is to use the supported guard fields and inspect
+selection separately under the existing exact-head/frame checks.
+
+Earlier retained failures include an unsupported uppercase key token at the
+logo, loss of access to a paused process before Restart, and an invalid batch
+request-name prefix rejected before execution. The batch filename fix passed
+four focused offline tests against the actual runner grammar and subsequently
+completed the 156-sample live control. A later orchestration reset preserved the
+native process; the journal and queue were inspected before continuing without
+replaying a request or resetting the trial budget.
+
+A source interpretation was also corrected: the observed Area Guard entry path
+does execute the original startup delay. Original branch/callback evidence and
+the live countdown establish that behavior. The 120 argument becomes 24
+scheduler countdown visits in that callback; it is not a universal 120-ms grace
+period or permission to defer observation.
+
+The ordinary m2 recovery save and all 21 original resources remain unchanged.
+A fresh process will repeat the response test with the corrected caller. No
+uncertain request is replayed in a consumed epoch, and native saved-state
+restoration remains outside this qualification.
+
+### Learning for the RTS model
+
+Keep affiliation, danger, command permission, and lifecycle separate. This
+natural-owner worm can bypass an alliance-based warning path while still
+swallowing an own unit. A visible but uncertain environmental cue can justify a
+selected cautionary move of a currently commandable own unit; the cue does not
+need to be promoted into a confirmed enemy identity. Selection, choosing Move,
+and choosing a destination remain separate observed actions. An external own
+lifecycle audit can detect a release, but it does not turn hidden coordinates
+into a player-visible warning or automatically identify the cause.
 
 ## Evidence and validation
 
@@ -140,5 +201,8 @@ Independent enemy review checked 37 frozen captures and replayed the own-status
 observer over 36 subsequent samples. It found six HP-decrease events, all on the
 Quad, and no own-slot release. All 21 original resource identities and m2 still
 matched. The private threat observer's 15 focused offline tests independently
-passed. These results do not qualify a public automatic Dune II threat provider,
-a worm early-warning result, or a new campaign victory.
+passed. The completed control independently verified all 156 response/audit pairs
+and their capture chains. It supports a tentative visible pre-harm hazard cue
+and a source-attributed worm loss. These results do not qualify confirmed worm
+classification at recognition, successful evacuation, a public automatic threat
+provider, continuous unpaused reaction, or a new campaign victory.

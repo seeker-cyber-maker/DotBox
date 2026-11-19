@@ -1,7 +1,7 @@
 {
   "schema": "dotbox-authored-dune2-attacks-evidence-1",
   "date": "2026-11-19",
-  "scope": "Original mission-two reactive defense and controlled-worm preparation; private diagnostic workflow, not public provider qualification",
+  "scope": "Original mission-two reactive defense and controlled worm loss with tentative pre-harm visual cue; response attempt failed before Move; private diagnostic workflow",
   "original_exe_sha256": "d49f45729babd298fd72d0f623cc3cfaa4c3d144ab38e53f24355f2208b4e5a0",
   "native_executable_sha256": "af4d353c128dbb58fa433a0f8601cb92d8fb93acc907e25827c038d6dea77e8e",
   "opendune_reference_commit": "ebea79aeba025be2fe9004570e9255044aacc0be",
@@ -62,6 +62,97 @@
     "requires_new_enrollment_after_load_or_restart": true
   },
   "worm_trial": {
+    "status": "controlled_swallow_verified_tentative_visual_cue_before_harm_response_retry_pending",
+    "authored_fixture_sha256": "f42515a693e0a181739f2cadbecc3a37747d0b4e7cec7b7c2ec0245d8892c68b",
+    "added_scenario_rows": 1,
+    "owner": "Fremen",
+    "original_resources_and_m2_unchanged": true,
+    "process_epoch": "dune2-worm-natural-recovery3-bf99356d9b724c8cba0a3a2d624b8069",
+    "control": {
+      "boundary_id": "worm-control3-after-restart-1",
+      "enrollment_guest_ms": 25207,
+      "enrollment_revision": 49,
+      "paired_samples_verified": 156,
+      "guest_ms": 7800,
+      "completed_frames": 547,
+      "reserved_frames": 1248,
+      "host_elapsed_seconds": 686.868035,
+      "first_recognized_candidate": {
+        "observation": "000090_worm_c3",
+        "stopped_guest_ms": 29707,
+        "revision": 139,
+        "original_confidence": "new surface disturbance; environmental hazard possible; identity uncertain",
+        "all_own_intact": true,
+        "screenshot_only": true
+      },
+      "first_release_interval_guest_ms": {
+        "after": 32957,
+        "by": 33007
+      },
+      "first_release_revision": 205,
+      "released_unit_slot": 28,
+      "released_unit_type": "Trike",
+      "residual_hp": 100,
+      "remaining_own_units_intact": 6,
+      "yard_hp": 400,
+      "candidate_to_release_interval_guest_ms": {
+        "greater_than": 3250,
+        "at_most": 3300
+      },
+      "source_text_samples": 157,
+      "source_text_signals": 0,
+      "first_release_frame_age_ms": 2,
+      "first_release_png_equals_prior": true,
+      "postloss_followup_guest_ms": 250,
+      "postloss_effect": "mouth-like effect replacing prior Trike sprite",
+      "source_attributed_worm_swallow": true,
+      "posthoc_cue_attribution": "renderer gate, matching pixel onset and unchanged fog; no per-pixel draw receipt",
+      "confirmed_worm_classification_at_recognition": false,
+      "own_report_json_sha256": "4e9f7d56bdbc2b769b6c484fffea00b9d808bbe9b7378be6234e4c8fae6088c3",
+      "own_report_md_sha256": "2688b61f75a9d11f5a9ec1ca4ae49e603e869fc8a6ce27ec216dc435be71c342",
+      "causal_report_json_sha256": "1688eab467ccc194a6416a3d14371900ece37c815232fb709b6af507a3e307fe",
+      "causal_report_md_sha256": "ef8f85f7863353ab092cf63a7af6a2d5adef21ba1c4ebcdcaee38261a5e2179f"
+    },
+    "response_attempt3": {
+      "status": "terminal_caller_precondition_error_before_Move",
+      "fresh_enrollment_guest_ms": 42357,
+      "fresh_enrollment_revision": 243,
+      "candidate_cue_guest_ms": 47357,
+      "candidate_cue_revision": 343,
+      "all_own_intact_at_candidate": true,
+      "selected_trike_guest_ms": 47657,
+      "move_request": "0071_response_trike_move",
+      "move_input_sent": false,
+      "error": "selected_unit_index supplied in require_controls; helper reads economy_controls where this key is absent",
+      "native_exit_code": 0,
+      "evacuation_established": false
+    },
+    "corrected_batch_helper_sha256": "0562e29ecdb4854733b0cb6f07e7a416d0fa21add9a00627ce1c97f45edef252",
+    "actual_runner_filename_contract_tests": 4,
+    "corrected_live_batch_completed": true,
+    "response_trial_completed": false,
+    "pre_harm_tentative_hazard_cue_observed": true,
+    "automatic_early_warning_provider_qualified": false
+  },
+  "source_research": {
+    "original_trigger_report_md_sha256": "46c0b0f75d4bcb8779fe2e6c5672212ec70cfc0734ae672d78fa55b8e733958d",
+    "render_script_addendum_md_sha256": "5c6d06c1796138c8e8ebc2ee7a8fd6ade25977e8766fe346cb0c5c38626359a8",
+    "warning_alliance_check_precedes_worm_branch": true,
+    "swallow_release_can_retain_positive_hp": true,
+    "hidden_coordinates_are_not_detector_inputs": true,
+    "startup_delay_correction_md_sha256": "ab07244675fed39461bf1784acf96f640a9a610ac20449883e40a7278058fa1a",
+    "observed_area_guard_startup_delay": true
+  },
+  "limits": [
+    "Guest is paused during model evaluation; no continuous real-time performance claim.",
+    "Source UI state and private projections do not establish delivered warnings or current visibility.",
+    "Own-status events are sampled and unattributed; same-signature reuse between samples can be missed.",
+    "Enemy withdrawal is bounded survival, not defeat of the enemy force or permanent safety.",
+    "No new campaign victory or native saved-state restoration is claimed.",
+    "The control warning was tentative at recognition; source attribution occurred later and cannot backdate or upgrade that observation.",
+    "Response attempt3 stopped before Move; successful evacuation remains unestablished at this checkpoint."
+  ],
+  "prior_fixture_checkpoint": {
     "status": "constructed_hidden_start_verified_batch_interface_failure_before_advance",
     "authored_fixture_sha256": "f42515a693e0a181739f2cadbecc3a37747d0b4e7cec7b7c2ec0245d8892c68b",
     "added_scenario_rows": 1,
@@ -85,20 +176,5 @@
     "actual_runner_filename_contract_tests": 4,
     "filename_contract_tests_independently_passed": true,
     "corrected_live_batch_completed": false
-  },
-  "source_research": {
-    "original_trigger_report_md_sha256": "46c0b0f75d4bcb8779fe2e6c5672212ec70cfc0734ae672d78fa55b8e733958d",
-    "render_script_addendum_md_sha256": "5c6d06c1796138c8e8ebc2ee7a8fd6ade25977e8766fe346cb0c5c38626359a8",
-    "warning_alliance_check_precedes_worm_branch": true,
-    "swallow_release_can_retain_positive_hp": true,
-    "hidden_coordinates_are_not_detector_inputs": true
-  },
-  "limits": [
-    "Guest is paused during model evaluation; no continuous real-time performance claim.",
-    "Source UI state and private projections do not establish delivered warnings or current visibility.",
-    "Own-status events are sampled and unattributed; same-signature reuse between samples can be missed.",
-    "Enemy withdrawal is bounded survival, not defeat of the enemy force or permanent safety.",
-    "Worm construction and a hidden-start negative do not establish a dangerous event, early detection or successful evacuation.",
-    "No new campaign victory or native saved-state restoration is claimed."
-  ]
+  }
 }
