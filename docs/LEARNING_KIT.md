@@ -16,6 +16,9 @@ dotbox guide --topic learning
 dotbox guide --topic inspection
 dotbox guide --topic conversation
 dotbox guide --topic state
+dotbox guide --topic world
+dotbox guide --topic reversing
+dotbox guide --topic dune
 dotbox guide --topic agi
 dotbox guide --topic navigation
 dotbox guide --topic recovery
@@ -45,6 +48,21 @@ The default guide starts from the next useful game action. Full play guidance,
 runtime-control distinctions, inspection recipes, learning policy and native
 source/build instructions are included as package resources. Load the topic
 needed now instead of loading every reference into the agent context.
+The `world` topic documents Dot's requested internal representation and the
+planned structured store, optional semantic retrieval and scene-projection
+boundary. It adds guidance, not a world database, embedding dependency or live
+rule executor. The current SceneStore still retains provider observations only.
+The `reversing` topic defines ongoing ambiguity/dependency investigations and
+distinguishes shipped frozen-data tools from the pending owned capture and
+native relationship-analysis layers. The `dune` topic defines the next non-AGI
+menu/strategy validation, retaining the earlier CD trial's limits. These topics
+add instructions, not a new analyzer, Dune adapter or gameplay qualification.
+The `loops` topic defines main-menu bootstrap, isolated serializer/state probes,
+phase/trigger/clock knowledge and bounded action-event captures. The `xcom` topic
+locates existing startup, state and sparse-recognition experiments and preserves
+their different timing/assistance scopes. Neither adds an event-loop analyzer,
+live capture API or XCOM provider. Initial-control and broader cold-preparation
+readiness remain separate from the foreground missing-control allowance.
 The `lookahead` topic aliases the continuous-play reference: full cloud workers,
 predictive scene candidates, movement as natural preparation time and separate
 foreground/background bounds. It documents the operating contract; it does not

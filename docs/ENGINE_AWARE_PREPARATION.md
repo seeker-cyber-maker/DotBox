@@ -9,7 +9,11 @@ Version `0.1.0.dev5` packages a bounded AGI V2 resource/logic census extracted
 from the user's fDisBull 0.34.1 work. It reads local files and does not require
 an fDisBull installation, database, native interpreter, symbolic solver or
 generic code analyzer. The existing x86 inspection tools remain available for
-a concrete unsupported engine/runtime question.
+any unresolved state or relationship question, including ambiguity inside a
+supported engine. Read [ongoing reverse engineering](REVERSE_ENGINEERING.md)
+for cross-context readers/writers, storage reuse and the distinction between
+packaged decoding and the still-needed live capture/analysis workflow. Engine
+readers are accelerators; the internal model remains engine-neutral.
 
 ## What the packaged AGI reader supplies
 

@@ -1,7 +1,318 @@
 # DotBox development handoff
 
-Updated 17 November 2026. This is a development continuation, not a release or
+Updated 18 November 2026. This is a development continuation, not a release or
 proof of live desktop input through the ownership fence.
+
+## Latest continuation: execute the deterministic Dune batch
+
+18 November 2026. The user supplied the original English DOS RIP edition and
+requested actual deterministic setup/input/probe/rewind trials, including a
+no-hit timeout. [DUNE_BATCH_PROBE.md](DUNE_BATCH_PROBE.md) records the local
+experiment and links its sanitized receipt and reusable experimental runner.
+The initial nine-trial full-observation batch took 18.080 seconds, covering six
+visible controls, an empty row, idle and a repeated map choice. All ten memory
+restores matched CPU registers and 640 KiB RAM; the map repeat matched dispatch,
+final RAM, registers and screenshot. A changed authored mounted-file canary
+kept its newer contents. Actual game files were unchanged during the measured
+trials/restores. `DUNE21S0.SAV` had already changed during pre-checkpoint startup;
+that difference from the unchanged supplied archive is retained in the receipt.
+The reviewed reusable runner then completed the same nine-row dispatch profile
+in 3.233 seconds, plus 0.418 seconds for checkpoint preparation. It used DotBox's
+own Python transport with the retained native executable. All destination/fallback
+entries were reached after one guest millisecond; idle exhausted 30 frames/428
+guest milliseconds. Stops occur before instruction execution, so the first full
+pass remains the evidence for visible effects. The second batch also passed
+all ten restore checks and retired pending clicks through restore.
+
+The map and conversation rows expose different resolved handlers. Arrow controls
+reach original navigation callbacks; the down arrow is intercepted by Leto's
+dialogue in the tested starting state. The center control opens the floorplan.
+This is a retained dispatch map and observed opening outcomes, not full game
+semantics, a callable deep-entry contract or strategic-loop qualification.
+
+The run used the existing fDisBull offline 0.34.1 native executable, not the
+newer DotBox-owned native binary. Its original protocol and the later
+generation-fenced ownership protocol remain distinct. Preparation time is
+reported separately from the warm batch. Original-Dot ownership/capture,
+repeatable Police Quest controls and missed-briefing rewind remain open.
+
+## Previous continuation: record transient dispatch across controls
+
+18 November 2026. The user treats the debugger as an active experimental
+instrument: arm candidate exits/destinations together, trigger one control,
+record transient hits, then restore a comparable memory baseline and compare
+other controls. Added the protocol to [BEHAVIOR_AND_ENTRY_POINTS.md](BEHAVIOR_AND_ENTRY_POINTS.md#record-transient-paths-across-controls),
+available in the existing `entrypoints` topic, and aligned bootstrap, reversing,
+transition, model and agent-start guidance.
+
+Retain the cheap dispatch map before explaining every handler or qualifying a
+direct invocation. Record actual input delivery, ordered site/selector/target
+evidence, the armed set, stopping condition and coverage. First-hit stops censor
+later execution; missing or uninstrumented observations are not absent effects.
+Shared exits and selectors retain many-to-many relationships. Repeat/idle/
+contrast trials address concrete ambiguities rather than gating the first map.
+
+Recordings live outside the guest checkpoint and survive rewind. Each restored
+trial refreshes branch/mapping/input bindings and reconciles owned probes.
+Memory rewind preserves current files; separately prepared helper fixtures or
+explicitly recorded environment differences are needed when a trial writes disk.
+Helpers remain isolated from player progression and ordinary visible gameplay.
+
+Source reuse is concrete but composed survey execution remains unimplemented:
+`z_capture_watch.py` supplies a 1-16-candidate flat32 E8 first-hit watch,
+`execution_trace.py` supplies its bounded stopped-real-mode predicate workflow,
+and `event_search.py` retrospectively narrows retained evidence. These three
+files match audited source, the offline fDisBull 0.34.1 wheel/RECORD and pinned
+Git source at `ad1e9a3177cc8fda60b9c0c64e8a40f6fabb1edd`. They do not establish
+an automatic six-button sweep or a shared restore/probe lifecycle.
+
+Fresh verification: 23 kit tests passed. A rebuilt wheel installed into a fresh
+target matched all 56 resources, 35 runtime modules and 26 guide functions;
+six affected CLI guides matched source and the installed offline doctor passed
+with native qualification false. Independent protocol and source-contract
+reviews found no blockers. See [the verification receipt](
+evidence/breakpoint-survey-guidance-2026-11-18.json). BBS task:
+`e-86c5f116-b3da-49ec-a11e-c001c0ac2566` in project `dotbox`.
+
+The next implementation is a bounded action/probe trial coordinator and retained
+dispatch observations around qualified capture and memory restore. Preserve the
+existing original-Dot ownership/capture and Police Quest route/rewind gates.
+No new native build, game trial, survey runtime or release was performed here.
+
+## Previous continuation: behavior hypotheses and alternative entry paths
+
+18 November 2026. Added [BEHAVIOR_AND_ENTRY_POINTS.md](BEHAVIOR_AND_ENTRY_POINTS.md),
+packaged as `dotbox guide --topic entrypoints`. Agents use plausible authored
+implementations to predict distinguishing code, state and execution evidence.
+Retain several routes to one operation with their arguments, skipped setup,
+continuation and scoped equivalence. Observation hooks and callable entries
+remain separate. Modal, tail-transfer and deferred behavior need their own
+contracts; an unknown outcome can still support a qualified attempt.
+
+[Navigation](NAVIGATION.md) now describes position discovery, ordinary-motion
+verification, controlled same-room perturbation, coherent placement, normal
+crossing observation, original room-entry reuse and constructed research states.
+Use already qualified capabilities without replaying earlier learning stages.
+Helpers can investigate beyond normal progression with explicit imposed-state
+provenance. Visible play retains original movement/events, including supported
+click delivery without unnecessary pointer travel. Direct original Save/Load
+retains its game/file effects and remains separate from memory-only rewind.
+
+Four fDisBull files were verified against audited source, offline 0.34.1 wheel
+contents and RECORD hashes, and pinned Git source at
+`ad1e9a3177cc8fda60b9c0c64e8a40f6fabb1edd`: `z_native.py`, `z_call_contract.py`,
+`assisted_travel.py` and `runtime-navigation.md`. Their limited call/return and
+placement-plus-original-portal contracts are reusable work, not new DotBox
+adapters. No runtime implementation or original-game execution was added here.
+
+The earlier blanket missing-menu-archive claim is corrected. The exact
+`fdisbull-menu-event-discovery-20261107.zip` was recovered again: 120,922 bytes,
+SHA-256 `cff20df90a2ac3db1589dfc83ca0c663150f92d6b885fb1f42ecc5773e60e1d7`.
+All 24 checksum entries and nine source-manifest outputs matched. Its private
+game companion was not recovered; later MR !119 equivalence and release/DotBox
+integration are not established. Historical evidence receipts remain unchanged.
+
+Fresh verification: 23 kit tests passed; the rebuilt wheel installed into a
+fresh target matched all 56 resources, 35 runtime modules and 26 topic functions.
+Nine affected CLI guides matched source; the installed offline doctor passed
+with native qualification false. Independent integrated-design/archive and
+native-source-contract reviews found no blockers. See [the current receipt](
+evidence/behavior-entry-guidance-2026-11-18.json). Current BBS work: project
+dotbox, ticket e-e618b6d6-8b8f-4269-9e4a-4248e3663682.
+
+The next runtime slice remains supported original-Dot ownership and bounded
+capture, then one qualified alternative route with retained normal fallback.
+An offline hypothesis/entry ledger can extend the proposed family/evidence
+store independently. Preserve the one functional Police Quest shower run;
+repeatable route/timing, live coordinates, assisted placement and missed-briefing
+memory rewind still require their actual qualification.
+
+## Previous continuation: generic transitions and analysis dependencies
+
+18 November 2026. The user generalizes menus, screen changes and room entry as
+event-conditioned state transitions. Added [EVENT_TRANSITIONS.md](EVENT_TRANSITIONS.md),
+packaged as `dotbox guide --topic transitions`, and aligned the existing world,
+process, reversing, incremental-play and agent entry guidance.
+
+The design separates reusable families/rules, concrete bindings and observed
+occurrences. A recovered dispatcher, structural pattern or data schema can
+enumerate siblings and satisfy prerequisites for independent analysis. Transfer
+established common facts without repeating an identical experiment for every
+instance; keep interpretation, execution support and current applicability
+separate. Invocation readiness does not require knowing the outcome in advance.
+Track dependency invalidation, bounded expansion and the existing foreground
+budget. The knowledge frontier is distinct from player reachability.
+
+The recovered XCOM selector rule and inspected serializer candidate extractor
+are concrete precedents. Their documented bounds remain: no automatic induction
+from one click or all-button count. That pass did not reconcile the XCOM add-on
+source archive; the latest continuation above corrects its recovery status.
+This slice implements no family ledger, general structural scanner, scheduler
+or live capture. The existing Police Quest controls/rewind acceptance is unchanged.
+
+Fresh verification: 23 existing kit tests passed; a rebuilt wheel installed into
+an isolated target matched 55 resources and 35 runtime modules. All 25 topic
+functions and seven affected CLI guides matched source; the offline doctor
+passed with native qualification false. Independent design and source-reuse
+reviews passed. See [the verification receipt](
+evidence/event-transition-guidance-2026-11-18.json). Current BBS work:
+project dotbox, ticket e-a784add1-d1b9-4879-9dff-5819a247eba9.
+
+An offline family/binding/evidence ledger fed by existing census outputs is a
+bounded future slice. DotBox-owned live capture and further native scanning
+remain separate integration work; original Cryo Dune remains the next transfer
+target after the declared generic baseline.
+
+## Previous continuation: bootstrap strategic interfaces and model event loops
+
+The user added the original main-menu analysis workflow and the missing process
+model: Options/control mappings, Load/serializer state, New Game/intro prompts,
+isolated helper perturbations, phased/timed events and action-bound visual/native
+evidence. Read [BOOTSTRAP_AND_EVENT_LOOPS.md](BOOTSTRAP_AND_EVENT_LOOPS.md) and
+[XCOM_REUSE.md](XCOM_REUSE.md), packaged as `loops` and `xcom`.
+
+Recovered fDisBull MR !82 reports separate named startup controls, serializer
+transfer/adoption/continuation/display boundaries and later original-menu event
+discovery. A later UFO cold-context run reached Geoscape at 171.355 seconds but
+its full save/money goal remained incomplete after 91.060 minutes. Prepared
+route timings and earlier assisted runs have different scopes. No universal
+ten-minute minimum or complete XCOM loop qualification follows from them.
+That XCOM-specific pass recovered the public note for the source-only 7 November
+add-on without reconciling its archive. See the latest continuation above for
+the corrected recovery status; selected-release integration remains separate.
+
+The inspected DinoPark provider already has sparse pixel witnesses, targeted
+two/four-boundary original transaction checks, retained attempts and guest-phase
+budgets. Generic fDisBull event-search/trace and serializer modules are reuse
+candidates. A broad automatic DinoPark breakpoint-discovery sweep was not located
+in those provider modules. Their primitives do not qualify DotBox's pending
+owned capture or arbitrary executable modes.
+
+The 180-second policy is now explicitly the initial usable-control evaluation
+profile. A complex cold-preparation job can declare a longer bound and milestones
+while preserving the original timeline and missed deadlines. The 15-second/two-
+probe foreground limit is unchanged. First visibility, useful control, relevant
+operating loop and complete goal are distinct. Natural movement is useful time;
+menu transitions may offer none, and no artificial delays should conceal work.
+
+This continuation changes design and packaged guidance only. It adds no process
+store, XCOM/DinoPark provider port, live event capture or game run. Fresh checks:
+23 kit tests passed; a rebuilt wheel installed into an isolated target matched
+54 resources and 35 runtime modules. All 24 guide topic functions and nine CLI
+guides matched source. The offline doctor passed without native qualification;
+117 relative links and the play skill frontmatter were checked. Independent
+design, XCOM and DinoPark/provenance reviews passed, with scoped continuation
+and source-locator corrections applied. See the [verification receipt](
+evidence/bootstrap-event-loop-guidance-2026-11-18.json). The BBS work ticket is
+`e-3f9890c0-4d46-4353-a7d2-380c0b0f1c7e` in project `fdb`, role `fdb-dotbox-dev`.
+
+## Previous continuation: reuse DinoPark's recovered work
+
+The user identified extensive prior DinoPark Tycoon research. The coordinator
+read the saved E55 handoff, behavioral report, 22-card game-story map and
+progress receipt, then inspected the existing fDisBull 0.34.1 provider and its
+later 3 November handoff. Read [DINOPARK_REUSE.md](DINOPARK_REUSE.md), packaged
+as `dotbox guide --topic dinopark`, before new menu/state discovery.
+
+The research already distinguishes committed state, pending transactions,
+continuing session values, interface selection and presentation. The later
+provider adds bounded original-game controls, retained attempts, native effect
+proofs and read-only reconciliation. Use these as inputs to the world model
+and a small DotBox-owned adapter. Dune remains the next selected target; another
+complete DinoPark playthrough is not required before proceeding.
+
+The inspected source is manifest commit
+`ad1e9a3177cc8fda60b9c0c64e8a40f6fabb1edd`. Its six DinoPark Python modules and
+nine data/provenance files match the wheel RECORD and pinned public source.
+The older UDC definition reconstructs original bytes with zero semantic blocks;
+it is separate from recovered rule knowledge. The later handoff still retains
+97 caller/producer questions, 13 asset candidates and a confirmed purchase with
+unqualified final presentation. Those are scoped investigation questions, not
+a reason to repeat settled mechanics or delay useful integration.
+
+This continuation adds a reuse guide and aligns the existing world-model,
+investigation and Dune plans. It imports no private reports, game material or
+fDisBull runtime code, executes no DinoPark session, and does not yet implement
+the world store or provider port. Do not copy the old provider's disk-change
+checkpoint restriction into DotBox's requested memory-only rewind.
+
+Fresh verification: **23 existing kit tests passed**. A new ordinary wheel
+installed into an isolated target matched all 52 packaged resources and 35
+runtime modules, registered 22 topics and returned the five checked guide
+texts exactly. The offline doctor passed while reporting native qualification
+false. Source integrity checks matched all 15 DinoPark files to the wheel and
+pinned public commit, plus the three bounded-helper provenance hashes.
+Independent source/documentation review was completed; its deadline wording
+and inventory-scope clarifications were applied. See the [verification receipt](
+evidence/dinopark-reuse-guidance-2026-11-18.json). Historical DinoPark test counts
+were not rerun or promoted to new gameplay qualification.
+
+## Current architecture decision: Dot's internal game model
+
+Follow-up on 18 November: reverse engineering is an ongoing requirement for
+ambiguous meanings, dependency discovery and storage reuse, including non-AGI
+games. Read [the investigation workflow](REVERSE_ENGINEERING.md) and
+[Dune validation](DUNE_VALIDATION.md), also packaged as `reversing` and `dune`.
+The current inspector has bounded identity/search/diff/linear disassembly;
+native capture/watch/trace integration and automatic native xref/def-use analysis
+remain missing. The next reusable live slice is a bounded owned evidence
+capture operation feeding offline analysis and the world model.
+
+The user proposed Dune as the next non-AGI direction, interpreted as the original
+Cryo game from the description and existing project evidence. Preserve
+the existing 15 November assisted Dune CD opening receipt: four views were
+reached, but dialogue semantics, story effects and later strategy were not
+qualified. Freeze a fresh generic baseline and record this prior/manual exposure
+before target-specific adaptation. The new plan covers menu/subject identity,
+conversation, travel, one delayed order, clock semantics and warm reuse. This
+documentation pass consulted that receipt and the original manual; it did not
+inspect Dune assets, execute the game or recover Dune internals.
+
+Fresh verification of this follow-up: **59 existing kit/inspection tests passed**.
+The rebuilt ordinary wheel was installed into a new directory; the `world`,
+`reversing`, `dune`, `play` and `guides` topics matched their source text. All
+51 packaged resources and 35 runtime modules matched; 21 topics were registered,
+and the offline doctor passed without native qualification. The source links
+and patch whitespace were checked. See the [verification receipt](
+evidence/reverse-engineering-dune-guidance-2026-11-18.json). This is guidance
+and packaging verification, not a live investigation or strategic-game test.
+
+The user clarified that Dot should build her own convenient representation of
+the game's entities, relationships, rules and possibilities, while z-scenes
+describe the relevant present situation. Read [WORLD_MODEL.md](WORLD_MODEL.md)
+or the packaged `dotbox guide --topic world` before extending scene storage.
+Use a typed relational foundation, initially separate from the strict existing
+SceneStore, with optional text/vector indexes over useful semantic material.
+Dot can create abstractions and hypotheses; observations, predictions, model
+revisions and live state revisions remain distinct. Rewind retains knowledge
+while invalidating dynamic bindings to the abandoned branch.
+
+This documentation continuation is based on PR #10's primary head
+`adade95acad4ae5062de99f76805305e7a3a2203` and independent mirror head
+`6dbef65fe923eb54a1a498d63d5c8259671578f1`, with the same input tree
+`0e4e2a82826b274b1ef211f29a988c61d38e753a`. It preserves those histories and
+adds packaged guidance; it does not implement WorldStore, embeddings, live
+driving or another rewind operation. Complete cheap static extraction and
+draft compilation are compatible with incremental live qualification.
+
+The next useful implementation is a private versioned world store with stable
+typed entities/relations, evidence and conditional rule references. Use the
+recovered DinoPark state/transaction contracts as reference inputs alongside
+AGI draft import and observation linking. Exact neighborhood/dependency queries
+should feed the existing scene/action admission path. Semantic indexing can
+follow a measured retrieval need. Do not insert new tables into SceneStore
+without a migration, or relabel its last-fact cache as a complete event history.
+
+Fresh verification for this guidance change: all 23 existing kit tests passed.
+A newly built ordinary wheel was installed into a new directory, imported from
+that directory rather than the checkout, and returned the exact source text for
+`guide --topic world`. All 49 packaged resource bytes/hashes matched the source;
+19 guide topics were registered and the offline doctor passed without claiming
+native qualification. Relative document links and the patch whitespace check
+passed. An independent read-only review found no actionable issues. The
+[verification receipt](evidence/world-model-guidance-2026-11-18.json) records the
+reused dependency environment and initial environment/checker corrections.
+No native rebuild or gameplay test was part of this documentation change.
 
 ## Start here
 

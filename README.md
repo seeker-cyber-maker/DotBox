@@ -3,6 +3,78 @@
 Play DOS games with Dot using an independent DOSBox-X session framework.
 The original graphical game remains authoritative.
 
+Dot's planned [internal game model](docs/WORLD_MODEL.md) retains entities,
+relationships, rules, evidence and her own useful abstractions. Z-scenes are
+bounded views of that knowledge plus current observations. The proposed model
+uses exact structured queries with optional text/vector retrieval; the current
+observation store is only one part. `dotbox guide --topic world` explains the
+design and its implementation boundary.
+
+[Reverse engineering](docs/REVERSE_ENGINEERING.md) remains available to resolve
+ambiguous state and discover relationships, including native games and reused
+storage. The next [Dune transfer test](docs/DUNE_VALIDATION.md) covers menus,
+selected entities and strategic orders after a frozen generic baseline. The
+new `reversing` and `dune` guide topics document required work and prior evidence;
+they do not claim a newly implemented live analyzer or Dune harness.
+
+The [DinoPark reuse guide](docs/DINOPARK_REUSE.md), available through
+`dotbox guide --topic dinopark`, locates prior recovered mechanics and the
+existing fDisBull native scene provider. Use its state lifetimes, purchase
+phases and guarded recovery contracts to develop the shared model and menu
+machinery. This guidance does not yet port the provider into DotBox.
+
+[Bootstrap and event-loop guidance](docs/BOOTSTRAP_AND_EVENT_LOOPS.md), available
+as `dotbox guide --topic loops`, adds goal-driven main-menu investigation,
+isolated save/state experiments and action-to-event observation. Dot needs to
+learn relevant phases, clocks and deferred effects as well as scenes. The
+[XCOM reuse map](docs/XCOM_REUSE.md), topic `xcom`, recovers prior startup,
+serializer and sparse-recognition work with its actual evidence limits.
+Initial usable controls, an understood operating loop and full task completion
+have separate readiness measures; complex cold preparation may need its own
+declared longer bound. No event-loop analyzer or XCOM provider is added here.
+
+[Generic event transitions](docs/EVENT_TRANSITIONS.md), topic `transitions`, put
+menus, screens, rooms and local changes under one event/guard/effect contract.
+Learned code patterns or table schemas can expose sibling bindings and unlock
+independent analyses. The guide separates reusable rules, concrete bindings
+and observed occurrences; family storage and automatic expansion remain planned.
+
+[Behavior and entry-point guidance](docs/BEHAVIOR_AND_ENTRY_POINTS.md), topic
+`entrypoints`, uses agents' coding knowledge to propose testable implementations
+and recover several ways to invoke one operation. Movement grows from verified
+position through coherent placement to original room entry; menus can similarly
+reuse a qualified handler or loader. Isolated research and the visible player's
+original route retain separate purposes. Existing fDisBull helpers are concrete
+reuse candidates; this guide does not add native invocation or teleportation to DotBox.
+Its multi-probe survey method uses the debugger to retain transient dispatch
+evidence across comparable per-control trials, producing a useful map before
+every handler is explained. An isolated [Dune batch](docs/DUNE_BATCH_PROBE.md)
+now executes restore, probe setup, input, capture and timeout mechanically.
+The reviewed nine-trial dispatch pass took 3.233 seconds; a separate 18.080-second
+pass observed the visible effects and repeated a map action with matching
+measured outcomes. Both used the retained fDisBull native runtime;
+packaged original-Dot orchestration and player-facing rewind remain separate work.
+
+The [continued Dune run](docs/DUNE_PROGRESS.md) recruits a Fremen troop and
+assigns spice work through original input. Its [optimization continuation](docs/DUNE_OPTIMIZATION.md),
+`dotbox guide --topic duneoptimization`, adds explicit sparse observations and
+capability-gated native bounded waits. Eight paired trials retain matching
+measured images/state while reducing a conversation-entry action from 227 to
+56 RPCs and from 1,572,879 to 117,315 bytes read. The rebuilt headless Linux
+runtime and Gurney checkpoint are qualified within the recorded research scope;
+original-Dot desktop integration remains a separate gate.
+
+The [travel-map selector](docs/DUNE_MAP_SELECTOR.md), available through
+`dotbox guide --topic dunemap`, adds read-only destination preparation and a
+single-use original-click action for the recorded travel-menu profile. It binds
+the complete callback vector and current rendered point, proves destination
+acceptance before continuing, and reports input readiness separately from
+arrival. Both full and sparse readers are supported with explicit native
+bounded waiting; 124 authored protocol tests cover the action and refusal paths.
+Four final-source live trials reached Harg and Timin through separate original
+travel actions; stale-revision and exhausted-budget checks preserved refusal
+without replay. The guide records exact identities and the limits of those results.
+
 The primary experience is [Dot as the game's conversational interface](docs/CONVERSATIONAL_PLAY.md):
 describe the current scene, offer useful choices, interpret the player's intent
 and carry it out. Autonomous play uses the same scene/action model. A small

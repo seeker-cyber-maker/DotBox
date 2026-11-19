@@ -1,9 +1,9 @@
 # DotBox product brief
 
-Status: design baseline updated 17 November 2026. Requirements below are intended
+Status: design baseline updated 18 November 2026. Requirements below are intended
 behavior, not claims of implemented or measured DotBox capabilities.
 
-## Current milestone — 17 November 2026
+## Current development direction — 18 November 2026
 
 Package the incremental learning machinery and instructions so Dot can use them
 without another repository, analyzer installation or available local worker.
@@ -61,17 +61,81 @@ renderer as a fallback. Description detail, decision maker and assistance level
 are independent preferences. A progress HUD remains optional.
 The product does not need a replacement game, UDL-to-UIL conversion or UDC.
 
+Dot must be able to construct and revise her own [internal game model](WORLD_MODEL.md):
+typed entities, relationships, conditional rules, evidence, hypotheses and
+task-specific abstractions. Z-scenes expose a relevant current view of that
+larger model, combined with provider observations and action admission. Use a
+local relational foundation for exact identities, state and dependencies, with
+optional text/vector indexes for finding relevant knowledge. Predictive models
+and simulations support planning without independently advancing game state.
+
+Keep [reverse engineering](REVERSE_ENGINEERING.md) available throughout play
+and preparation. Dot can resolve ambiguous meanings, trace state dependencies
+across contexts and identify storage reuse through engine, resource and native
+evidence. These findings enrich the same model; they are not restricted to AGI
+or to the initial scan. Required tools belong in the package.
+
 ## Preparing once, then learning during play
+
+Precompute the complete supported static resource set when cheap and bounded,
+then cache conditional world drafts. Incremental work applies to semantic
+enrichment, live verification and controls; it does not require postponing a
+whole-game bytecode scan until each room is visited. Complete world recovery
+remains unnecessary for starting useful play.
 
 On first boot without a compatible project, perform bounded operational
 preparation: establish the executable/resource edition, connect the controls,
 verify a useful movement or menu action and retain the smallest useful slice.
 If an applicable control already works, start play without waiting for a named
-scene or a complete buffer. The existing 180-second cold-preparation budget is
-a ceiling, not a required wait. Measure it end to end, including agent work and
-dispatch time. Missing current controls get a separate initial evaluation bound
-of 15 seconds/two probe admissions; optional improvements must not delay a
-working route. These settings need real player-flow measurements.
+scene or a complete buffer. The existing 180-second initial-control evaluation
+profile is a ceiling for that declared job, not a promise of complete interface
+or game-loop recovery. A complex cold-preparation job may declare a longer
+bound and distinct milestones before it starts. Preserve the initial start,
+missed deadlines and actual elapsed time; a later job cannot hide an earlier
+miss. Missing current controls retain the separate 15-second/two-probe foreground
+bound. Longer worker preparation does not extend a blocked live action, and
+optional improvements must not delay a working route.
+
+Use the current prompt to choose the next useful investigation. Main-menu
+Options can expose controls, Load can expose serialized state and original
+loader behavior, and New Game can establish intro/input and operating-interface
+transitions. These are possible research branches, not required detours before
+following the player's choice. Isolated helpers can investigate them in parallel
+when their inputs are independent. See [bootstrap and event loops](BOOTSTRAP_AND_EVENT_LOOPS.md)
+and the [XCOM reuse map](XCOM_REUSE.md).
+
+The internal model must retain relevant simulation phases, triggers, queued
+operations and clock relationships. Distinguish host delay, guest execution
+and game-domain time; a modal menu or held calendar need not stop every
+subsystem. One observed input/effect pair is not complete loop understanding.
+Use richer bounded captures for discovery and qualified sparse checks for
+routine recognition. Readiness, semantic commit and presentation remain
+independent evidence. These are design requirements, not a new live analyzer.
+
+Use [event-conditioned state transitions](EVENT_TRANSITIONS.md) as the shared
+foundation across menus, screens, rooms and local changes. Input modalities are
+concrete bindings. One recovered rule, code pattern or data schema can expose
+related candidates and satisfy prerequisites for independent analyses. Retain
+families, bindings and observed occurrences separately, reuse established common
+facts, and check live applicability before using a selected action. The analysis
+frontier grows with learned relationships as well as with the player's route.
+
+Use agents' coding knowledge to form [testable implementation hypotheses](BEHAVIOR_AND_ENTRY_POINTS.md):
+a direct callback, selector dispatcher, mode change, modal routine or deferred
+consumer predicts different useful evidence. One operation may have several
+qualified entry routes with different setup, continuation and effects. Helpers
+can progress from verified coordinates to coherent placement and original room
+initialization, or from menu input to a qualified original operation, to prepare
+scenes beyond normal progression. Record imposed research state and the scope
+of any equivalence claim. The visible player route retains original movement
+and events; a supported click need not animate unnecessary pointer travel.
+Deeper entry remains an integration capability to qualify, not a new shipped control.
+
+Use the debugger to preserve transient evidence as well as inspect code. Helpers
+can arm a bounded set of candidate sites, compare controls from a declared memory
+baseline and retain observed dispatch maps before detailed handler analysis.
+Keep recording coverage, continuation and trial comparability explicit; later
+analysis should reuse the recorded destinations instead of rediscovering them.
 
 Include a bounded documentation pass: establish the broad goal and control
 conventions, then collate two or three compatible guides when useful and available.
@@ -146,10 +210,13 @@ separate selected transition. Vehicle dynamics require their own controller;
 a walking grid does not establish safe driving. Recovery must clear obsolete
 input, fence old controllers and refresh game observations before further play.
 
-Begin with an exact supported King's Quest or Police Quest edition. Use the
-menu/choice-driven Dune adventure as a held-out non-AGI case; confirm the exact
-edition before running it. Keep Dune-specific discoveries out of the initial
-AGI development path so the later test measures generality.
+Begin with an exact supported King's Quest or Police Quest edition. The next
+non-AGI target is the original Cryo Dune adventure/strategy game. Follow
+[Dune validation](DUNE_VALIDATION.md): confirm the edition, freeze the generic
+baseline, record the earlier assisted CD opening trial and manual exposure,
+then separate the baseline from target-specific adaptation. Test menu context,
+selected entity, travel, delayed orders and clock semantics. Do not describe
+the target as an untouched or blind holdout.
 
 ## Shareable harness and compatibility notes
 

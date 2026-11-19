@@ -33,8 +33,11 @@ the player receives spoiler-light descriptions.
 ## Learn one missing interaction
 
 Keep only the current goal, observed context, one operational question, immediate
-next interaction and usable fallback. Examples: "Does Enter select this item?"
-or "Does releasing Right stop movement?" Avoid full room maps or game recovery.
+next interaction and usable fallback in the active play context. Examples:
+"Does Enter select this item?" or "Does releasing Right stop movement?" Retain
+broader entities, relationships, rules and hypotheses in Dot's internal model;
+a z-scene projects the relevant current view. Cheap whole-resource compilation
+can run once and be cached without requiring exhaustive recovery before play.
 
 Use `dotbox learn` when a missing control genuinely blocks progress. Its default
 trial allowance is 15 seconds and two probe admissions. The clock includes time
@@ -51,22 +54,58 @@ These tools do not touch a live guest. Do not hold a game paused while reasoning
 reading files, authoring metadata or waiting for a worker. Qualified live capture
 must resume the guest before analysis; no general live capture facade ships yet.
 
+For native/menu-driven work, consult `dotbox guide --topic dinopark` before
+rediscovering state meanings or transaction behavior. Its prior mechanics
+research and fDisBull provider supply reusable contracts. Rebind to the actual
+edition and current observation; an old rule, supported verb or completion
+receipt does not itself enable an action now. `dotbox guide --topic xcom` adds
+the prior startup, serializer, event-discovery and sparse-recognition work.
+Use `dotbox guide --topic loops` when the missing question concerns an intro,
+menu, delayed operation, simulation phase or timer. Helpers can compare isolated
+save/state variants while Dot follows the player's route; their findings are
+knowledge, not live progression.
+
+Use `dotbox guide --topic entrypoints` to reason from plausible code toward a
+discriminating probe and a qualified alternative invocation. Preserve arguments,
+setup, continuation and the exact effects shared with the original route.
+An observation hook is not automatically callable. Isolated research can grow
+from normally verified coordinates to coherent placement, original room entry
+or direct menu operations; retain imposed-state provenance and normal fallbacks.
+
+That guide also describes multi-probe control surveys: arm candidate sites,
+record one control's transient hits, then restore a comparable isolated memory
+baseline and re-arm for another. Retain the dispatch map before explaining every
+handler. A first-hit stop truncates the rest of the path; missing observations
+stay unknown. Preserve recordings across rewind and account for file effects.
+
 For a confirmed compatible AGI V2/2.917 edition, `dotbox agi inspect` supplies
 ordered logic conditions, state writers and resource candidates without general
-x86 analysis. Cache the bounded outline; resolve only when the next question
-needs it. Save-file differences are useful state clues, not automatic semantic
+x86 analysis. Cache a bounded whole-resource outline or resolve pass when its
+cost fits preparation; deepen unresolved semantics along the useful frontier.
+Save-file differences are useful state clues, not automatic semantic
 labels. Use repeated baseline saves and one controlled action before interpreting
 a difference. These tools do not refresh live flags or bypass the learning bound.
+
+Keep reverse engineering available after preparation and for non-AGI games.
+An ambiguous fact or missing relation can require native/resource analysis,
+cross-context readers/writers or a qualified runtime capture. Distinguish one
+persistent variable used elsewhere from one storage slot reused for another
+meaning. Cache evidence-backed findings in the model. Raw native debugger
+primitives are not yet a general owned live capture workflow in this package.
 
 For supplied qualified geometry, `dotbox route` proposes shortest walking routes
 with fewer turns and long straight legs. Execute through an applicable monitored
 control only; a plan does not move the actor. Approach an exit before a separate
-selected crossing, and rebind after transitions. Never use coordinate placement
-or an uninterruptible hold to simulate normal travel.
+selected crossing, and rebind after transitions. Visible ordinary travel uses
+original monitored movement. Coordinate placement is a separate research
+capability, not evidence of having walked that route. Keep holds interruptible.
 
 Optional improvements cause no intentional gameplay wait when a working route
-exists. The older 180-second first-preparation budget is a ceiling, never a
-minimum wait or an allowance to restart in each room. Start useful play earlier.
+exists. The 180-second initial-control profile is a ceiling for that job, never
+a minimum wait, a universal game-loop recovery limit or an allowance to restart
+in each room. A complex cold-preparation job can declare a longer bound and
+milestones while retaining original elapsed time and misses. It cannot extend
+the blocked foreground allowance. Start useful play as soon as supported.
 
 ## Retain progress
 
@@ -111,6 +150,14 @@ guide before adapting the native primitive.
 - `dotbox guide --topic learning`: incremental method, budgets and measurements.
 - `dotbox guide --topic conversation`: scene descriptions, choices and player intent.
 - `dotbox guide --topic state`: game flags, async consequences, readiness and useful suggestions.
+- `dotbox guide --topic world`: internal model, relational knowledge, semantic retrieval and scene projections.
+- `dotbox guide --topic loops`: main-menu bootstrap, isolated state experiments, event phases and clocks.
+- `dotbox guide --topic transitions`: shared event/guard/effect families, sibling discovery and newly enabled analysis tasks.
+- `dotbox guide --topic entrypoints`: code-shaped hypotheses, alternative invocation contracts and progressive research entry.
+- `dotbox guide --topic reversing`: ongoing ambiguity, dependency discovery and native-analysis integration.
+- `dotbox guide --topic dinopark`: recovered mechanics, existing provider and bounded integration path.
+- `dotbox guide --topic xcom`: recovered startup, serializer and event-discovery work with timing scope.
+- `dotbox guide --topic dune`: next non-AGI baseline, earlier CD exposure and menu/strategy acceptance slices.
 - `dotbox guide --topic agi`: small engine-aware logic census and state hypotheses.
 - `dotbox guide --topic navigation`: straight legs, collision scope and monitored execution.
 - `dotbox guide --topic recovery`: rewind transaction and controlled saved-game evidence.

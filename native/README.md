@@ -20,7 +20,7 @@ python scripts/prepare_native.py /path/to/new/dosbox-x --check
 See [standalone source and build instructions](../docs/STANDALONE_NATIVE.md)
 for offline preparation, build prerequisites and qualification boundaries.
 The lower-level `apply_overlay.py` remains available for an independently
-prepared base: it verifies the two touched base files, refuses incompatible
+prepared base: it verifies the seven touched base files, refuses incompatible
 source or conflicting new files, and checks and verifies the ownership patch.
 
 ## Protocol
@@ -94,6 +94,63 @@ neutral. The serializer's existing historical disk backup/restore exclusion
 also does not establish all handle, pending-I/O and device behavior. Qualify
 those boundaries and fresh post-restore observations before exposing player
 recovery. See [memory-only recovery](../docs/RECOVERY_AND_SAVES.md).
+
+## Bounded execution
+
+The `execution.bounded_frame_step` capability advertises
+`schema: "dotbox-bounded-frame-step-1"`, `max_frames: 10000` and
+`max_guest_ms: 30000`. A caller must check this capability before sending the
+new fields to `frame.step`; an older backend may silently ignore unknown fields.
+
+```json
+{"session_id":"SESSION","max_frames":120,"max_guest_ms":2000}
+```
+
+Both limits are required together and must be positive integers within the
+advertised maxima. The operation starts only from a stopped target and runs on
+the emulation thread until a breakpoint or other debugger stop, the requested
+number of completed renderer frames, or the guest PIC-tick allowance is reached.
+The frame/guest-limit checks stop at a safe fetch or after an event callback has
+unwound. They do not stop in the middle of a guest instruction or renderer
+callback. The bounded path checks a pending execution or data-access breakpoint
+before attributing a coincident limit to the budget, so resuming cannot skip an
+unreported breakpoint. The legacy call with neither limit still steps one frame.
+
+A successful response retains the normal `session_id`, `state_revision`,
+`stop_reason`, stopped register snapshot and frame fields. It adds
+`boundary: "bounded_execution_then_safe_fetch"`, `frame_available`, and:
+
+```json
+{"bounded":{"max_frames":120,"max_guest_ms":2000,"frames_completed":1,
+ "guest_tick_bits":64,"guest_ticks_before":100,"guest_ticks_after":125,
+ "guest_elapsed_ms":25,"stop_cause":"breakpoint"}}
+```
+
+`stop_cause` is `frame_limit`, `guest_time_limit`, `breakpoint` or `other`.
+`completed` is true only for the requested frame count; a breakpoint or guest
+limit is a valid stopped return with `completed: false`. A guest limit can occur
+before any new frame. `frame_available` reports whether a retained screenshot
+exists, not whether the operation produced a new frame. Use `frames_completed`
+and frame identity to establish freshness. Tick subtraction uses the native
+unsigned clock width, reported as `guest_tick_bits`; guest milliseconds are
+execution evidence, not elapsed host time or game-calendar time.
+
+These are native guest/frame bounds, not a host wall-clock deadline or a
+production action transaction. A lost response, transport timeout or server
+`OPERATION_TIMEOUT` does not certify a stopped guest and never authorizes input
+replay or automatic resume. The caller must retain uncertainty and use its
+existing recovery/termination policy. No ownership transfer, game-state meaning,
+complete rewind qualification or platform takeover is implied by this capability.
+The raw protocol supports older clients; a controller still owns stop attribution,
+input neutrality, binding checks and final readiness admission.
+
+`tests/test_native_bounded_wait.py` runs authored DOS programs against an explicit
+`DOTBOX_DOSBOX_EXECUTABLE`. It checks the legacy and multi-frame paths, zero-frame
+guest expiry, foreign-stop attribution, exact breakpoint/guest-limit collision, a pending execution breakpoint at a
+halted CPU frame boundary, and invalid-parameter admission. Pending data-access
+collision follows the reviewed source path but has no separate fixture here. Its checkpoint fixture contains only authored
+program bytes. Missing executable configuration skips these native tests; a
+qualification receipt must therefore require their actual execution with no skips.
 
 ## Build and checks
 

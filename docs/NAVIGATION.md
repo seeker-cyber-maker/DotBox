@@ -11,6 +11,66 @@ Version `0.1.0.dev5` adds an offline, bounded walking-route planner. It reuses
 known/safe areas, obstacles and hazards. It does not observe or move a live
 actor, emit keyboard events, write coordinates or qualify a car-driving model.
 
+## Grow movement and scene-entry capabilities
+
+Use the cheapest already qualified route that answers the current question.
+The following stages add reusable capabilities; they do not require repeating
+earlier experiments or completing every stage before ordinary play. The
+[behavior and entry-point guide](BEHAVIOR_AND_ENTRY_POINTS.md) describes how
+several invocation routes can serve the same semantic operation.
+
+1. **Locate position candidates.** Compare bounded observations at rest and
+   during a short movement. Keep world coordinates, sprite/render coordinates,
+   camera offsets and unrelated counters distinct until evidence identifies
+   their roles. Record the source, object identity, units and candidate mapping.
+2. **Verify ordinary motion.** Use the game's normal controls and compare the
+   candidate fields with observed direction, displacement and stopping. Include
+   an idle contrast where useful. Qualify only the axes, ranges and contexts
+   actually established; input acceptance alone does not establish movement.
+3. **Try a reversible same-room perturbation.** In an isolated research guest,
+   change a small qualified field range with expected-old-value guards and a
+   bounded observation. Retain the before values and a qualified restoration
+   path. Restore and verify the declared scope; a coordinate correction is not
+   full-machine rewind. Record partial effects and stop if recovery is unresolved.
+4. **Establish coherent placement.** Recover the smallest relevant set of
+   position, movement, collision, camera or script dependencies needed for a
+   useful anchor. Let the engine adopt the placement, then check context,
+   interaction readiness and the requested outcome. A changed coordinate and
+   matching screenshot alone do not establish every dependent state.
+5. **Observe a normal crossing.** Approach and cross a selected portal through
+   ordinary controls. Retain the event and relevant before/during/after evidence:
+   location, actor/resource bindings, entry setup, flags, timers and continuation
+   as needed. Separate transition effects from concurrent autonomous changes;
+   one large memory diff is not a reusable entry recipe.
+6. **Reuse original room entry.** Recover the applicable setup or initialization
+   operation, its prerequisites and arguments, and its continuation to a usable
+   destination. A supported shortcut may place the actor at a known portal and
+   use its original input, or invoke a separately qualified original setup path.
+   Writing a scene ID or copying an entire observed delta is insufficient.
+7. **Construct a useful research state.** Helpers may combine recovered entry
+   and state-setting operations to investigate a location beyond normal story
+   progression. Establish the runtime coherence needed by the experiment and
+   record every imposed prerequisite, retained effect and unresolved dependency.
+   Such a state does not prove that the player can reach it through ordinary play.
+
+Keep these experiments in the helper's own guest and mutable files. Preserve
+their branch identity and distinguish imposed state from observed consequences;
+their results can inform the model without advancing the player's progress.
+Missing initialization limits the shortcut's claims and leaves the working
+ordinary route available. Visible play continues through the selected original
+movement/input route under current ownership; helper shortcuts do not authorize
+teleporting the player or skipping graphical traversal.
+
+The inspected fDisBull [assisted-travel implementation](https://github.com/seeker-cyber-maker/fDisBull/blob/ad1e9a3177cc8fda60b9c0c64e8a40f6fabb1edd/src/fdisbull/assisted_travel.py)
+already supplies guarded same-room placement and placement at a known portal
+followed by original transition input. It requires current scene/runtime
+bindings, rejects writes to the declared room field, advances the guest after
+writes and observes the destination. It does not discover those bindings or
+initialize arbitrary rooms, and failures retain actual partial effects without
+implying rollback. This is reusable source, not a new DotBox control or a passed
+teleportation test. See [recovery](RECOVERY_AND_SAVES.md) for state restoration
+and qualified original Save/Load entry.
+
 ## Planning policy
 
 The initial policy minimizes distance first, then turns among routes of the
@@ -137,7 +197,11 @@ route](POLICE_QUEST_ACCEPTANCE.md): perform the ordinary clothing change, close
 the locker and reach the usable shower approach with fresh position and frame
 evidence. The EGA shower is within the locker-room overview; a referenced helper
 LOGIC is not a room transition. Arrival is the requested endpoint; activating
-the shower is a separate optional interaction. This trial has not been run.
+the shower is a separate optional interaction. One ordinary-input functional
+run passed on the cloud Linux computer on 17 November 2026, including shower
+activation and turn-off afterward. It did not qualify a live coordinate binding
+or repeatable route/timing harness. Those qualifications, assisted placement
+and the missed-briefing memory-rewind trial remain open.
 
 A walking grid does not model vehicle speed, heading, braking distance, turn
 radius or moving obstacles. Car driving needs an appropriate controller and

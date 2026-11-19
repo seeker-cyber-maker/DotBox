@@ -74,6 +74,43 @@ complete game reconstruction. Keep commercial saves, snapshots and raw evidence
 private; published fixtures must be authored and small. Worker experiments use
 their own guests and mutable files, never the player's mounted directory.
 
+## Invoke original Save/Load at a qualified entry
+
+Once its contract is known, an original Save or Load operation can have a
+programmatic invocation route alongside its menu route. Choose the cheapest
+applicable qualified route for the task and retain the working input fallback.
+Record the required caller preparation, slot/path arguments, current state,
+effects and continuation using the [behavior and entry-point contract](BEHAVIOR_AND_ENTRY_POINTS.md).
+Knowing a reader's address alone does not qualify a whole-game Load operation.
+
+An original Save still writes the selected current game state to disk; an
+original Load still reads the selected current file and reconstructs the game's
+state. Bypassing menu navigation does not remove these intended effects or turn
+either operation into memory-only rewind. Distinguish a low-level file transfer
+from the encompassing loader, authoritative adoption, required initialization,
+completed presentation and usable controls. Observe the boundary needed by the
+consumer and retain partial successes or failures without automatically retrying.
+The [XCOM reuse evidence](XCOM_REUSE.md) demonstrates why a working single-file
+call cannot inherit a complete Save/Load claim from another prepared run.
+
+The inspected fDisBull [direct native-call helper](https://github.com/seeker-cyber-maker/fDisBull/blob/ad1e9a3177cc8fda60b9c0c64e8a40f6fabb1edd/src/fdisbull/z_native.py)
+requires a qualified flat32 near-return callee, argument contract and compatible
+non-reentrant boundary. Its [captured-call helper](https://github.com/seeker-cyber-maker/fDisBull/blob/ad1e9a3177cc8fda60b9c0c64e8a40f6fabb1edd/src/fdisbull/z_call_contract.py)
+can replay an observed original call in the same live owner, with a bounded
+captured continuation. Both restore only their temporary execution machinery
+while retaining the callee's game/file effects. Neither establishes arbitrary
+scene entry, a general ABI, or full machine restoration. These are integration
+references; DotBox has not added a public native Save/Load or rewind API here.
+
+A helper may use qualified loaders or entry operations to construct a research
+state beyond the player's current story progression, following the
+[movement investigation stages](NAVIGATION.md). Keep imposed inventory, flags,
+location and other prerequisites explicit, with scoped coherence checks and
+remaining unknowns. Observe resulting effects in that helper's isolated branch;
+do not merge its position, inventory or completion flags into player progress.
+Any research save-file perturbation/restoration belongs to that separate
+experiment, never to the player's memory-only revert transaction.
+
 ## Required restore transaction
 
 The single live controller owns the complete operation, coordinated with the

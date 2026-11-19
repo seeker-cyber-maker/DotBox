@@ -59,13 +59,22 @@ worker, learn the smallest missing input and publish a usable partial. Do not
 pause the game to finish a broad harness plan. Save/checkpoint discovery is useful
 when available, but must not gate otherwise working movement and interaction.
 
-Use the entrypoint's recorded preparation budget and deadline (default 180 s).
+Use the entrypoint's recorded initial-control profile and deadline (default 180 s).
 Write them before launch/input. At readiness emit `buffer_usable`; on a miss emit
 `budget_expired` once, retain the working subset and use an available route.
 Never reset the deadline to make a long preparation look short. Record each
 launch before process creation and distinguish installer/setup from the configured
 game without dropping either from the end-to-end timeline. Capture actual waits,
 failed actions and observation gaps as they happen, not at the final summary.
+
+Distinguish that first useful slice from full interface/process preparation.
+A complex cold job may declare a longer bound and milestones before it starts;
+retain the original timeline and any earlier deadline miss. Do not convert its
+duration into an automatic foreground wait or renew a missing-control focus.
+Read `dotbox guide --topic loops` for goal-driven startup, isolated save tests,
+action-event captures and separate host/guest/game clocks. A known control stays
+usable while broader process knowledge is incomplete. A menu-only route may
+offer no natural buffering window; describe an actual preparation block plainly.
 
 For a missing current control, use the separate `dotbox learn` focus: one goal,
 observed context, question, next interaction and fallback. The default trial

@@ -31,6 +31,13 @@ edition, Emily and the initial attic. They are neither fresh DotBox results nor
 cold-agent learning times. Source retrieval and hash verification do not renew
 native qualification.
 
+18 November follow-up: the exact standalone menu/event ZIP was recovered again
+and verified independently, including all 24 checksum entries and nine source
+manifest outputs. See [the corrected XCOM recovery scope](XCOM_REUSE.md).
+That follow-up did not repeat this container's historical 69-entry check or
+recover the separate private game profiles. A source archive's availability
+does not establish its integration into a selected release or DotBox.
+
 Keep original reference images, signatures, saves, RAM and other private game
 evidence outside Git. The authored source and its reports identify those
 dependencies without supplying them in the public package.

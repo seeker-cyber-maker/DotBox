@@ -5,6 +5,52 @@ as a working release. The current source priority is packaged, incremental
 control learning and Dot as the game's conversational interface. Read
 docs/CONVERSATIONAL_PLAY.md, docs/GUIDE_RECONSTRUCTION.md,
 docs/INCREMENTAL_PLAY.md, docs/LEARNING_KIT.md and docs/STATEFUL_SCENES.md.
+Read docs/WORLD_MODEL.md for the requested internal representation: Dot builds
+typed entities, relationships, conditional rules, hypotheses and derived views;
+z-scenes project the relevant model plus current observations. Exact state and
+action admission remain separate from semantic retrieval. Whole-resource static
+precomputation is useful; live verification and control stay incremental.
+Read docs/REVERSE_ENGINEERING.md for ongoing ambiguity and relationship
+discovery, including shared variables and reused storage. Native disassembly
+remains required alongside engine readers; a decoder alone is not a def-use
+analyzer or a qualified live capture workflow. Read docs/DUNE_VALIDATION.md for
+the next original-Cryo-Dune transfer test and the earlier Dune CD exposure.
+Read docs/DUNE_PROGRESS.md and docs/DUNE_OPTIMIZATION.md before repeating the
+isolated DOS-edition work: sparse observation, native bounded waits, checkpoint
+recovery and the Gurney frontier have recorded qualification. Use explicit
+capabilities and current ownership/readiness. Map callbacks follow a separate
+observed route from rectangle dispatch. Read docs/DUNE_MAP_SELECTOR.md before
+using the narrow travel-menu adapter: it requires the complete pinned callback
+vector, a fresh ready observation, an explicit selected site and a single-use
+prepared token. Keep target acceptance, input readiness and arrival separate;
+retain refusals and reconcile only qualified accepted-target timeouts without
+replaying input. General strategic-map support remains outside this profile.
+Read docs/DINOPARK_REUSE.md before designing native menu/state adapters: the
+E55 mechanics research and later fDisBull provider are existing reuse material.
+Recover their contracts and qualified controls before repeating discovery;
+Dune remains the next target. Keep recovered knowledge, current observations
+and live harness coverage separate, including pending transactions and readiness.
+Read docs/BOOTSTRAP_AND_EVENT_LOOPS.md for main-menu reconnaissance, isolated
+save perturbation, action-event captures and phase/clock semantics. Read
+docs/XCOM_REUSE.md before rediscovering startup, serializer or sparse-recognition
+work. Initial usable controls, relevant loop coverage and full task completion
+have separate readiness clocks. The 180-second initial-control profile is not
+a universal cold game-loop limit; preserve misses and explicitly bound longer
+preparation without extending a blocked foreground action.
+Read docs/EVENT_TRANSITIONS.md for the common event/guard/effect contract across
+menus, screens, rooms and local changes. Separate families, bindings and observed
+occurrences. Reuse established patterns/schemas to enumerate siblings and unlock
+independent questions; retain evidence dependencies and current applicability.
+Read docs/BEHAVIOR_AND_ENTRY_POINTS.md for code-shaped hypotheses and several
+qualified invocation routes to one operation. Predict discriminating evidence
+from plausible implementations; imagined code is not recovered code. Preserve
+arguments, setup, continuation and the specific effects shared by each route.
+Observation hooks do not automatically become callable entry points. Develop
+position, same-room placement and original scene-entry capabilities incrementally
+in isolated helpers; keep original movement/events for the visible player route.
+Use its multi-probe survey method to record transient control-to-site/selector
+relationships before complete handler analysis. Preserve per-trial coverage,
+recordings outside guest rewind, and observer re-arming after memory restore.
 For engine state, movement or recovery, read docs/ENGINE_AWARE_PREPARATION.md,
 docs/NAVIGATION.md and docs/RECOVERY_AND_SAVES.md. The packaged AGI V2 census and
 walking planner are offline candidates; live observations, movement execution
@@ -52,8 +98,10 @@ assume an installed skill-discovery command.
   assistance preferences independent.
 - Build operational harness slices during play. Full game recovery, QEMU and
   the UDL/UIL/UDC conversion pipeline are outside the first release.
-- Prefer interpreter state for supported engines; keep the named Dune case
-  held out from initial engine-specific development and record prior exposure.
+- Prefer interpreter state for supported engines and retain generic/native
+  analysis for unresolved relationships. For the next Dune test, freeze the
+  generic baseline before adaptation and record prior exposure; the earlier
+  assisted CD opening trial means this is not an untouched or blind holdout.
 - Distinguish observed game progression from harness coverage.
 
 ## Evidence and implementation
