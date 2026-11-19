@@ -199,20 +199,46 @@ pending commands need a qualified incarnation or observation-local identity.
 This applies the existing [RTS identity contract](RTS_PRIMITIVES.md) and
 [reused-storage guidance](REVERSE_ENGINEERING.md).
 
-**The private visible projection has a confirmed omission.** Its conservative
+**The earlier private candidate projection had a confirmed omission.** Its conservative
 requirement of an unveiled tile with overlay zero omitted moving own units
 that were visibly rendered over nonzero sand-track overlays. Original rendering
 analysis confirms that such background overlays can coexist with visible ground
 unit sprites. An independent unchanged-reader replay reproduced the omission.
 
-A candidate correction distinguishes non-fog overlays from the original fog
-range while retaining frame, phase, occupancy, audience and lifetime checks.
-It is not installed or qualified by this documentation change. Do not treat
-projection omission as absence or broaden action admission from the screenshot
-alone. Reference [Tile_IsUnveiled][sprites], [Map_IsPositionUnveiled][map] and
+The next test slice qualified a narrow private correction against the frozen
+original captures. It retains the old clear-tile diagnostic rows and adds own,
+allocated, on-map ground-unit candidates on verified sand-track overlays, with
+exact occupancy, matching requested/rendered cameras and the existing viewport
+limits. Original renderer hashes and the tactical icon table guard the extension.
+Unknown non-fog overlays do not gain this extension. The conservative fog band
+remains excluded. Reference [Tile_IsUnveiled][sprites], [Map_IsPositionUnveiled][map] and
 [GUI_Widget_Viewport_Draw][viewport] inform that correction; the original and
-reference unit-loop bounds differ. The public projector continues to consume
-provider-asserted visibility. See the [world model](WORLD_MODEL.md).
+reference unit-loop bounds differ.
+
+The same screenshot-derived positive regression fails on the unchanged reader
+and passes on the candidate, adding exactly the two witnessed own units in the
+original scouting capture. Fifty offline checks and replay of all 113 retained
+captures passed; an independent review also checked four additional pointer/debug
+negatives. All 111 existing saved world outputs were reproduced by the unchanged
+reader, and the candidate removed no legacy rows. Two historical decoder refusals
+have no saved world output and are retained as such. See the
+[qualification receipt](evidence/dune2-observation-qualification-2026-11-19.json).
+
+This correction does not establish current visibility. The old reader had no
+qualified phase, frame-relationship or durable entity-lifetime gate to preserve;
+those remain missing. Eight result/map captures retain world rows after tactical
+icon resources have changed, and the extension disables itself there. A success
+modal can still retain matching tactical resources. Resource checks alone are
+therefore insufficient. The candidate explicitly reports current visibility and
+action admission as false. Its consumer must retain those qualifications and
+call the list entity candidates, without a visible-entities alias.
+
+The correction and raw regression fixtures remain private diagnostic material;
+this public guide does not install a Dune II reader or provider. Do not treat
+projection omission as absence, promote retained modal rows to current game
+objects, or broaden action admission from a screenshot alone. The public
+projector continues to consume provider-asserted visibility. See the
+[world model](WORLD_MODEL.md).
 
 ## Result and remaining qualification
 
@@ -239,7 +265,7 @@ retained in the [evidence receipt](evidence/dune2-economy-2026-11-19.json).
 Building review, later accounting checks, original-source findings and visible
 result inspection have separate evidence scopes in the receipt. Full campaign
 play, other houses/missions, broad combat/NPC behavior, automatic script recovery,
-the visibility correction, reusable provider integration and original-Dot
+current-visibility qualification, reusable provider integration and original-Dot
 ownership qualification remain separate work. The next adapter should preserve
 independent primitives, current observation fences and explicit event responses
 while reusing these learned conditions.
