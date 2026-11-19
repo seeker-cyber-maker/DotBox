@@ -4,8 +4,10 @@ This continues the [economy and campaign work](DUNE2_ECONOMY.md) with the origin
 Dune II v1.0 executable. The completed enemy encounter demonstrates a reactive
 defense: the scout returned fire, withdrew, and joined two fresh defenders with
 all seven own units still allocated. It does not demonstrate a pre-damage alert.
-The controlled worm run now establishes a dangerous encounter and an earlier,
-uncertain visual hazard cue. A completed evacuation remains the next test.
+The controlled worm runs establish a dangerous encounter, an earlier uncertain
+visual hazard cue, an incomplete evacuation, and a subsequent bounded evacuation
+with every own unit intact. The final response completed a 25-second observation
+window; all three exposed units reached their destinations and returned to Guard.
 
 ## Original enemy encounter
 
@@ -147,7 +149,7 @@ was recorded, a prospective decision at sample 140 permitted up to 2,500 guest m
 between endpoint image reviews while retaining the 50-ms own/source checks;
 only 800 guest ms elapsed before the first loss stopped the helper.
 
-### Response frontier and retained failures
+### Early response attempts and retained failures
 
 A separately selected original Restart restored all seven units. At 5,000 guest
 ms after its fresh enrollment, the image-only observer recognized a new patch
@@ -174,9 +176,92 @@ scheduler countdown visits in that callback; it is not a universal 120-ms grace
 period or permission to defer observation.
 
 The ordinary m2 recovery save and all 21 original resources remain unchanged.
-A fresh process will repeat the response test with the corrected caller. No
-uncertain request is replayed in a consumed epoch, and native saved-state
-restoration remains outside this qualification.
+A fresh process then completed the two response trials below. No uncertain
+request was replayed in a consumed epoch, and native saved-state restoration
+remains outside this qualification.
+
+### Response trial 4: two units moved, one missed
+
+A fresh original Restart enrolled all seven own units. At guest 30,206 ms,
+revision 149, the image-only observer recognized another uncertain surface cue
+while every own asset was intact. Six separate clicks selected a Trike, chose
+Move, selected a rock destination, and repeated those primitives for a Soldier.
+Each click was followed by 300 guest ms. Both orders produced actual movement.
+
+| Unit | Result at the cutoff |
+| --- | --- |
+| Trike 28 | Reached [30,41], returned to Guard, and retained 100 HP |
+| Soldier 25 | Entered [29,43] with 20 HP, still moving toward [30,43]; full arrival was not observed |
+| Soldier 29 | Received no order, stayed at [29,40], and was released in (37,506,38,006] guest ms |
+
+The separate original-source audit identified three initially exposed units on
+sand: 25, 28, and 29. The worm retargeted from 28 to 25 to 29 as the first two
+entered terrain that fails its original sand predicate. It swallowed the third
+unit; the freed Soldier record retained 20 HP. The other six units and the
+400-HP Yard remained intact. A screenshot showed a mouth-like effect over the
+unmoved Soldier's prior position while both moved contacts remained visible.
+
+Independent review verified 118 completed responses and all 100 original watch
+audits. The trial stopped on the loss after 12,800 guest ms and 897 completed
+frames, with 1,460 reserved frames. It ended 7,500 guest ms short of the declared
+20.3-second goal. This was an incomplete evacuation, and Soldier 25's full
+destination arrival remains unestablished in this trial.
+
+### Response trial 5: all three exposed units reach rock
+
+A separately selected original Restart established a new enrollment at guest
+47,106 ms, revision 210. The image observer first recognized a new west-edge
+sand disturbance at 52,106 ms, revision 310, with every enrolled own asset intact.
+The cue resembled the earlier precursor, but its exact identity remained
+uncertain. This is a learned response on the same authored fixture; the trials
+do not start from bit-identical emulated state.
+
+Root separately selected the Trike, the upper Soldier, and the lower Soldier.
+For each unit, selecting the actor, choosing Move, and selecting the destination
+were distinct primitives. Nine clicks were followed by 1,500 guest ms in total.
+Four additional 100-ms no-input observations allowed delayed targeting or
+temporary timer transitions to settle. No click was repeated to force an
+unobserved effect. The three orders were complete 1,900 guest ms after the cue.
+
+| Unit | Chosen destination | First sample with arrival, Guard, and cleared movement target | Intact through final sample |
+| --- | --- | --- | --- |
+| Trike 28 | [30,41] | 58,006 ms; 10.9 seconds after enrollment | 100 HP |
+| Upper Soldier 29 | [30,40] | 59,006 ms; 11.9 seconds after enrollment | 20 HP |
+| Lower Soldier 25 | [30,43] | 63,506 ms; 16.4 seconds after enrollment | 20 HP |
+
+The final sample was at 72,106 ms, revision 369: exactly 25,000 guest ms after
+enrollment and 20,000 ms after cue recognition. All seven units remained
+allocated/on-map at enrollment HP, and the Yard retained 400 HP. All three
+commanded units were at their selected destinations in Guard, with their
+movement targets cleared. The final 8.6 guest seconds followed the first sample
+confirming all three arrivals. There were no sampled HP decreases, releases, or
+identity breaks across the 150 completed responses.
+
+The 100 initial watch samples were 50 ms each. After the commands and their
+separate transition observations, 36 no-input samples of 500 ms and a final
+100-ms sample completed the declared goal. Endpoint screenshot reviews were
+at most 5,000 guest ms apart during that travel phase; the own-status audit ran
+after every sample. The final image retained all three moved contacts with no
+visible engulfment or damage change. Image continuity and own-state continuity
+remain separate evidence.
+
+The full trial used 1,752 completed frames and 2,536 reserved frames. Its original
+30,000-ms, 4,800-frame, and 1,800-host-second limits never renewed after input or
+between batches. Final capture occurred after 905.847 host seconds, including
+paused evaluation. The monitor stopped at its declared goal, and the isolated
+native process was then normally closed and reaped. This establishes a bounded,
+loss-free response in the tested fixture. It does not establish permanent
+safety, universal rock immunity, continuous unpaused reaction, or an automatic
+warning provider for unseen missions.
+
+The separate source audit found the worm still alive and allocated at 1,000 HP
+at the final fence. Its remaining-swallow count stayed at five in all sampled
+states. The sampled target sequence was Trike 28, then Soldier 25, then a cleared
+attack target while the movement target still referred to Soldier 25. It did
+not target Soldier 29 in the sampled response. The retained movement target must
+not be reported as cleared, and the worm must not be reported as disabled.
+The longer trial also contained changes to enemy-owned Carryall and Harvester
+records; the rest of the world was not a frozen backdrop.
 
 ### Learning for the RTS model
 
@@ -188,6 +273,17 @@ need to be promoted into a confirmed enemy identity. Selection, choosing Move,
 and choosing a destination remain separate observed actions. An external own
 lifecycle audit can detect a release, but it does not turn hidden coordinates
 into a player-visible warning or automatically identify the cause.
+
+Evaluate the whole exposed roster when a hazard can retarget. The first
+evacuation protected two units but left a third available to the worm. Track
+command acceptance, actual travel, destination arrival, and the subsequent
+holding interval separately: selecting a rock destination is not proof that a
+slow-moving unit has reached it. Keep transient UI phases and the original
+observation budget across all of those steps.
+
+Retain a hazard's lifecycle and distinct attack/movement targets after a
+successful evacuation. Safe observed unit positions do not remove a live NPC
+from the world model or establish that its future behavior is harmless.
 
 ## Evidence and validation
 
@@ -203,6 +299,9 @@ Quad, and no own-slot release. All 21 original resource identities and m2 still
 matched. The private threat observer's 15 focused offline tests independently
 passed. The completed control independently verified all 156 response/audit pairs
 and their capture chains. It supports a tentative visible pre-harm hazard cue
-and a source-attributed worm loss. These results do not qualify confirmed worm
-classification at recognition, successful evacuation, a public automatic threat
-provider, continuous unpaused reaction, or a new campaign victory.
+and a source-attributed worm loss. Response4 retains the missed-unit failure;
+response5 records all three arrivals and full-roster survival through its fixed
+25-second goal. The authored receipt pins the separate own/source reviews and
+the normal closure evidence. These results do not qualify confirmed worm
+classification at recognition, a public automatic threat provider, continuous
+unpaused reaction, or a new campaign victory.
