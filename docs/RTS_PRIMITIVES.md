@@ -21,6 +21,13 @@ slice. Existing desktop ownership and diagnostic native-input policy remain in
 force. The prior original-game Move and minimap-drag study supplies private
 evidence for adapter development; it is not universal RTS behavior.
 
+The [Dune II economy guide](DUNE2_ECONOMY.md), installed as
+`dotbox guide --topic dune2economy`, records a completed original first mission.
+It supplies observed construction, harvesting, command and event conditions for
+future bindings, including placement-preview freshness, reused entity slots and
+delayed presentation. Its private native trial does not change the public
+provider boundary described above.
+
 ## One primitive per request
 
 | Primitive | Explicit arguments | Separate observation needed |

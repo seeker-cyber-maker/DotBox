@@ -85,6 +85,12 @@ stale contexts and uncertain outcomes cannot silently replay input. The offline
 `dotbox rts` tools and authored example ship with the kit. Game-specific live
 bindings and the original Dune II held-gesture adapter remain separate work.
 
+The [Dune II economy guide](docs/DUNE2_ECONOMY.md), available through
+`dotbox guide --topic dune2economy`, records an original mission-one win and the
+observed conditions for construction, harvesting, returning and result
+transitions. Its source-bound findings support future provider work; the guide
+does not install a live Dune II adapter or qualify a complete campaign.
+
 The primary experience is [Dot as the game's conversational interface](docs/CONVERSATIONAL_PLAY.md):
 describe the current scene, offer useful choices, interpret the player's intent
 and carry it out. Autonomous play uses the same scene/action model. A small

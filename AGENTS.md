@@ -15,6 +15,10 @@ discovery, including shared variables and reused storage. Native disassembly
 remains required alongside engine readers; a decoder alone is not a def-use
 analyzer or a qualified live capture workflow. Read docs/DUNE_VALIDATION.md for
 the next original-Cryo-Dune transfer test and the earlier Dune CD exposure.
+For Dune II RTS economy or base building, read docs/DUNE2_ECONOMY.md and its
+evidence receipt before repeating discovery. The original first mission was won
+through bounded ordinary controls; public provider integration, full campaign
+play and the moving-unit visibility correction remain separate qualification.
 Read docs/DUNE_PROGRESS.md and docs/DUNE_OPTIMIZATION.md before repeating the
 isolated DOS-edition work: sparse observation, native bounded waits, checkpoint
 recovery and the Gurney frontier have recorded qualification. Use explicit
