@@ -107,7 +107,7 @@ def inspect_identity(path, *, resources=()):
     data, source = _read_file(path)
     image = _image(data, Path(path).name)
     module_offset = 0 if image["format"] == "COM" else image["header_fields"]["e_cparhdr"] * 16
-    entry_offset = 0 if image["format"] == "COM" else image["entry_cs"] * 16 + image["entry_ip"]
+    entry_offset = image["entry_module_offset"]
     entry_file_backed = entry_offset < image["module_size"]
     remaining = MAX_IDENTITY_BYTES - len(data)
     names, inventory = {Path(path).name.casefold()}, []

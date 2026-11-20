@@ -67,7 +67,8 @@ def _image(data, filename):
         if filename.lower().endswith('.com') and not data.startswith(b'ZM') and 1 <= len(data) <= 0xff00:
             return {'format': 'COM', 'header_fields': {}, 'module': data,
                     'module_size': len(data), 'allocation_size': len(data),
-                    'relocation_offsets': [], 'entry_cs': 0, 'entry_ip': 0x100}
+                    'relocation_offsets': [], 'entry_cs': 0, 'entry_ip': 0x100,
+                    'entry_module_offset': 0}
         raise ValueError('Standalone launch requires a classic MZ image or a 1..65280-byte .COM source')
     if len(data) < 28:
         raise ValueError('Truncated MZ header: at least 28 bytes are required')
@@ -105,12 +106,16 @@ def _image(data, filename):
         if position + 2 > len(module):
             raise ValueError('MZ relocation target must be a complete file-backed word')
         relocations.append(position)
-    if header['e_cs'] * 16 + header['e_ip'] >= allocation:
+    # DOS relocates CS with 16-bit segment addition. Packed MZ images can
+    # therefore express the module start as FFF0:0100. Normalize the relative
+    # image offset here; runtime attestation must still reject actual A20 wrap.
+    entry_offset = (header['e_cs'] * 16 + header['e_ip']) & 0xfffff
+    if entry_offset >= allocation:
         raise ValueError('MZ entry must be inside the loaded image')
     return {'format': 'MZ', 'header_fields': header, 'module': module,
             'module_size': len(module), 'allocation_size': allocation,
             'relocation_offsets': relocations, 'entry_cs': header['e_cs'],
-            'entry_ip': header['e_ip']}
+            'entry_ip': header['e_ip'], 'entry_module_offset': entry_offset}
 
 
 def _guest_name(filename, digest, image_format):
@@ -249,15 +254,21 @@ class NativeSession:
             raise DebuggerError('Expected real-mode DOS entry')
         is_com = image['format'] == 'COM'
         try:
-            load = int(registers['segments']['cs'], 16) - image['entry_cs']
+            cs = int(registers['segments']['cs'], 16)
             ip = int(registers['instruction_pointer'], 16)
         except (KeyError, TypeError, ValueError) as error:
             raise DebuggerError('Native entry registers are incomplete or invalid') from error
+        if not 0 <= cs <= 0xffff or not 0 <= ip <= 0xffff:
+            raise DebuggerError('Native entry registers must be 16-bit values')
+        load = (cs - image['entry_cs']) & 0xffff
         if not (0 if is_com else 0x10) <= load <= 0xffff or ip != image['entry_ip']:
             raise DebuggerError('Runtime entry does not establish an unwrapped DOS load segment')
         base = load * 16 + (0x100 if is_com else 0)
         if base + image['allocation_size'] > 0x100000:
             raise DebuggerError('Runtime image would require A20 wrapping')
+        entry = image['entry_module_offset']
+        if cs * 16 + ip != base + entry:
+            raise DebuggerError('Runtime entry would require A20 wrapping or leave the loaded image')
         if not is_com and ((load + image['header_fields']['e_ss']) * 16
                            + image['header_fields']['e_sp'] > 0x100000):
             raise DebuggerError('Runtime stack would require A20 wrapping')
@@ -275,7 +286,6 @@ class NativeSession:
         # Preserve the source debugger's bounded COM sample. Also attest the
         # relocated MZ prefix and its file-backed entry when those differ.
         starts = [0]
-        entry = 0 if is_com else image['entry_cs'] * 16 + image['entry_ip']
         if 0 < entry < len(expected):
             starts.append(entry)
         samples = []
