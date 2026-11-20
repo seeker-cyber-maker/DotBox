@@ -41,7 +41,7 @@ and `/frame.png` are served. The last route returns the exact original PNG bytes
 the page handles presentation sizing. Unexpected Host values, other paths and
 mutation methods are refused. The server binds only to local loopback.
 
-## Verification on 20 November 2026
+## Initial verification on 20 November 2026
 
 Confirmed:
 
@@ -54,7 +54,7 @@ Confirmed:
   and ran continuously. Native frame IDs advanced from 1339 to 1343 and later
   4151. The last retained status records 801 post-bootstrap captures.
 
-Not qualified:
+Not qualified in that initial attempt:
 
 - The actual cloud browser did not reach the presenter. Its first HTTP request
   returned `net::ERR_CONNECTION_REFUSED`; a separate command execution context
@@ -74,6 +74,43 @@ Its game files were isolated copies. No commercial assets or native captures
 are included in this repository.
 
 The prepared private owner uses a one-hour execution deadline and supports a
-local stop-request file. Its final launch and actual browser presentation remain
-pending. See the [result receipt](evidence/browser-preview-2026-11-20.json) for
-source identities, evidence hashes and the precise partial outcome.
+local stop-request file. Its desktop launch and actual browser presentation were
+pending at that checkpoint. The [initial result receipt](evidence/browser-preview-2026-11-20.json)
+preserves the source identities, evidence hashes and precise partial outcome.
+
+## Successful cloud-browser check on 20 November 2026
+
+After the user explicitly approved the prepared local launch, the owner was
+started from a terminal on the attached cloud desktop. The existing cloud
+Chrome tab reached `http://127.0.0.1:8766/` and visibly displayed the original
+Keen Dreams level. The temporary terminal was closed while the detached owner
+and viewer continued running. The game tab was marked as the user deliverable.
+
+The browser's image geometry was observed at a 1363 by 936 CSS-pixel viewport:
+
+| Display choice | Rendered image (CSS pixels) | Native image (pixels) |
+| --- | --- | --- |
+| Fit | 1275.1875 by 797 | 320 by 200 |
+| 1x | 320 by 200 | 320 by 200 |
+| Fit again | 1275.1875 by 797 | 320 by 200 |
+
+The 1x and subsequent Fit observations both showed frame 8121, so this size
+change was observed on the same native frame. A later screenshot showed
+`Live view`, native frame 16274 and 4241 received captures. Native receipts
+independently recorded advancing frame IDs and guest ticks, with unchanged
+320 by 200 dimensions and changing image hashes. The seven installed original
+game files still matched their launch hashes.
+
+This verifies live browser presentation and the two observed display choices.
+The owner resumes the guest once after the ordinary-input bootstrap, then only
+captures screenshots; HTTP requests read its cache. The game clock, world
+coordinates and controller algorithms are unchanged. This is a read-only
+presentation experiment, not a sustained refresh-rate or input-latency benchmark.
+The existing service CLI route and other browser sizes were not exercised by
+this successful direct-owner check.
+
+The viewer was left running for user review under its one-hour owner deadline.
+No native closure receipt is claimed for the active session. No new package was
+released. See the [successful result receipt](evidence/browser-preview-live-2026-11-20.json)
+for exact source identities, observations and limits; the initial failed attempt
+remains recorded separately above.
