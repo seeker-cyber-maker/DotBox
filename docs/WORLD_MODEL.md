@@ -13,6 +13,11 @@ semantic index or automatic world-to-scene adapter described here. The `world`
 guide topic makes this design available to an installed agent; it is not a new
 world-query command or a gameplay qualification.
 
+The [deterministic pseudo-oracle](PSEUDO_ORACLE.md) now implements a bounded
+slice above the existing scene API: typed current-state conditions, separate
+forecast sidecars and ranked provider choices. It does not implement the full
+persistent graph or independently authenticate live observations.
+
 ## Three meanings of state
 
 **The original game**

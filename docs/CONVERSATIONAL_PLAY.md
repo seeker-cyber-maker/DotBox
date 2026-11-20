@@ -113,6 +113,12 @@ choose natural wording, emphasis and pacing from that account. A deterministic
 renderer provides a fallback and a testable reference. It does not need to
 script every sentence that Dot can say.
 
+The [pseudo-oracle](PSEUDO_ORACLE.md) can evaluate explicit current-state rules,
+identify situations and rank the provider's existing choices before projection.
+Its bounded forecasts remain separate from observed facts. The HUD can display
+an event deadline while Dot describes the relevant choices, with the same
+freshness, assistance and input-admission requirements as other scene use.
+
 The player view carries permitted fact IDs and stable choice IDs. Dot's prose
 may combine or shorten supplied facts, but must not introduce a new actionable
 noun, sound, condition, exit, consequence or success. Rich narration should
