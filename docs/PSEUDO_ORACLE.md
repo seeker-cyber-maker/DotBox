@@ -9,8 +9,10 @@ owns live observation, input readiness and execution.
 The packaged [oracle module](../src/dotbox/oracle.py) implements this deterministic
 evaluation boundary. It performs no I/O, language-model call or input. The
 experimental [Keen adapter](../scripts/experiments/keen_oracle.py) supplies a
-narrow mapping from qualified original-game observations. This checkpoint's
-Keen evidence is retained-trace replay, not a new live control or physics trial.
+narrow mapping from qualified original-game observations. The initial checkpoint
+below used retained-trace replay. The subsequent [live real-time qualification](ORACLE_REALTIME.md)
+exercised actual original-game controls and measured the complete local loop;
+it supports bounded normal-speed use, with explicit latency-tail limitations.
 
 ## The player-facing result
 
