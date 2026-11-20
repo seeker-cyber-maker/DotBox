@@ -1,5 +1,10 @@
 # Keen Dreams: a measured local feedback prototype
 
+The [November 20 follow-up](KEEN_INPUT_TIMING.md) qualifies a post-actor
+observation phase, separates input-read latency from feedback age, and tests a
+predictive flat-ground waypoint policy. The measurements below remain the
+original November 19 checkpoint.
+
 The supplied Keen Dreams executable now runs through the installed DotBox
 0.1.0.dev8 runtime. A source-informed investigation reached the world map and
 first platform level, bound player/map/actor state to the actual unpacked
