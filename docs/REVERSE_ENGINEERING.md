@@ -170,6 +170,11 @@ this knowledge frontier separate from current game reachability and action admis
 
 ## Current machinery and missing integration
 
+The repository's [20 November capability inventory](https://github.com/seeker-cyber-maker/DotBox/blob/codex/keen-platformer-20261119/docs/REVERSING_INVENTORY.md)
+audits installed tools, native primitives, experimental integration and concrete
+fDisBull reuse candidates. It includes an offline scalar-search transfer trial
+and separates measured candidate reduction from proposed preparation-time gains.
+
 | Capability | Current source/package scope |
 | --- | --- |
 | Executable/resource identity | COM/MZ layout and hashes for explicitly selected files; not automatic complete-edition or runtime-mapping proof |
