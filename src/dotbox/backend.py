@@ -111,9 +111,10 @@ class DOSBoxBackend:
                     actual_image = 'mz' if source.read(2) == b'MZ' else 'com'
                 if actual_image != image:
                     raise ValueError('Declared image format does not match the original program')
+            presentation = {} if config.get('window_scale') is None else {'window_scale': config['window_scale']}
             self._session = NativeSession(
                 executable, game_dir, selected_program, window=True,
-                source_sha256=self._project.meta['source_sha256'])
+                source_sha256=self._project.meta['source_sha256'], **presentation)
             capabilities = self._session.rpc.capabilities
             if capabilities.get('input', {}).get('cooperative_control') != COOPERATIVE_CONTROL:
                 raise BackendUnavailable(

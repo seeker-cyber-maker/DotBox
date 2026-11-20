@@ -31,6 +31,40 @@ def test_unavailable_native_backend_is_a_clear_cli_error(tmp_path, monkeypatch, 
     assert not (tmp_path / "session/session.json").exists()
 
 
+@pytest.mark.parametrize("window_scale", [None, 2, 3, 4, 5])
+def test_serve_passes_only_explicit_window_scale_to_backend(tmp_path, monkeypatch, capsys, window_scale):
+    configurations = []
+
+    def capture_config(config):
+        configurations.append(dict(config))
+        raise BackendUnavailable("Stopped at tested native launch boundary")
+
+    monkeypatch.setattr("dotbox.backend.DOSBoxBackend", capture_config)
+    args = ["serve", "--directory", str(tmp_path / "session"), "--project", "game.fdb",
+            "--program", "GAME.EXE", "--game-dir", "game", "--executable", "dosbox", "--image", "mz"]
+    expected = {"project": "game.fdb", "program": "GAME.EXE", "game_dir": "game",
+                "executable": "dosbox", "image": "mz"}
+    if window_scale is not None:
+        args.extend(["--window-scale", str(window_scale)])
+        expected["window_scale"] = window_scale
+    assert cli.main(args) == 1
+    assert configurations == [expected]
+    assert json.loads(capsys.readouterr().err)["error"] == "Stopped at tested native launch boundary"
+
+
+@pytest.mark.parametrize("window_scale", ["1", "6", "true", "3.0", "large"])
+def test_serve_rejects_invalid_window_scale_before_backend(tmp_path, monkeypatch, capsys, window_scale):
+    monkeypatch.setattr("dotbox.backend.DOSBoxBackend",
+                        lambda *_: pytest.fail("Invalid display scale reached the backend"))
+    args = ["serve", "--directory", str(tmp_path / "session"), "--project", "game.fdb",
+            "--game-dir", "game", "--executable", "dosbox", "--window-scale", window_scale]
+    with pytest.raises(SystemExit) as error:
+        cli.main(args)
+    assert error.value.code == 2
+    assert "--window-scale" in capsys.readouterr().err
+    assert not (tmp_path / "session").exists()
+
+
 def test_client_rejects_nonobject_descriptor(tmp_path):
     descriptor = tmp_path / "session.json"
     descriptor.write_text("[]")

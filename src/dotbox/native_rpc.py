@@ -32,10 +32,15 @@ class DebuggerShutdownError(DebuggerError):
 class DOSBoxRPC:
     limit = 8 * 1024 * 1024
 
-    def __init__(self, executable, game_dir, *, window=False, on_spawn=None,
+    def __init__(self, executable, game_dir, *, window=False, window_scale=None, on_spawn=None,
                  launch_arguments=None, cd_image=None):
         if type(window) is not bool:
             raise ValueError('window must be boolean')
+        if window_scale is not None:
+            if type(window_scale) is not int or not 2 <= window_scale <= 5:
+                raise ValueError('window_scale must be an integer from 2 to 5')
+            if not window:
+                raise ValueError('window_scale requires window=True')
         if window:
             driver = os.environ.get('SDL_VIDEODRIVER', '').strip().lower()
             if any(item.strip() in ('dummy', 'offscreen') for item in driver.split(',')):
@@ -93,6 +98,8 @@ class DOSBoxRPC:
                 arguments.extend(['-c', self.launch_profile['cd']['startup_command']])
             if window:
                 arguments.append('-agent-window')
+                if window_scale is not None:
+                    arguments.extend(['-set', f'render scaler=normal{window_scale}x'])
             else:
                 # Default no-pop-ups mode: force dummy SDL video/audio and software
                 # surface rendering so neither patched nor stock DOSBox-X can open a

@@ -187,9 +187,14 @@ class _LaunchAlias:
 
 class NativeSession:
     """Start and own one DOSBox native session, stopped at original entry."""
-    def __init__(self, executable, game_dir, program, *, window=True, source_sha256=None):
+    def __init__(self, executable, game_dir, program, *, window=True, window_scale=None, source_sha256=None):
         if type(window) is not bool:
             raise ValueError('window must be boolean')
+        if window_scale is not None:
+            if type(window_scale) is not int or not 2 <= window_scale <= 5:
+                raise ValueError('window_scale must be an integer from 2 to 5')
+            if not window:
+                raise ValueError('window_scale requires window=True')
         if source_sha256 is not None and (
                 not isinstance(source_sha256, str) or re.fullmatch('[0-9a-f]{64}', source_sha256) is None):
             raise ValueError('source_sha256 must be a lowercase SHA-256 identity')
@@ -219,11 +224,13 @@ class NativeSession:
                          'emulator_sha256': emulator_identity['sha256'], 'emulator': emulator_identity,
                          'game_dir': str(self.game_dir), 'target': target,
                          'target_aliased': target != source.name, 'window_requested': window,
+                         'window_scale_requested': window_scale,
                          'runtime_profile': 'real-normal-com-v1' if image['format'] == 'COM' else 'real-normal-v1'}
         try:
             if target != source.name:
                 self._launch_alias = _LaunchAlias(self.game_dir, target, data)
-            self.rpc = DOSBoxRPC(executable, self.game_dir, window=window)
+            options = {} if window_scale is None else {'window_scale': window_scale}
+            self.rpc = DOSBoxRPC(executable, self.game_dir, window=window, **options)
             # Process startup/capability negotiation must not create a blind
             # interval in the original source identity check.
             if _snapshot(source, limit=MAX_SOURCE_BYTES)[0] != source_identity:

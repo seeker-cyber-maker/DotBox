@@ -64,6 +64,8 @@ def parser():
     serve.add_argument("--game-dir", required=True)
     serve.add_argument("--executable", required=True, help="Prepared DOSBox-X with DotBox ownership extension.")
     serve.add_argument("--image", choices=("com", "mz"))
+    serve.add_argument("--window-scale", type=int, choices=(2, 3, 4, 5),
+                       help="Optional integer display scale; native game coordinates stay unchanged.")
     serve.add_argument("--manual-control", action="store_true", help="Diagnostic native handoff/RPC input instead of default desktop-harness input; does not read WebRTC ownership.")
     serve.add_argument("--ownership-viewer", help="SHA-256 binding for the selected viewer; enable the separate authenticated ownership publisher.")
     coordinate = commands.add_parser("coordinate", help="Serve ownership coordination without an emulator or game backend.")
@@ -140,6 +142,8 @@ def main(argv=None):
             if args.command == "serve":
                 from .backend import DOSBoxBackend
                 config = {name: getattr(args, name) for name in ("project", "program", "game_dir", "executable", "image")}
+                if args.window_scale is not None:
+                    config['window_scale'] = args.window_scale
                 service = PlayService(lambda: DOSBoxBackend(config), args.directory, manual_control=args.manual_control,
                                       ownership_viewer=args.ownership_viewer)
             else:

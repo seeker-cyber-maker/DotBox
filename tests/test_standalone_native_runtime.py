@@ -130,6 +130,41 @@ def test_com_start_retains_native_request_and_source_identity_without_project(na
         session.call('session.status')
 
 
+@pytest.mark.parametrize('window_scale', [2, 3, 4, 5])
+def test_session_passes_explicit_window_scale_and_records_request(native, monkeypatch, window_scale):
+    executable, game_dir, program, transports, RPC = native
+    requested = []
+
+    class ScaledRPC(RPC):
+        def __init__(self, selected, directory, *, window, window_scale):
+            requested.append(window_scale)
+            super().__init__(selected, directory, window=window)
+
+    monkeypatch.setattr('dotbox.native_session.DOSBoxRPC', ScaledRPC)
+    with NativeSession(executable, game_dir, program, window_scale=window_scale) as session:
+        assert requested == [window_scale]
+        assert transports[0].window is True
+        assert session.metadata['window_scale_requested'] == window_scale
+    assert transports[0].closed
+
+
+@pytest.mark.parametrize('factory', [DOSBoxRPC, NativeSession])
+@pytest.mark.parametrize('window, window_scale', [
+    (True, True), (True, False), (True, 1), (True, 6), (True, '4'), (True, 4.0),
+    (False, 4),
+])
+def test_window_scale_rejected_before_process_or_source_access(tmp_path, monkeypatch, factory, window, window_scale):
+    def forbidden(*args, **kwargs):
+        pytest.fail('Invalid display scale reached process launch')
+
+    monkeypatch.setattr('dotbox.native_rpc.subprocess.Popen', forbidden)
+    args = [tmp_path / 'absent-dosbox', tmp_path / 'absent-game']
+    if factory is NativeSession:
+        args.append(tmp_path / 'absent-game/PLAY.COM')
+    with pytest.raises(ValueError, match='window_scale'):
+        factory(*args, window=window, window_scale=window_scale)
+
+
 def test_mz_attests_relocated_prefix_and_distinct_file_backed_entry(native):
     executable, game_dir, _, transports, _ = native
     program = game_dir / 'GAME.EXE'
@@ -340,6 +375,8 @@ with os.fdopen(int(source), 'r') as reader, os.fdopen(int(sink), 'w') as writer:
         method = request['method']
         if method == 'agent.capabilities':
             result = {{'video': {{'headless': '-agent-window' not in args, 'controlled_window': '-agent-window' in args}}}}
+        elif method == 'test.argv':
+            result = {{'argv': args}}
         elif method == 'test.never-reply':
             time.sleep(30)
         elif method == 'test.error':
@@ -366,6 +403,31 @@ def test_owned_pipe_transport_preserves_native_errors_and_reaps_child(pipe_peer,
     receipt = rpc.close()
     assert receipt['process_reaped'] is True and rpc.process.poll() is not None
     assert not temporary.exists()
+
+
+@pytest.mark.parametrize('window, window_scale', [
+    (False, None), (True, None), (True, 2), (True, 3), (True, 4), (True, 5),
+])
+def test_window_scale_changes_only_visible_scaler_argv(pipe_peer, tmp_path, monkeypatch, window, window_scale):
+    # The authored peer never opens SDL; this selects the visible preflight path.
+    monkeypatch.setenv('SDL_VIDEODRIVER', 'x11')
+    rpc = DOSBoxRPC(pipe_peer, tmp_path, window=window, window_scale=window_scale)
+    try:
+        expected = ['--defaultconf', '--noautoexec', '--noconfig',
+                    '-set', 'dosbox quit warning=false', '-set', 'render doublescan=false',
+                    '-set', 'cpu core=normal', '--agent-config', str(Path(rpc.temporary.name) / 'agent.env')]
+        if window:
+            expected += ['-agent-window']
+            if window_scale is not None:
+                expected += ['-set', f'render scaler=normal{window_scale}x']
+        else:
+            expected += ['--nogui', '--nomenu', '--noconsole', '--fastlaunch',
+                         '-set', 'sdl videodriver=dummy', '-set', 'sdl output=surface',
+                         '-set', 'sdl showmenu=false', '-set', 'sdl usesystemcursor=false',
+                         '-set', 'mixer nosound=true', '-set', 'midi mididevice=none']
+        assert rpc.call('test.argv')['argv'] == expected
+    finally:
+        assert rpc.close()['process_reaped'] is True
 
 
 def test_uncertain_pipe_timeout_closes_channel_without_replaying(pipe_peer, tmp_path):

@@ -132,6 +132,21 @@ def test_visible_original_backend_reused_and_control_query_has_no_effect(adapter
     assert native.closed and projects[0].closed
 
 
+@pytest.mark.parametrize('window_scale', [None, 2, 3, 4, 5])
+def test_visible_backend_passes_only_explicit_window_scale(adapter, window_scale):
+    config, native, projects = adapter
+    config['window_scale'] = window_scale
+    b = backend.DOSBoxBackend(config)
+    try:
+        expected = {'window': True, 'source_sha256': hashlib.sha256(b'game').hexdigest()}
+        if window_scale is not None:
+            expected['window_scale'] = window_scale
+        assert projects[0].launch[3] == expected
+    finally:
+        b.close()
+    assert native.closed and projects[0].closed
+
+
 def test_spectator_only_binary_refused_and_owned_resources_closed(adapter):
     config, native, projects = adapter
     native.rpc.capabilities = {'input': {}}

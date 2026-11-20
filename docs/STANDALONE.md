@@ -32,6 +32,40 @@ A clean installation must use an ordinary wheel, with no source-tree PYTHONPATH,
 editable install or fDisBull environment. Verification records distinguish Python
 installation, native execution and actual Codex cloud integration.
 
+## Display size and coordinates
+
+Choose presentation size when starting a visible session with
+`dotbox serve --window-scale 3` or `--window-scale 4`, alongside the usual
+session, project, game and executable arguments. The optional integer scale
+accepts 2 through 5 and selects DOSBox-X's existing `normalNx` software scaler.
+Omitting it preserves the previous launch configuration. The Python equivalent
+is `NativeSession(..., window=True, window_scale=4)`; the backend configuration
+key is `window_scale`. Headless sessions reject an explicit window scale.
+
+For a 320 by 200 mode using ordinary double-width/double-height rendering, the
+presentation sizes are:
+
+| Scale | Displayed game pixels |
+| --- | --- |
+| 2 | 640 by 400 |
+| 3 | 960 by 600 |
+| 4 | 1280 by 800 |
+| 5 | 1600 by 1000 |
+
+Choose a size that fits the available desktop. This is a fixed integer scaler,
+not automatic fitting; other DOS video modes and aspect settings can produce
+different display dimensions. A surface-rendered window can grow while its
+game image remains centered at the previous size, so maximizing the window
+alone does not establish that the game image grew.
+
+Keep game/world coordinates, physics, map data and control algorithms independent
+of this setting. Native screenshots retain the guest framebuffer dimensions;
+saved native mouse controls use that same guest pixel grid. A desktop or browser
+input adapter must map its pointer through the current rendered game rectangle,
+excluding borders and letterboxing. It must not store desktop pixels as game
+coordinates. A renderer reset can invalidate frame/mode identities: acquire a
+fresh observation, preserving the existing world model and controller.
+
 ## Use the Codex desktop harness
 
 By default, the service starts the original game with native host input enabled.
