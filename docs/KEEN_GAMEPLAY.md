@@ -12,6 +12,9 @@ It adds an explicit optional frame sink and a reversible compact-state stream.
 These are experimental source helpers, not an installed general Keen provider.
 The installed runtime remains DotBox `0.1.0.dev9`. Exact identities and results
 are in [the authored receipt](evidence/keen-gameplay-2026-11-20.json).
+The subsequent [actor-model checkpoint](KEEN_ACTOR_MODEL.md) uses a fresh active
+Carrot trace to compare source-informed walking rules with current RAM, with
+screenshots disabled in its feedback loop.
 
 ## What the game actually did
 
