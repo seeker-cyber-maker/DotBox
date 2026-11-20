@@ -1,7 +1,8 @@
 """Experimental local feedback/timing loop over an already owned native session.
 
-No launch, ownership transfer, memory write, save/restore, screenshot, disk write,
-or model call occurs here. One controller must own the native channel throughout.
+No launch, ownership transfer, memory write, save/restore, disk write, or model
+call occurs here. Screenshots are disabled unless frame_sink is supplied.
+One controller must own the native channel throughout.
 The caller qualifies the source-bound RAM range, decoder, controls and policy;
 there are deliberately no guessed Keen addresses or key bindings in this file.
 
@@ -22,6 +23,17 @@ miss, preserved without another input or resume. This does not qualify the hook.
 
 The pure policy receives a copied observation and returns a desired key set, or
 None to finish. neutral_policy returns an empty set. Edges are sent only on change.
+An optional synchronous frame_sink(png_bytes, metadata) receives validated native
+PNG bytes and copied metadata after the initial sample and every frame_every
+accepted updates (default 4). It receives no session or state-control interface.
+The image is the last completed guest frame, not a phase-synchronized rendering
+of the state observation. Only an admitted qualified hook establishes coherent
+game updates; presentation never changes that admission or advances execution.
+Screenshot, decode and sink costs are recorded separately and included in host
+time and completed-cycle pacing. Initial presentation precedes the pacing epoch.
+The sink must be trusted, synchronous and bounded, with no native operations,
+disk writes or model calls. A sink exception uses the same fresh-fence cleanup
+as a pure callback failure; screenshot uncertainty preserves the stopped target.
 One outer host deadline includes a cleanup reserve, and total guest allowance
 includes a reserved 20 ms release drain. An RPC exception, context change or
 unexpected stop forbids all further calls. Pure callback failures can clean up
@@ -34,8 +46,9 @@ and compact observations stay in memory for the caller to store after the run.
 Guest totals count verified execution, including a coherence miss with valid
 accounting. guest_accounting_complete is false after uncertain/invalid step
 receipts; a partial known total must then not be presented as all guest progress.
-Python callbacks must be bounded and pure; a synchronous callback cannot be
-preempted by this helper's host deadline. No native throughput is promised.
+Decoder and policy callbacks must be bounded and pure. A synchronous callback,
+including a presentation sink, cannot be preempted by this helper's host deadline.
+No native throughput or hard callback deadline is promised.
 """
 from __future__ import annotations
 
@@ -43,6 +56,7 @@ import base64
 from collections.abc import Mapping
 from copy import deepcopy
 import hashlib
+import inspect
 import json
 import math
 import re
@@ -50,6 +64,7 @@ import time
 
 from dotbox.keyboard_input import KEYS
 from dotbox.operation_budget import deadline_scope
+from dotbox.screenshot_codecs import decode_screenshot
 
 
 def neutral_policy(observation):
@@ -78,6 +93,7 @@ def _latencies(values):
 class KeenLoop:
     def __init__(self, session_or_call, *, profile, binding, decoder,
                  policy=neutral_policy, capabilities=None, metadata=None,
+                 frame_sink=None, frame_every=4,
                  clock=time.monotonic, sleep=time.sleep):
         self.target = session_or_call
         self.native = not callable(session_or_call) and callable(getattr(session_or_call, 'call', None))
@@ -85,6 +101,13 @@ class KeenLoop:
             raise TypeError('Expected an existing NativeSession or call adapter')
         if not callable(decoder) or not callable(policy):
             raise TypeError('decoder and policy must be pure callables')
+        if frame_sink is not None and (not callable(frame_sink) or inspect.iscoroutinefunction(frame_sink)
+                                       or inspect.isasyncgenfunction(frame_sink)
+                                       or inspect.isgeneratorfunction(frame_sink)):
+            raise TypeError('frame_sink must be a synchronous callable or None')
+        if type(frame_every) is not int or frame_every < 1:
+            raise ValueError('frame_every must be a positive integer')
+        self.frame_sink, self.frame_every = frame_sink, frame_every
         if not isinstance(profile, Mapping) or not isinstance(binding, Mapping):
             raise ValueError('profile and binding must be mappings')
         self.profile = deepcopy(dict(profile))
@@ -248,6 +271,59 @@ class KeenLoop:
                 'guest_ticks': self.ticks, 'frame_id': self.frame, 'state': state,
                 'memory_sha256': digest, 'coherence': 'qualified_hook' if self.hook else 'renderer_unqualified'}
 
+    def _present(self, observation):
+        if self.frame_sink is None or observation['sequence'] % self.frame_every:
+            return
+        started = self.clock()
+        state_ref = {key: observation[key] for key in
+                     ('sequence', 'state_revision', 'guest_ticks', 'frame_id', 'coherence')}
+        event = {'sequence': observation['sequence'], 'state_observation': deepcopy(state_ref),
+                 'captured': False, 'published': False, 'rpc_ms': 0.0, 'decode_ms': 0.0, 'sink_ms': 0.0}
+        self.presentations.append(event)
+        stage = 'screenshot_rpc'
+        try:
+            rpc_start = self.clock()
+            try:
+                reply = self._rpc('video.screenshot', {'encoding': 'png'})
+                self._revision(reply)
+            finally:
+                event['rpc_ms'] = (self.clock() - rpc_start) * 1000
+            stage, decode_start = 'decode', self.clock()
+            try:
+                if (reply.get('format') != 'png' or reply.get('source') != 'last_completed_guest_frame'
+                        or any(type(reply.get(key)) is not int or reply[key] < 0
+                               for key in ('frame_id', 'mode_id', 'captured_ticks'))):
+                    raise ValueError('Screenshot lacks a valid completed-frame identity')
+                png, metadata = decode_screenshot(reply)
+            except Exception as error:
+                raise _Stop('unexpected_stop', f'Screenshot: {error}') from error
+            finally:
+                event['decode_ms'] = (self.clock() - decode_start) * 1000
+            event['captured'] = True
+            event['frame'] = {key: metadata[key] for key in
+                              ('frame_id', 'mode_id', 'captured_ticks', 'width', 'height', 'sha256', 'source')}
+            metadata.update(state_observation=deepcopy(state_ref), phase_synchronized=False)
+            stage, sink_start = 'sink', self.clock()
+            try:
+                delivered = self.frame_sink(bytes(png), deepcopy(metadata))
+                if inspect.isawaitable(delivered) or inspect.isasyncgen(delivered) or inspect.isgenerator(delivered):
+                    if inspect.iscoroutine(delivered) or inspect.isgenerator(delivered):
+                        delivered.close()
+                    raise TypeError('frame_sink must complete synchronously')
+            except Exception as error:
+                raise _Stop('callback_error', f'Frame sink: {error}', preserve=False) from error
+            finally:
+                event['sink_ms'] = (self.clock() - sink_start) * 1000
+            event['published'] = True
+            stage = 'context'
+            self._local()
+        except _Stop as stopped:
+            event['error'] = {'stage': stage, 'outcome': stopped.outcome,
+                              'type': type(stopped.__cause__ or stopped).__name__, 'message': str(stopped)}
+            raise
+        finally:
+            event['total_ms'] = (self.clock() - started) * 1000
+
     def _step(self, frames, milliseconds, *, drain=False):
         reply = self._rpc('frame.step', {'max_frames': frames, 'max_guest_ms': milliseconds}, mutation=True)
         self._revision(reply, 1)
@@ -323,7 +399,7 @@ class KeenLoop:
         self.safe, self.held = False, set()
         self.accounting_complete = True
         self.total_guest = self.feedback_guest = 0
-        self.calls, samples = [], []
+        self.calls, samples, self.presentations = [], [], []
         self.last_reply = None
         cleanup = {'status': 'preserved', 'game_consumption_verified': False}
         outcome, error, preserve, missed, feedback_start = 'cycle_limit', None, False, 0, None
@@ -338,6 +414,7 @@ class KeenLoop:
             if fast_forward is not None and fast_forward != self.fast:
                 self._timing(fast_forward)
             observation = self._capture(0)
+            self._present(observation)
             feedback_start = self.clock()
             for index in range(max_cycles):
                 if self.total_guest >= total_guest_ms - 20:
@@ -362,13 +439,17 @@ class KeenLoop:
                 self._edges(desired)
                 step = self._step(max_frames, min(max_guest_ms, total_guest_ms - 20 - self.total_guest))
                 observation = self._capture(index + 1)
-                finished = self.clock()
-                samples.append({**observation, 'desired_keys': sorted(desired), 'step': step,
-                                'cycle_latency_ms': (finished - cycle_start) * 1000,
-                                'rpc_count': len(self.calls) - first_call})
+                try:
+                    self._present(observation)
+                finally:
+                    finished = self.clock()
+                    samples.append({**observation, 'desired_keys': sorted(desired), 'step': step,
+                                    'cycle_latency_ms': (finished - cycle_start) * 1000,
+                                    'rpc_count': len(self.calls) - first_call})
+                    if pace_hz is not None:
+                        target = feedback_start + (index + 1) / pace_hz
+                        missed += int(finished > target)
                 if pace_hz is not None:
-                    target = feedback_start + (index + 1) / pace_hz
-                    missed += int(finished > target)
                     delay = min(target, self.call_deadline) - self.clock()
                     if delay > 0:
                         self.sleep(delay)
@@ -402,6 +483,15 @@ class KeenLoop:
                 'cleanup': cleanup, 'held_keys': sorted(self.held), 'observation_valid': False,
                 'timing': {'selected_fast_forward': fast_forward, 'original_fast_forward': original_fast,
                            'final_fast_forward': self.fast, 'pace_hz': pace_hz},
+                'presentation': {'enabled': self.frame_sink is not None, 'frame_every': self.frame_every,
+                                 'cadence': 'initial_and_every_n_accepted_updates', 'phase_synchronized': False,
+                                 'attempted': len(self.presentations),
+                                 'captured': sum(row['captured'] for row in self.presentations),
+                                 'published': sum(row['published'] for row in self.presentations),
+                                 'errors': sum('error' in row for row in self.presentations),
+                                 **{key: sum(row[key] for row in self.presentations)
+                                    for key in ('rpc_ms', 'decode_ms', 'sink_ms', 'total_ms')},
+                                 'events': self.presentations},
                 'metrics': {'cycles': len(samples), 'feedback_guest_ms': self.feedback_guest,
                             'total_guest_ms': self.total_guest, 'host_ms': elapsed * 1000,
                             'guest_accounting_complete': self.accounting_complete,

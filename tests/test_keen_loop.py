@@ -3,9 +3,11 @@ import base64
 from copy import deepcopy
 import hashlib
 import importlib.util
+import io
 from pathlib import Path
 import struct
 
+from PIL import Image
 import pytest
 
 
@@ -21,6 +23,9 @@ CAPS = {'execution': {'bounded_frame_step': {'schema': 'dotbox-bounded-frame-ste
          'max_frames': 10000, 'max_guest_ms': 30000}},
         'input': {'cooperative_control': 'dotbox-input-control-1'},
         'timing': {'fast_forward': True}, 'limits': {'max_memory_read_bytes': 65536}}
+_png = io.BytesIO()
+Image.new('RGB', (2, 1), (23, 45, 67)).save(_png, format='PNG')
+PNG = _png.getvalue()
 
 
 class Clock:
@@ -50,6 +55,7 @@ class Peer:
         self.scenario = None
         self.step_count = 0
         self.delay = 0.0001
+        self.screenshot_changes = {}
 
     def __call__(self, method, params, *, timeout_ms):
         self.calls.append((method, deepcopy(params), timeout_ms, self.clock()))
@@ -116,6 +122,12 @@ class Peer:
                       'address': params['address'], 'sha256': hashlib.sha256(raw).hexdigest()}
             if self.scenario == 'bad_read':
                 result['data_base64'] = 'not base64'
+        elif method == 'video.screenshot':
+            assert params['encoding'] == 'png'
+            result = {'png_base64': base64.b64encode(PNG).decode(), 'format': 'png',
+                      'width': 2, 'height': 1, 'sha256': hashlib.sha256(PNG).hexdigest(),
+                      'frame_id': self.frame - 1, 'mode_id': 1, 'captured_ticks': self.ticks - 1,
+                      'source': 'last_completed_guest_frame', **self.screenshot_changes}
         else:
             raise AssertionError('Unexpected RPC: ' + method)
         return {'session_id': 'ses-1', 'state_revision': self.revision, **result}
@@ -279,14 +291,14 @@ def test_frame_limit_can_have_outer_budget_stop_kind():
     assert result['metrics']['cycles'] == 3
 
 
-def hook_controller():
+def hook_controller(**options):
     peer, _, clock = make()
     profile = {**PROFILE, 'boundary': {'breakpoint_id': 'qualified', 'max_frames': 8,
                                      'max_guest_ms': 120}}
     peer.stop = {'kind': 'breakpoint', 'breakpoint_id': 'qualified'}
     controller = loop.KeenLoop(peer, profile=profile, binding=peer.binding,
                               capabilities=CAPS, decoder=lambda raw: {'counter': struct.unpack('<I', raw)[0]},
-                              clock=clock, sleep=clock.sleep)
+                              clock=clock, sleep=clock.sleep, **options)
     return peer, controller, clock
 
 
@@ -385,3 +397,166 @@ def test_zero_progress_hook_is_not_counted_as_a_completed_iteration():
     assert result['samples'] == []
     assert result['metrics']['total_guest_ms'] == 0
     assert peer.calls[-1][0] == 'frame.step'
+
+
+def test_presentation_is_disabled_by_default_without_screenshot_calls():
+    peer, controller, _ = make()
+    result = run(controller)
+    assert not any(method == 'video.screenshot' for method, *_ in peer.calls)
+    assert result['presentation']['enabled'] is False
+    assert result['presentation']['attempted'] == result['presentation']['published'] == 0
+    assert result['presentation']['total_ms'] == 0
+
+
+@pytest.mark.parametrize('frame_every, sequences', [(1, list(range(10))), (4, [0, 4, 8])])
+def test_presentation_cadence_preserves_exact_pixels_and_distinct_frame_identity(frame_every, sequences):
+    delivered = []
+    def sink(png_bytes, metadata):
+        delivered.append((png_bytes, deepcopy(metadata)))
+        metadata.clear()  # A sink cannot mutate the retained receipt or state sample.
+    peer, controller, _ = hook_controller(frame_sink=sink, frame_every=frame_every)
+    peer.scenario = 'own_hook'
+    result = controller.run(max_cycles=9, total_guest_ms=500, host_timeout_ms=1000)
+    assert result['outcome'] == 'cycle_limit'
+    assert [metadata['state_observation']['sequence'] for _, metadata in delivered] == sequences
+    assert all(png == PNG and metadata['width'] == 2 and metadata['height'] == 1
+               for png, metadata in delivered)
+    assert all(metadata['phase_synchronized'] is False
+               and metadata['captured_ticks'] != metadata['state_observation']['guest_ticks']
+               for _, metadata in delivered)
+    assert [sample['state']['counter'] for sample in result['samples']] == list(range(1, 10))
+    assert result['presentation']['published'] == len(sequences)
+    assert result['presentation']['captured'] == len(sequences)
+    assert [event['sequence'] for event in result['presentation']['events']] == sequences
+    assert all(event['frame']['sha256'] == hashlib.sha256(PNG).hexdigest()
+               for event in result['presentation']['events'])
+    assert sum(method == 'video.screenshot' for method, *_ in peer.calls) == len(sequences)
+    assert peer.step_count == 9
+
+
+@pytest.mark.parametrize('changes', [
+    {'png_base64': 'not base64'}, {'sha256': '0' * 64}, {'width': 3},
+    {'png_base64': base64.b64encode(b'not png').decode(), 'sha256': hashlib.sha256(b'not png').hexdigest()},
+    {'frame_id': True}, {'mode_id': -1}, {'captured_ticks': '1000'},
+    {'source': 'current_game_state'}, {'session_id': 'different'}, {'state_revision': 999},
+])
+def test_invalid_presentation_receipt_preserves_without_release_or_resume(changes):
+    def policy(observation):
+        peer.screenshot_changes = changes
+        return {'right'}
+    peer, controller, _ = hook_controller(frame_sink=lambda *_: None, frame_every=1, policy=policy)
+    peer.scenario = 'own_hook'
+    result = run(controller)
+    assert result['outcome'] in ('unexpected_stop', 'invalidated')
+    assert result['cleanup']['status'] == 'preserved'
+    assert peer.calls[-1][0] == 'video.screenshot'
+    assert peer.keys == {'right'}
+    assert result['presentation']['published'] == 1
+    assert result['presentation']['errors'] == 1
+    assert len(result['samples']) == 1  # The coherent update preceded the display failure.
+
+
+def test_screenshot_transport_uncertainty_never_issues_another_rpc():
+    def policy(observation):
+        peer.scenario = ('uncertain', 'video.screenshot')
+        return {'right'}
+    peer, controller, _ = make(frame_sink=lambda *_: None, frame_every=1, policy=policy)
+    result = run(controller)
+    assert result['outcome'] == 'transport_uncertain'
+    assert result['cleanup']['status'] == 'preserved'
+    assert peer.calls[-1][0] == 'video.screenshot'
+    assert result['metrics']['guest_accounting_complete'] is True
+    assert result['presentation']['events'][-1]['error']['outcome'] == 'transport_uncertain'
+
+
+def test_interrupted_sink_releases_only_after_fresh_stopped_owner_fence():
+    def sink(png_bytes, metadata):
+        if metadata['state_observation']['sequence']:
+            clock.now += .007
+            raise InterruptedError('Owner stop request')
+    peer, controller, clock = make(frame_sink=sink, frame_every=1, policy=lambda _: {'right'})
+    result = run(controller)
+    assert result['outcome'] == 'callback_error'
+    assert result['cleanup']['status'] == 'released_and_drained'
+    assert not peer.keys
+    assert peer.step_count == 2
+    last_capture = max(i for i, (method, *_) in enumerate(peer.calls) if method == 'video.screenshot')
+    assert [method for method, *_ in peer.calls[last_capture + 1:]] == [
+        'session.status', 'input.control', 'input.keyboard.frame_edges', 'frame.step', 'input.keyboard.state']
+    assert result['presentation']['errors'] == 1
+    assert result['presentation']['sink_ms'] == pytest.approx(7)
+    assert result['presentation']['events'][-1]['error']['type'] == 'InterruptedError'
+
+
+def test_sink_failure_with_changed_owner_refuses_cleanup_input():
+    def sink(png_bytes, metadata):
+        if metadata['state_observation']['sequence']:
+            peer.generation += 1
+            raise InterruptedError('Owner changed')
+    peer, controller, _ = make(frame_sink=sink, frame_every=1, policy=lambda _: {'right'})
+    result = run(controller)
+    assert result['outcome'] == 'invalidated'
+    assert result['cleanup']['status'] == 'incomplete'
+    assert peer.calls[-1][0] == 'input.control'
+    assert peer.keys == {'right'}
+
+
+def test_presentation_callback_cost_is_in_cycle_host_and_pacing_metrics():
+    def sink(png_bytes, metadata):
+        clock.now += .04
+    peer, controller, clock = make(frame_sink=sink, frame_every=1)
+    result = run(controller, pace_hz=35)
+    assert result['metrics']['cycle_latency_ms']['p50'] == pytest.approx(40.5)
+    assert result['metrics']['missed_paced_deadlines'] == 3
+    assert result['presentation']['sink_ms'] == pytest.approx(160)
+    assert result['presentation']['rpc_ms'] == pytest.approx(.4)
+    assert result['presentation']['total_ms'] == pytest.approx(160.4)
+    assert result['metrics']['host_ms'] >= result['presentation']['total_ms']
+    assert [row['rpc_count'] for row in result['samples']] == [5, 5, 5]
+
+
+def test_coherence_miss_does_not_publish_an_unqualified_update():
+    peer, controller, _ = hook_controller(frame_sink=lambda *_: None, frame_every=1)
+    result = run(controller)
+    assert result['outcome'] == 'coherence_miss'
+    assert result['presentation']['published'] == 1
+    assert [event['sequence'] for event in result['presentation']['events']] == [0]
+
+
+@pytest.mark.parametrize('kind', ['coroutine', 'generator', 'async_generator'])
+def test_deferred_sink_is_not_reported_as_successful_delivery(kind):
+    async def asynchronous_sink(*args):
+        pass
+    def generator_sink(*args):
+        yield None
+    async def asynchronous_generator_sink(*args):
+        yield None
+    sink = {'coroutine': asynchronous_sink, 'generator': generator_sink,
+            'async_generator': asynchronous_generator_sink}[kind]
+    with pytest.raises(TypeError, match='synchronous'):
+        make(frame_sink=sink)
+    peer, controller, _ = make(frame_sink=lambda *args: sink(*args))
+    result = run(controller)
+    assert result['outcome'] == 'callback_error'
+    assert result['cleanup']['status'] == 'neutral'
+    assert result['presentation']['captured'] == 1
+    assert result['presentation']['published'] == 0
+
+
+def test_sink_overrun_is_measured_without_claiming_a_hard_callback_deadline():
+    def sink(*args):
+        clock.now += 1.1
+    peer, controller, clock = make(frame_sink=sink)
+    result = run(controller)
+    assert result['outcome'] == 'host_budget'
+    assert result['metrics']['host_ms'] > 1000
+    assert result['presentation']['sink_ms'] == pytest.approx(1100)
+    assert result['samples'] == []
+    assert not any(method in ('input.keyboard.frame_edges', 'frame.step') for method, *_ in peer.calls)
+
+
+@pytest.mark.parametrize('options', [{'frame_sink': False}, {'frame_every': 0}, {'frame_every': -1},
+                                    {'frame_every': True}, {'frame_every': 1.5}])
+def test_invalid_presentation_options_refuse_before_rpc(options):
+    with pytest.raises((TypeError, ValueError)):
+        make(**options)

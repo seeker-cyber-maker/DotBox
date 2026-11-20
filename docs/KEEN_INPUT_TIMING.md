@@ -1,5 +1,8 @@
 # Keen Dreams: feedback phase and predictive stopping
 
+The subsequent [visible gameplay checkpoint](KEEN_GAMEPLAY.md) uses this phase
+for a bounded collection route and measures presentation and representation costs.
+
 The November 20, 2026 checkpoint qualifies a second observation phase and adds
 a small predictive walking policy. The post-actor hook exposed sampled-input
 changes in 28–29 guest milliseconds, compared with 57 ms at the earlier

@@ -1,5 +1,8 @@
 # Keen Dreams: a measured local feedback prototype
 
+The later [visible gameplay checkpoint](KEEN_GAMEPLAY.md) completes a collectible
+route and measures optional display cadence and reversible world-state factoring.
+
 The [November 20 follow-up](KEEN_INPUT_TIMING.md) qualifies a post-actor
 observation phase, separates input-read latency from feedback age, and tests a
 predictive flat-ground waypoint policy. The measurements below remain the
