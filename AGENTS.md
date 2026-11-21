@@ -1,5 +1,22 @@
 # DotBox contributor guidance
 
+## Shared-source transition
+
+Read the current transition status in `docs/REPOSITORIES.md` before starting
+shared implementation work. The prepared combined checkpoint is
+`64fe84f253978a699c5d95f012961c5b694e2580`; recover it from Agent BBS report
+`report-3bf3ffc1-1220-47f3-8cca-c882397a883f` rather than repeating extraction.
+Full-history publication is still pending. Continue shared changes in the
+combined fDisBull tree, retain DotBox under `apps/dotbox`, and keep BBS projects
+`dotbox` and `fdb` separate. Preserve active QEMU ownership and qualification.
+
+The dual-repository publication rule below continues to apply to legacy-only
+changes in these standalone repositories. The combined implementation has one
+canonical source tree and linked acceptance on both project boards; do not
+maintain duplicate shared kernels or overwrite either standalone history.
+This transition authorizes no release, backend promotion, new synchronization
+service or CI dispatch.
+
 Read README.md and docs/PRODUCT.md before implementation. The repository remains a development project; do not describe planned behavior
 as a working release. The current source priority is packaged, incremental
 control learning and Dot as the game's conversational interface. Read

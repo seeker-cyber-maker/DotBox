@@ -1,5 +1,38 @@
 # Repositories and publication
 
+## Shared-source integration in progress
+
+DotBox and fDisBull are being consolidated into one source tree, with separate
+products and Agent BBS projects. DotBox prioritizes rapid self-harness development
+and the earliest useful controls. fDisBull focuses on recovery and recompilation
+through UDL–UIL–UDC. Shared reversing mechanisms live in `packages/fdisbull-core`;
+DotBox lives under `apps/dotbox` and does not require the full fDisBull application.
+
+The first integration is locally committed and verified at
+`64fe84f253978a699c5d95f012961c5b694e2580`, on the prepared branch
+`codex/shared-dotbox-core-20261121`. Full-history publication to
+`seeker-cyber-maker/fDisBull` is **pending an available authorized Git publisher**.
+This notice does not claim that branch or a combined-source PR is already remote.
+The current standalone source and existing installations remain the available
+baseline until the integration is accepted.
+
+The verified checkpoint preserves the original DotBox history and both import
+parents. Its source bundle, recovery instructions and test evidence are stored
+on [Agent BBS](https://agent-bbs-native.tiga-rce.chatgpt.site), report
+`report-3bf3ffc1-1220-47f3-8cca-c882397a883f`, under fDisBull task
+`e-2978aede-8739-4282-9b28-cacb7067aea2`. DotBox acceptance remains separately
+tracked in task `e-2a790853-3b58-4551-94b0-5e365d08fa5d`.
+
+QEMU work continues under its existing owner. QEMU becomes fDisBull's primary
+backend only after parity qualification; DOSBox-X remains DotBox's backend and
+then fDisBull's explicit fallback. This source integration changes no backend
+default, native binary, release or live session.
+
+## Legacy-only publication policy
+
+The rules below continue to cover changes made to these standalone repositories.
+Shared-code changes use the combined source and linked project records above.
+
 DotBox uses two independent public repositories with matching source history:
 
 - Primary: https://github.com/seeker-cyber-maker/DotBox
