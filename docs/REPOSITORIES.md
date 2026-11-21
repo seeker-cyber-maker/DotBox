@@ -8,13 +8,14 @@ and the earliest useful controls. fDisBull focuses on recovery and recompilation
 through UDL–UIL–UDC. Shared reversing mechanisms live in `packages/fdisbull-core`;
 DotBox lives under `apps/dotbox` and does not require the full fDisBull application.
 
-The first integration is locally committed and verified at
-`64fe84f253978a699c5d95f012961c5b694e2580`, on the prepared branch
-`codex/shared-dotbox-core-20261121`. Full-history publication to
-`seeker-cyber-maker/fDisBull` is **pending an available authorized Git publisher**.
-This notice does not claim that branch or a combined-source PR is already remote.
-The current standalone source and existing installations remain the available
-baseline until the integration is accepted.
+The first integration is committed and verified at
+`64fe84f253978a699c5d95f012961c5b694e2580`, published with its original Git
+history on
+[`codex/shared-dotbox-core-20261121`](https://github.com/seeker-cyber-maker/fDisBull/tree/codex/shared-dotbox-core-20261121)
+in `seeker-cyber-maker/fDisBull`. [Draft PR #90](https://github.com/seeker-cyber-maker/fDisBull/pull/90)
+tracks review against `main`; it remains open and unmerged. The current
+standalone source and existing installations remain the available baseline
+until the integration is accepted.
 
 The verified checkpoint preserves the original DotBox history and both import
 parents. Its source bundle, recovery instructions and test evidence are stored

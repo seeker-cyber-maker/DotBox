@@ -3,10 +3,12 @@
 ## Shared-source transition
 
 Read the current transition status in `docs/REPOSITORIES.md` before starting
-shared implementation work. The prepared combined checkpoint is
-`64fe84f253978a699c5d95f012961c5b694e2580`; recover it from Agent BBS report
-`report-3bf3ffc1-1220-47f3-8cca-c882397a883f` rather than repeating extraction.
-Full-history publication is still pending. Continue shared changes in the
+shared implementation work. The verified combined checkpoint
+`64fe84f253978a699c5d95f012961c5b694e2580` is published on
+`seeker-cyber-maker/fDisBull`, branch `codex/shared-dotbox-core-20261121`,
+for review in [draft PR #90](https://github.com/seeker-cyber-maker/fDisBull/pull/90).
+Agent BBS report `report-3bf3ffc1-1220-47f3-8cca-c882397a883f` retains the
+source bundle and recovery instructions. Continue shared changes in the
 combined fDisBull tree, retain DotBox under `apps/dotbox`, and keep BBS projects
 `dotbox` and `fdb` separate. Preserve active QEMU ownership and qualification.
 

@@ -2,13 +2,14 @@
 
 ## Shared-source development
 
-A shared-code integration with fDisBull is locally committed and verified;
-remote publication of its original Git history is pending. DotBox keeps its
-rapid self-harness focus, independent package and separate project board.
+The shared-code integration with fDisBull is published for review in
+[draft PR #90](https://github.com/seeker-cyber-maker/fDisBull/pull/90),
+with its original Git history preserved. DotBox keeps its rapid self-harness
+focus, independent package and separate project board.
 See [the transition status](docs/REPOSITORIES.md#shared-source-integration-in-progress)
-for the exact source checkpoint, preserved history, product boundaries and
-remaining publication step. This standalone branch and existing installations
-remain the available baseline until integration is accepted.
+for the exact verified source checkpoint, preserved history, product boundaries
+and review status. This standalone branch and existing installations remain
+the available baseline until integration is accepted.
 
 Play DOS games with Dot using an independent DOSBox-X session framework.
 The original graphical game remains authoritative.
